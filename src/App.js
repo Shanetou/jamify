@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Grid, Row, Col, Image, Well } from 'react-bootstrap';
 
 import queryString from 'query-string'
 
 import { fetchFromSpotify } from './fetchFromSpotify'
 import { chunk } from './utils'
+import TopArtists from './TopArtists'
 
 import './App.css';
 console.log('Col', Col);
@@ -21,63 +22,15 @@ const Login = (props) => {
   )
 }
 
-const TopArtistsList = ({ artists }) => {
-  const getImageFor = artist => {
-    if (artist.images.length > 0) {
-      let src = artist.images[0].url
-
-      if (artist.images[2]) {
-        src = artist.images[2].url
-      }
-      if (artist.images[1]) {
-        src = artist.images[1].url
-      }
-
-      return <Image className='artist-image' responsive rounded src={src} alt={artist.name} />
-    }
-  }
-
-  const artistGroups = chunk(artists, 4)
-  console.log('artistGroups', artistGroups);
-
-  return (
-    <Grid>
-      {artistGroups.map((artistGroup, idx) => {
-        return (
-          <Row key={idx} className='artist-images-row'>
-            {
-              artistGroup.map(artist => (
-                <Col sm={3} key={artist.name}>
-                  <div className='artist-image-container'>
-                    <h3 className='text-center'>{artist.name}</h3>
-                    {getImageFor(artist)}
-                  </div>
-                </Col>
-              ))
-            }
-          </Row>
-        )
-      })}
-    </Grid>
-  )
-}
-
 class App extends Component {
 
   state = {
     user: null,
-    // tracks: [],
     topArtists: [],
     accessToken: null,
     recGenres: [],
+    selectedArtists: [],
   }
-
-  // fetchSpotify = () => {
-  //   console.log('fetchSpotify');
-  //   const res = fetchFromSpotify(this.state.accessToken)
-  //   console.log('res', res);
-  //   return res
-  // }
 
   fetchTopArtists = () => {
     return fetchFromSpotify(
@@ -103,6 +56,26 @@ class App extends Component {
     )
   }
 
+  handleArtistClick = (artistId) => () => {
+    this.setState((prevState, props) => {
+      const selected = prevState.selectedArtists
+      const selectedIdx = selected.indexOf(artistId)
+
+      if (selectedIdx > -1) {
+        console.log('selectedIdx', selectedIdx);
+        return ({
+          selectedArtists: selected.filter((_, i) => i !== selectedIdx),
+        })
+      }
+
+      if (selected.length < 5){
+        return ({
+          selectedArtists: [...selected, artistId],
+        })
+      }
+    })
+  }
+
   componentDidMount = () => {
     const accessToken = new URLSearchParams(window.location.search).get('access_token')
 
@@ -117,7 +90,7 @@ class App extends Component {
 
   render() {
     console.log('this.state', this.state);
-    const { accessToken, topArtists } = this.state
+    const { accessToken, topArtists, selectedArtists } = this.state
 
     return (
       <div className="App">
@@ -128,29 +101,35 @@ class App extends Component {
         </header>
 
         <div className="App-body">
-          {!accessToken && (
+          {!accessToken ? (
             <Login />
+          ) : (
+            <Fragment>
+              <div>
+                <Button onClick={this.fetchTopArtists}>
+                  GET TOP ARTISTS
+                </Button>
+              </div>
+              <div>
+                <Button onClick={this.fetchUser}>
+                  GET USER
+                </Button>
+              </div>
+              <div>
+                <Button onClick={this.fetchRecGenres}>
+                  GET REC GENRES
+                </Button>
+              </div>
+            </Fragment>
           )}
-
-          <div>
-            <Button onClick={this.fetchTopArtists}>
-              GET TOP ARTISTS
-            </Button>
-          </div>
-          <div>
-            <Button onClick={this.fetchUser}>
-              GET USER
-            </Button>
-          </div>
-          <div>
-            <Button onClick={this.fetchRecGenres}>
-              GET REC GENRES
-            </Button>
-          </div>
         </div>
 
         {topArtists.length > 0 && (
-          <TopArtistsList artists={topArtists} />
+          <TopArtists 
+            artists={topArtists} 
+            selectedArtists={selectedArtists}
+            handleArtistClick={this.handleArtistClick}
+          />
         )}
 
       </div>
