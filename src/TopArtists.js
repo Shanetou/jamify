@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Button, Clearfix, Grid, Row, Col, Image, Well } from 'react-bootstrap';
+import React from 'react';
+import { Button, Clearfix, Grid, Row, Col, Image } from 'react-bootstrap';
 
 import { chunk } from './utils'
 
@@ -81,7 +81,7 @@ const TopArtists = (props) => {
           <Row key={idx} className='artist-images-row'>
             {artistGroup.map(artist => (
               <ArtistListItem artist={artist} key={artist.name} {...props} />
-              ))}
+            ))}
           </Row>
         ))}
       </Grid>

@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Grid, Row, Col, Image, Well } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 
 import queryString from 'query-string'
 
 import { fetchFromSpotify, postToSpotify } from './fetchFromSpotify'
-import { chunk } from './utils'
 import TopArtists from './TopArtists'
-import RecTracks from './RecTracks'
 import TempoSelector from './TempoSelector'
+import RecTracks from './RecTracks'
+
+import { Step, Stepper } from './stepper'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
 
@@ -80,7 +81,7 @@ class App extends Component {
       this.state.accessToken,
       `users/${this.state.user.id}/playlists`,
       data => data,
-      { name: 'BPM Playlist' },
+      { name: `${this.state.selectedTempo.bpm} BPM` },
     )
   }
 
@@ -130,21 +131,22 @@ class App extends Component {
     })
   }
 
-  fetchSongFeatures = () => {
-    fetchFromSpotify(
-      this.state.accessToken,
-      `audio-features/6igEXTKqOFuOEJDIAEUU9F`,
-      // data => this.setState({ user: data })
-      () => {}
-    )
-  }
+  // fetchSongFeatures = () => {
+  //   fetchFromSpotify(
+  //     this.state.accessToken,
+  //     `audio-features/6igEXTKqOFuOEJDIAEUU9F`,
+  //     // data => this.setState({ user: data })
+  //     () => {}
+  //   )
+  // }
 
   componentDidMount = () => {
     const accessToken = new URLSearchParams(window.location.search).get('access_token')
 
     const fetchData = () => {
-      this.fetchSongFeatures()
+      // this.fetchSongFeatures()
       this.fetchUser()
+      this.fetchTopArtists()
     }
 
     if (!accessToken) {
@@ -173,49 +175,30 @@ class App extends Component {
               </header>
 
               <div className="App-body">
-                {!accessToken ? (
+                {!accessToken && (
                   <Login />
-                ) : (
-                  <Fragment>
-                    <div>
-                      <Button onClick={this.fetchTopArtists}>
-                        GET TOP ARTISTS
-                      </Button>
-                    </div>
-                    <div>
-                      <Button onClick={this.fetchUser}>
-                        GET USER
-                      </Button>
-                    </div>
-                    <div>
-                      <Button onClick={this.fetchRecGenres}>
-                        GET REC GENRES
-                      </Button>
-                    </div>
-                  </Fragment>
                 )}
               </div>
 
-              <TempoSelector
-                selectedTempo={selectedTempo}
-                handleTempoClick={this.selectTempo}
-              />
-
-              {recTracks.length > 0 && (
-                <RecTracks
-                  tracks={recTracks}
-                  handleAddClick={this.createPlaylistWithTracks}
+              <Stepper>
+                <Step
+                  component={TempoSelector}
+                  selectedTempo={selectedTempo}
+                  handleTempoClick={this.selectTempo}
                 />
-              )}
-
-              {topArtists.length > 0 && (
-                <TopArtists
+                <Step
+                  component={TopArtists}
                   artists={topArtists}
                   selectedArtistIds={selectedArtistIds}
                   handleArtistClick={this.handleArtistClick}
                   handleSubmitClick={this.fetchRecTracksForArtists}
                 />
-              )}
+                <Step
+                  component={RecTracks}
+                  tracks={recTracks}
+                  handleAddClick={this.createPlaylistWithTracks}
+                />
+              </Stepper>
             </Col>
           </Row>
         </Grid>
