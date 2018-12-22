@@ -9,6 +9,9 @@ import TempoSelector from './TempoSelector'
 import RecTracks from './RecTracks'
 
 import { Step, Stepper } from './stepper'
+import { RecTracksStep, TempoSelectorStep, TopArtistsStep } from './stepper/steps'
+
+// /Users/virtualmasondev/Desktop/spotify-bpm/src/stepper/steps/index.js
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
 
@@ -131,15 +134,6 @@ class App extends Component {
     })
   }
 
-  // fetchSongFeatures = () => {
-  //   fetchFromSpotify(
-  //     this.state.accessToken,
-  //     `audio-features/6igEXTKqOFuOEJDIAEUU9F`,
-  //     // data => this.setState({ user: data })
-  //     () => {}
-  //   )
-  // }
-
   componentDidMount = () => {
     const accessToken = new URLSearchParams(window.location.search).get('access_token')
 
@@ -166,35 +160,32 @@ class App extends Component {
     } = this.state
 
     return (
-      <div className="App">
+      <div className='App'>
         <Grid>
           <Row>
             <Col>
-              <header className="App-header">
+              <header className='App-header'>
                 <h1>Spotify BPM</h1>
               </header>
 
-              <div className="App-body">
+              <div className='App-body'>
                 {!accessToken && (
                   <Login />
                 )}
               </div>
 
               <Stepper>
-                <Step
-                  component={TempoSelector}
+                <TempoSelectorStep
                   selectedTempo={selectedTempo}
                   handleTempoClick={this.selectTempo}
                 />
-                <Step
-                  component={TopArtists}
+                <TopArtistsStep
                   artists={topArtists}
                   selectedArtistIds={selectedArtistIds}
                   handleArtistClick={this.handleArtistClick}
                   handleSubmitClick={this.fetchRecTracksForArtists}
                 />
-                <Step
-                  component={RecTracks}
+                <RecTracksStep
                   tracks={recTracks}
                   handleAddClick={this.createPlaylistWithTracks}
                 />

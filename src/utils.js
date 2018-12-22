@@ -1,4 +1,4 @@
-export const chunk = (inputArray, chunkLength) => (
+export const chunk = (inputArray=[], chunkLength=1) => (
   inputArray.reduce((resultArray, item, index) => {
     const chunkIndex = Math.floor(index/chunkLength)
 
