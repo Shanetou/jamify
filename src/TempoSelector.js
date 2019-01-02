@@ -12,6 +12,9 @@ export default class TempoSelector extends Component {
 
     return (
       <div className='text-center'>
+        <h3 style={{ marginBottom: '5rem' }}>
+          Choose your desired guard experience.
+        </h3>
         <ButtonGroup bsSize='large'>
           {tempos.map((tempo) => (
             <Button

@@ -1,15 +1,17 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import RecTracks from '../../RecTracks'
 import Step from '../Step'
 
 class RecTracksStep extends Component {
   render() {
-    // const {  } = this.props
+    const { handleAddClick, ...otherProps } = this.props
 
     return (
       <Step
         component={RecTracks}
-        {...this.props}
+        nextActions={handleAddClick}
+        nextBtnLabel={'Save to Spotify'}
+        {...otherProps}
       />
     )
   }

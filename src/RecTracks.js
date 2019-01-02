@@ -22,13 +22,13 @@ export const TrackRow = (props) => {
 
 export default class RecTracks extends Component {
   render() {
-    const { tracks, handleAddClick } = this.props
+    const { tracks } = this.props
 
     return (
       <Well className='rec-tracks'>
-        <Button className='pull-right' onClick={handleAddClick}>
+        {/* <Button className='pull-right' onClick={handleAddClick}>
           + Add to Spotify
-        </Button>
+        </Button> */}
         <Table striped bordered hover>
           <thead>
             <tr>

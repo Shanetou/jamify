@@ -1,31 +1,26 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 
 import queryString from 'query-string'
 
 import { fetchFromSpotify, postToSpotify } from './fetchFromSpotify'
-import TopArtists from './TopArtists'
-import TempoSelector from './TempoSelector'
-import RecTracks from './RecTracks'
-
-import { Step, Stepper } from './stepper'
-import { RecTracksStep, TempoSelectorStep, TopArtistsStep } from './stepper/steps'
-
-// /Users/virtualmasondev/Desktop/spotify-bpm/src/stepper/steps/index.js
+import { Stepper } from './stepper'
+import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
 
 import './App.css';
 
-const Login = (props) => {
+const Login = () => {
   return (
-    <Button
-      // disabled
-      className="login-button"
-      onClick={() => window.location = 'http://localhost:8888/login'}
-    >
-      LOG IN TO SPOTIFY
-    </Button>
+    <div style={{ textAlign: 'center', paddingTop: '5rem' }}>
+      <Button
+        className="login-button"
+        onClick={() => window.location = 'http://localhost:8888/login'}
+      >
+        LOG IN TO SPOTIFY
+      </Button>
+    </div>
   )
 }
 
@@ -84,7 +79,7 @@ class App extends Component {
       this.state.accessToken,
       `users/${this.state.user.id}/playlists`,
       data => data,
-      { name: `${this.state.selectedTempo.bpm} BPM` },
+      { name: `Guard Hard: ${this.state.selectedTempo.bpm} BPM` },
     )
   }
 
@@ -153,7 +148,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('this.state', this.state);
     const {
       accessToken, topArtists, selectedArtistIds,
       recTracks, selectedTempo
@@ -165,31 +159,38 @@ class App extends Component {
           <Row>
             <Col>
               <header className='App-header'>
-                <h1>Spotify BPM</h1>
+                {/* <h1>Spotify BPM</h1> */}
+                <h1 style={{ fontSize: '45px' }}>
+                  Reel Jams
+                  <small style={{ verticalAlign: 'top' }}>
+                    {'\u00A9'}
+                  </small>
+                </h1>
               </header>
 
               <div className='App-body'>
-                {!accessToken && (
+                {!accessToken ? (
                   <Login />
+                ) : (
+                  <Stepper>
+                    <TempoSelectorStep
+                      selectedTempo={selectedTempo}
+                      handleTempoClick={this.selectTempo}
+                    />
+                    <TopArtistsStep
+                      artists={topArtists}
+                      selectedArtistIds={selectedArtistIds}
+                      handleArtistClick={this.handleArtistClick}
+                      handleSubmitClick={this.fetchRecTracksForArtists}
+                    />
+                    <RecTracksStep
+                      tracks={recTracks}
+                      handleAddClick={this.createPlaylistWithTracks}
+                    />
+                    <PlaylistSavedStep />
+                  </Stepper>
                 )}
               </div>
-
-              <Stepper>
-                <TempoSelectorStep
-                  selectedTempo={selectedTempo}
-                  handleTempoClick={this.selectTempo}
-                />
-                <TopArtistsStep
-                  artists={topArtists}
-                  selectedArtistIds={selectedArtistIds}
-                  handleArtistClick={this.handleArtistClick}
-                  handleSubmitClick={this.fetchRecTracksForArtists}
-                />
-                <RecTracksStep
-                  tracks={recTracks}
-                  handleAddClick={this.createPlaylistWithTracks}
-                />
-              </Stepper>
             </Col>
           </Row>
         </Grid>

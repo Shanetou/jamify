@@ -22,16 +22,13 @@ class Stepper extends Component {
     const children = React.Children.map(this.props.children, (child, index) => {
       const { currentStep, totalSteps } = this.state;
 
-      return React.cloneElement(child,
-        {
-          isActive: index === currentStep,
-          displayPrevious: currentStep > 0,
-          displayNext: currentStep < totalSteps,
-          displaySubmit: currentStep === totalSteps,
-          goToPreviousStep: this.goToPreviousStep,
-          goToNextStep: this.goToNextStep,
-        }
-      );
+      return React.cloneElement(child, {
+        isActive: index === currentStep,
+        displayPrevious: currentStep > 0,
+        displayNext: currentStep < totalSteps,
+        goToPreviousStep: this.goToPreviousStep,
+        goToNextStep: this.goToNextStep,
+      });
     });
 
     return children;

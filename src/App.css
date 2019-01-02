@@ -18,9 +18,9 @@
 .App-body {
   font-size: calc(10px + 2vmin);
 
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
 }
 
 .login-button {
@@ -68,4 +68,3 @@
 .rec-tracks {
   color: black;
 }
-

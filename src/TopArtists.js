@@ -8,20 +8,18 @@ const UseArtistsAction = (props) => {
   const isDisabled = selectedArtistIds.length < 1
 
   return (
-    <div>
-      <div className='pull-right' style={{ display: 'inline-block' }}>
+    <div style={{ textAlign: 'center' }}>
+      <h3>
+        Select the artists that inspire your guarding.{' '}
+        <small>({selectedArtistIds.length}/5)</small>
+      </h3>
+
+      {/* <div className='pull-right' style={{ display: 'inline-block' }}>
         <div>
           Selected {selectedArtistIds.length}/5
         </div>
-        <Button
-          disabled={isDisabled}
-          onClick={onClick}
-          style={{ display: 'inline-block' }}
-        >
-          Create Playlist
-        </Button>
       </div>
-      <Clearfix />
+      <Clearfix /> */}
     </div>
   )
 }

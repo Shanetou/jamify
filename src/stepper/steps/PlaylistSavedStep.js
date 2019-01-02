@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
-import TempoSelector from '../../TempoSelector'
+import PlaylistSaved from '../../PlaylistSaved'
 import Step from '../Step'
 
-class TempoSelectorStep extends Component {
+class PlaylistSavedStep extends Component {
   render() {
     return (
       <Step
-        component={TempoSelector}
+        component={PlaylistSaved}
         {...this.props}
       />
     )
   }
 }
 
-export default TempoSelectorStep
+export default PlaylistSavedStep
