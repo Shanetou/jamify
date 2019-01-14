@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 
 import queryString from 'query-string'
@@ -8,6 +9,7 @@ import { Stepper } from './stepper'
 import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
+import { selectTempo as reduxSelectTempo } from './redux/actions'
 
 import './App.css';
 
@@ -37,6 +39,7 @@ class App extends Component {
   }
 
   selectTempo = (tempo) => () => {
+    this.props.dispatch(reduxSelectTempo(tempo))
     this.setState({
       selectedTempo: tempo,
     })
@@ -79,7 +82,7 @@ class App extends Component {
       this.state.accessToken,
       `users/${this.state.user.id}/playlists`,
       data => data,
-      { name: `Guard Hard: ${this.state.selectedTempo.bpm} BPM` },
+      { name: `Reel Jams: ${this.state.selectedTempo.bpm} BPM` },
     )
   }
 
@@ -199,4 +202,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state, props) => {
+  return {}
+}
+// const mapDispatchToProps = (state, props) => {}
+
+export default connect(
+  mapStateToProps
+)(App);
