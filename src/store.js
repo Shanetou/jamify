@@ -24,13 +24,16 @@
 
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
 import createSagaMiddleware from 'redux-saga'
+import sagas from './saga'
 // import logger from 'redux-logger'
 
 import { default as reducer } from './redux/reducers'
 
+const sagaMiddleware = createSagaMiddleware()
+
 const middleware = [
   ...getDefaultMiddleware(), 
-  createSagaMiddleware(),
+  sagaMiddleware,
   // logger,
 ]
 
@@ -40,5 +43,10 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   // preloadedState,
 })
+
+// TODO: DOES THIS WORK? 
+// then run the saga
+sagaMiddleware.run(sagas)
+//
 
 export default store
