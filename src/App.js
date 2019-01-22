@@ -9,7 +9,7 @@ import { Stepper } from './stepper'
 import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
-import { selectTempo as reduxSelectTempo } from './redux/actions'
+import { selectTempo, selectArtist } from './redux/actions'
 
 import './App.css';
 
@@ -34,15 +34,12 @@ class App extends Component {
     accessToken: null,
     recGenres: [],
     recTracks: [],
-    selectedArtistIds: [],
-    selectedTempo: TEMPO_OPTIONS[3],
   }
 
   selectTempo = (tempo) => () => {
-    this.props.dispatch(reduxSelectTempo(tempo))
-    this.setState({
-      selectedTempo: tempo,
-    })
+    const { selectTempo } = this.props
+
+    selectTempo(tempo.id)
   }
 
   fetchTopArtists = () => {
@@ -78,11 +75,14 @@ class App extends Component {
   }
 
   createPlaylist = () => {
+    const { selectedTempo } = this.props
+    const tempo = TEMPO_OPTIONS[selectedTempo]
+
     return postToSpotify(
       this.state.accessToken,
       `users/${this.state.user.id}/playlists`,
       data => data,
-      { name: `Reel Jams: ${this.state.selectedTempo.bpm} BPM` },
+      { name: `Reel Jams: ${tempo.bpm} BPM` },
     )
   }
 
@@ -96,14 +96,16 @@ class App extends Component {
   }
 
   fetchRecTracksForArtists = () => {
-    const artistIdList = this.state.selectedArtistIds.join(',')
-    const tempo = this.state.selectedTempo.bpm
+    const { selectedTempo, selectedArtists } = this.props
+    const tempo = TEMPO_OPTIONS[selectedTempo]
+    const artistIdList = selectedArtists.join(',')
+
 
     const seedParams = queryString.stringify({
       seed_artists: artistIdList,
       target_energy: TARGET_ENERGY,
       target_danceability: TARGET_DANCEABILITY,
-      target_tempo: tempo,
+      target_tempo: tempo.bpm,
     })
 
     fetchFromSpotify(
@@ -114,22 +116,9 @@ class App extends Component {
   }
 
   handleArtistClick = (artistId) => () => {
-    this.setState((prevState, props) => {
-      const selected = prevState.selectedArtistIds
-      const selectedIdx = selected.indexOf(artistId)
+    const { selectArtist } = this.props
 
-      if (selectedIdx > -1) {
-        return ({
-          selectedArtistIds: selected.filter((_, i) => i !== selectedIdx),
-        })
-      }
-
-      if (selected.length < 5){
-        return ({
-          selectedArtistIds: [...selected, artistId],
-        })
-      }
-    })
+    selectArtist(artistId)
   }
 
   componentDidMount = () => {
@@ -152,9 +141,9 @@ class App extends Component {
 
   render() {
     const {
-      accessToken, topArtists, selectedArtistIds,
-      recTracks, selectedTempo
+      accessToken, topArtists, recTracks,
     } = this.state
+    const { selectedTempo, selectedArtists } = this.props
 
     return (
       <div className='App'>
@@ -182,7 +171,7 @@ class App extends Component {
                     />
                     <TopArtistsStep
                       artists={topArtists}
-                      selectedArtistIds={selectedArtistIds}
+                      selectedArtists={selectedArtists}
                       handleArtistClick={this.handleArtistClick}
                       handleSubmitClick={this.fetchRecTracksForArtists}
                     />
@@ -203,10 +192,20 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  return {}
+  const { tempos, artists } = state
+
+  return {
+    selectedTempo: tempos.selected,
+    selectedArtists: artists.selected,
+  }
 }
-// const mapDispatchToProps = (state, props) => {}
+
+const mapDispatchToProps = {
+  selectTempo,
+  selectArtist,
+}
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(App);

@@ -1,12 +1,14 @@
 export const TARGET_ENERGY = '1.0'
 export const TARGET_DANCEABILITY = '1.0'
+export const MAX_SELECTABLE_ARTISTS = 5
 export const TEMPO_OPTIONS = {
-  0: { name: 'Siesta', bpm: '115'},
-  1: { name: 'Relaxed', bpm: '130'},
-  2: { name: 'Standard', bpm: '145'},
-  3: { name: 'Vigorous', bpm: '165'},
-  4: { name: 'Extreme', bpm: '180'},
+  0: { id: 0, name: 'Siesta', bpm: '115'},
+  1: { id: 1, name: 'Relaxed', bpm: '130'},
+  2: { id: 2, name: 'Standard', bpm: '145'},
+  3: { id: 3, name: 'Vigorous', bpm: '165'},
+  4: { id: 4, name: 'Extreme', bpm: '180'},
 }
+
 // export const TEMPO_OPTIONS = {
 //   0: { name: 'Wandering Walk', bpm: '115'},
 //   1: { name: 'Brisk Jaunt', bpm: '130'},

@@ -1,35 +1,39 @@
-// // import { combineReducers } from 'redux'
-// import { createReducer } from 'redux-starter-kit'
+import { createReducer } from 'redux-starter-kit'
 
-// import { selectArtist } from '../actions'
+import { selectArtist } from '../actions'
 
-// import { TEMPO_OPTIONS } from './constants'
- 
-// // export default function generalReducer(state, action) {
-// //   return state
-// // }
+import { MAX_SELECTABLE_ARTISTS } from '../../constants'
 
-// // export default combineReducers({
-// //   generalReducer
-// // })
+const addOrRemoveArtist = (prevSelected, id) => {
+  const selectedIdx = prevSelected.indexOf(id)
+  
+  if (selectedIdx > -1) {
+    return prevSelected.filter((_, i) => i !== selectedIdx)
+  }
+  
+  if (prevSelected.length < MAX_SELECTABLE_ARTISTS){
+    return [...prevSelected, id]
+  }
+  
+  return prevSelected 
+}
 
-// // const tempoOptions = tempos.map(tempo => ({
-// //   ...tempo,
-// //   selected: false,
-// // }))
 
-// const initialState = {
-//   tempoOptions: TEMPO_OPTIONS,
-// }
+const initialState = {
+  artists: [],
+  selected: [],
+}
 
-// const tempoReducer = createReducer(initialState, {
-//   [selectArtist]: (state, action) => {
-//     console.log('action', action);
-//     console.log('state', state);
-//     return {
-//       selected: action.payload
-//     }
-//   }
-// })
+const artistReducer = createReducer(initialState, {
+  [selectArtist]: (state, action) => {
+    const { selected } = state
+    const { payload } = action
 
-// export default tempoReducer
+    return {
+      ...state,
+      selected: addOrRemoveArtist(selected, payload)
+    }
+  }
+})
+
+export default artistReducer

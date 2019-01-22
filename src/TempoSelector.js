@@ -6,9 +6,9 @@ import { TEMPO_OPTIONS } from './constants'
 export default class TempoSelector extends Component {
   render() {
     const { selectedTempo, handleTempoClick } = this.props
+    console.log('selectedTempo:', selectedTempo)
     const tempos = Object.values(TEMPO_OPTIONS)
-
-    const isSelected = (bpm) => bpm === selectedTempo.bpm
+    const isSelected = (bpm) => bpm === TEMPO_OPTIONS[selectedTempo].bpm
 
     return (
       <div className='text-center'>

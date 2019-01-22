@@ -4,19 +4,19 @@ import { Button, Clearfix, Grid, Row, Col, Image } from 'react-bootstrap';
 import { chunk } from './utils'
 
 const UseArtistsAction = (props) => {
-  const { selectedArtistIds, onClick } = props
-  const isDisabled = selectedArtistIds.length < 1
+  const { selectedArtists, onClick } = props
+  const isDisabled = selectedArtists.length < 1
 
   return (
     <div style={{ textAlign: 'center' }}>
       <h3>
         Select the artists that inspire your guarding.{' '}
-        <small>({selectedArtistIds.length}/5)</small>
+        <small>({selectedArtists.length}/5)</small>
       </h3>
 
       {/* <div className='pull-right' style={{ display: 'inline-block' }}>
         <div>
-          Selected {selectedArtistIds.length}/5
+          Selected {selectedArtists.length}/5
         </div>
       </div>
       <Clearfix /> */}
@@ -50,9 +50,9 @@ const ArtistImage = (props) => {
 }
 
 const ArtistListItem = (props) => {
-  const { artist, handleArtistClick, selectedArtistIds } = props
-  const isSelected = selectedArtistIds.includes(artist.id)
-  const isDisabled = (selectedArtistIds.length >= 5) && !isSelected
+  const { artist, handleArtistClick, selectedArtists } = props
+  const isSelected = selectedArtists.includes(artist.id)
+  const isDisabled = (selectedArtists.length >= 5) && !isSelected
 
   let containerClasses = `artist-image-container ${isSelected ? 'selected' : ''}`
   containerClasses += isDisabled ? 'disabled' : ''
@@ -68,13 +68,13 @@ const ArtistListItem = (props) => {
 }
 
 const TopArtists = (props) => {
-  const { artists, handleArtistClick, selectedArtistIds, handleSubmitClick } = props
+  const { artists, handleArtistClick, selectedArtists, handleSubmitClick } = props
   const artistGroups = chunk(artists, 4)
 
   return (
     <div>
       <Grid>
-        <UseArtistsAction selectedArtistIds={selectedArtistIds} onClick={handleSubmitClick} />
+        <UseArtistsAction selectedArtists={selectedArtists} onClick={handleSubmitClick} />
         {artistGroups.map((artistGroup, idx) => (
           <Row key={idx} className='artist-images-row'>
             {artistGroup.map(artist => (

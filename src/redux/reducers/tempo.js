@@ -6,15 +6,13 @@ import { TEMPO_OPTIONS } from '../../constants'
 
 const initialState = {
   tempoOptions: TEMPO_OPTIONS,
+  selected: 3,
 }
 
 const tempoReducer = createReducer(initialState, {
   [selectTempo]: (state, action) => {
-    console.log('I AM SHANE', action);
-    console.log('initialState', initialState);
-    console.log('action', action);
-    console.log('state', state);
     return {
+      ...state,
       selected: action.payload
     }
   }
