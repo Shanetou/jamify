@@ -1,8 +1,9 @@
 import { createReducer } from 'redux-starter-kit'
 
-import { selectArtist } from '../actions'
+import { selectArtist } from 'redux/actions'
 
 import { MAX_SELECTABLE_ARTISTS } from '../../constants'
+console.log('selectArtist:', selectArtist)
 
 const addOrRemoveArtist = (prevSelected, id) => {
   const selectedIdx = prevSelected.indexOf(id)

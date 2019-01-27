@@ -10,6 +10,7 @@ import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } f
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
 import { selectTempo, selectArtist } from './redux/actions'
+import { accessTokenSelector, userSelector } from 'selectors'
 
 import './App.css';
 
@@ -29,9 +30,8 @@ const Login = () => {
 class App extends Component {
 
   state = {
-    user: null,
+    // user: null,
     topArtists: [],
-    accessToken: null,
     recGenres: [],
     recTracks: [],
   }
@@ -44,23 +44,23 @@ class App extends Component {
 
   fetchTopArtists = () => {
     return fetchFromSpotify(
-      this.state.accessToken,
+      this.props.accessToken,
       'me/top/artists?limit=12',
       data => this.setState({ topArtists: data.items })
     )
   }
 
-  fetchUser = () => {
-    fetchFromSpotify(
-      this.state.accessToken,
-      'me',
-      data => this.setState({ user: data })
-    )
-  }
+  // fetchUser = () => {
+  //   fetchFromSpotify(
+  //     this.props.accessToken,
+  //     'me',
+  //     data => this.setState({ user: data })
+  //   )
+  // }
 
   fetchRecGenres = () => {
     fetchFromSpotify(
-      this.state.accessToken,
+      this.props.accessToken,
       'recommendations/available-genre-seeds',
       data => this.setState({ recGenres: data.genres })
     )
@@ -79,8 +79,8 @@ class App extends Component {
     const tempo = TEMPO_OPTIONS[selectedTempo]
 
     return postToSpotify(
-      this.state.accessToken,
-      `users/${this.state.user.id}/playlists`,
+      this.props.accessToken,
+      `users/${this.props.user.id}/playlists`,
       data => data,
       { name: `Reel Jams: ${tempo.bpm} BPM` },
     )
@@ -88,7 +88,7 @@ class App extends Component {
 
   addTracksToPlaylist = (playlistId, trackURIs) => {
     postToSpotify(
-      this.state.accessToken,
+      this.props.accessToken,
       `playlists/${playlistId}/tracks`,
       data => data,
       { uris: trackURIs },
@@ -109,7 +109,7 @@ class App extends Component {
     })
 
     fetchFromSpotify(
-      this.state.accessToken,
+      this.props.accessToken,
       `recommendations?${seedParams}`,
       data => this.setState({ recTracks: data.tracks })
     )
@@ -121,29 +121,27 @@ class App extends Component {
     selectArtist(artistId)
   }
 
-  componentDidMount = () => {
-    const accessToken = new URLSearchParams(window.location.search).get('access_token')
+  // componentDidMount = () => {
+  //   const accessToken = new URLSearchParams(window.location.search).get('access_token')
 
-    const fetchData = () => {
-      // this.fetchSongFeatures()
-      this.fetchUser()
-      this.fetchTopArtists()
-    }
+  //   const fetchData = () => {
+  //     // this.fetchSongFeatures()
+  //     this.fetchUser()
+  //     this.fetchTopArtists()
+  //   }
 
-    if (!accessToken) {
-      return
-    } else {
-      this.setState({
-        accessToken,
-      }, fetchData)
-    }
-  }
+  //   if (!accessToken) {
+  //     return
+  //   } else {
+  //     this.setState({
+  //       accessToken,
+  //     }, fetchData)
+  //   }
+  // }
 
   render() {
-    const {
-      accessToken, topArtists, recTracks,
-    } = this.state
-    const { selectedTempo, selectedArtists } = this.props
+    const { topArtists, recTracks } = this.state
+    const { accessToken, selectedTempo, selectedArtists } = this.props
 
     return (
       <div className='App'>
@@ -151,13 +149,7 @@ class App extends Component {
           <Row>
             <Col>
               <header className='App-header'>
-                {/* <h1>Spotify BPM</h1> */}
-                <h1 style={{ fontSize: '45px' }}>
-                  Reel Jams
-                  <small style={{ verticalAlign: 'top' }}>
-                    {'\u00A9'}
-                  </small>
-                </h1>
+                <h1>Spotify BPM</h1>
               </header>
 
               <div className='App-body'>
@@ -192,11 +184,14 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { tempos, artists } = state
+  console.log('state:', state)
+  const { tempos, artists, user } = state
 
   return {
-    selectedTempo: tempos.selected,
+    accessToken: accessTokenSelector(state),
     selectedArtists: artists.selected,
+    selectedTempo: tempos.selected,
+    user: userSelector(state)
   }
 }
 

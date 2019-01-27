@@ -26,3 +26,38 @@ export const postToSpotify = (accessToken, urlPart, callback, data) => (
     })
     .then(callback)
 )
+
+const defaultCallback = () => {}
+
+export const asyncFetchFromSpotify = async (accessToken, urlPart, callback = defaultCallback) => {
+  console.log('accessToken:', accessToken)
+  console.log('urlPart:', urlPart)
+  console.log('callback:', callback)
+  try {
+    const header = { headers: {'Authorization': 'Bearer ' + accessToken } }
+    
+    let result = await fetch(
+      `https://api.spotify.com/v1/${urlPart}`, 
+      header
+    ).then(res => res.json())
+    console.log(`${urlPart} result`, result);
+    
+    callback(result)
+
+    return result
+
+  } catch (error) {
+    console.log('ASYNC FETCH REQUEST ERROR:', error)
+  }
+}
+
+
+// async function fetchUser({ name, id }) {
+//   try {
+//     let user = await fetch(`https://api.github.com/users/${name}`);
+//     user = await user.json();
+//     store.dispatch({ type: 'FETCH_USER_SUCCESS', user, id });
+//   } catch (error) {
+//     store.dispatch({ type: 'FETCH_USER_ERROR', error, id });
+//   }
+// }

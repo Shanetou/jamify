@@ -1,4 +1,3 @@
-import { createAction } from 'redux-starter-kit'
-
-export const selectTempo = createAction('SELECT_TEMPO')
-export const selectArtist = createAction('SELECT_ARTIST')
+export * from './artists'
+export * from './tempo'
+export * from './user'
