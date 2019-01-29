@@ -1,13 +1,8 @@
-import { all, take, takeEvery, put, call, fork, select } from 'redux-saga/effects'
-import { saveAccessToken, fetchUser } from 'redux/actions'
-import { accessTokenSelector } from 'selectors'
-
-import { asyncFetchFromSpotify } from 'fetchFromSpotify'
-
-import apiCall from './apiCall'
-console.log('fetchUser:', fetchUser)
-
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { fetchUser, saveAccessToken } from 'redux/actions';
+import { accessTokenSelector } from 'selectors';
+import apiCall from './apiCall';
+import startup from './startup'
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'
@@ -66,63 +61,9 @@ const delay = (ms) => new Promise(res => setTimeout(res, ms))
 //   yield takeEvery('SELECT_TEMPO', selectTempo)
 // }
 
-export function* getAccessToken() {
-  const accessToken = new URLSearchParams(window.location.search).get('access_token')
-
-  if (accessToken) {
-    yield put(saveAccessToken(accessToken))
-  }
-}
-
-export function* fetchUserTask(accessToken) {
-  console.log('accessToken in fetchUser:', accessToken)
-
-  console.log('fetchUser():', fetchUser())
-  yield put(fetchUser())
-
-  // try {
-  //   console.log('asyncFetchFromSpotify:', asyncFetchFromSpotify)
-  //   const data = yield call(
-  //     asyncFetchFromSpotify, 
-  //     accessToken, 
-  //     'me', 
-  //   )
-
-  //   console.log('data:', data)
-  //   yield put({
-  //     type: 'FETCH_USER_SUCCESS',
-  //     payload: data,
-  //   })
-  //   } catch (error) {
-  //   console.log('error:', error)
-  // }
-}
-
-export function* watchSaveAccessToken() {
-  const accessToken = yield select(accessTokenSelector)
-  console.log('watchSaveAccessToken:')
-
-  console.log('fetchUserTask:', fetchUserTask)
-  yield call(fetchUserTask, accessToken)
-}
-
-export function* watchFetchUser() {
-  while (true) {
-    console.log('watchFetchUser:')
-    console.log('fetchUser:', fetchUser)
-    const action = yield take(fetchUser)
-    console.log('action watchFetchUser:', action)
-
-    yield fork(apiCall, action, 'me')
-  }
-}
-
-
 export default function* root() {
   yield all([
-    watchFetchUser(),
-    getAccessToken(),
-    watchSaveAccessToken(),
+    startup(),
   ])
   // yield fork(startup)
   // yield fork(nextRedditChange)
@@ -140,9 +81,7 @@ export default function* root() {
 //   // ... do some stuff
 // }
 
-
 // For auth/token saga: https://gist.github.com/dispix/5a9c990bd6eea4b7f9a93fe93722baa8
-
 
 /* EXAMPE sagas.js */
 

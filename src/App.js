@@ -30,7 +30,6 @@ const Login = () => {
 class App extends Component {
 
   state = {
-    // user: null,
     topArtists: [],
     recGenres: [],
     recTracks: [],
@@ -49,14 +48,6 @@ class App extends Component {
       data => this.setState({ topArtists: data.items })
     )
   }
-
-  // fetchUser = () => {
-  //   fetchFromSpotify(
-  //     this.props.accessToken,
-  //     'me',
-  //     data => this.setState({ user: data })
-  //   )
-  // }
 
   fetchRecGenres = () => {
     fetchFromSpotify(

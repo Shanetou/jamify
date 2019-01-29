@@ -15,9 +15,11 @@ const userReducer = createReducer(initialState, {
     }
   },
   'API_FETCH_USER_SUCCESS': (state, action) => {
+    console.log('API_FETCH_USER_SUCCESS action:', action)
+    console.log('API_FETCH_USER_SUCCESS state:', state)
     return {
       ...state, 
-      user: action.payload,
+      user: action.response,
     }
   },
 })

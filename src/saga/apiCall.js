@@ -49,6 +49,8 @@ export const apiCall = function* (action, urlPart) {
     yield put(startedAction(action))
 
     const result = yield call(asyncFetchFromSpotify, accessToken, urlPart)
+    console.log('result:', result)
+    console.log('successAction(action, result):', successAction(action, result))
     yield put(successAction(action, result))
   } catch (error) {
     yield put(errorAction(action, error))
