@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
-
+import { connect } from 'react-redux'
 import { Button, ButtonGroup } from 'react-bootstrap';
+
+import { selectTempo } from 'redux/actions'
+import { selectedTempoSelector } from 'selectors'
 import { TEMPO_OPTIONS } from './constants'
 
-export default class TempoSelector extends Component {
+export class TempoSelector extends Component {
+
   render() {
-    const { selectedTempo, handleTempoClick } = this.props
-    console.log('selectedTempo:', selectedTempo)
+    const { selectTempo, selectedTempo } = this.props
+
     const tempos = Object.values(TEMPO_OPTIONS)
     const isSelected = (bpm) => bpm === TEMPO_OPTIONS[selectedTempo].bpm
+
 
     return (
       <div className='text-center'>
@@ -20,7 +25,7 @@ export default class TempoSelector extends Component {
             <Button
               key={tempo.bpm}
               active={isSelected(tempo.bpm)}
-              onClick={handleTempoClick(tempo)}
+              onClick={() => selectTempo(tempo.id)}
             >
               {tempo.name}
             </Button>
@@ -30,3 +35,18 @@ export default class TempoSelector extends Component {
     )
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return {
+    selectedTempo: selectedTempoSelector(state),
+  }
+}
+
+const mapDispatchToProps = {
+  selectTempo,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TempoSelector);

@@ -4,6 +4,15 @@ import { accessTokenSelector } from 'selectors';
 import apiCall from './apiCall';
 import startup from './startup'
 
+export default function* root() {
+  yield all([
+    startup(),
+  ])
+  // yield fork(startup)
+  // yield fork(nextRedditChange)
+  // yield fork(invalidateReddit)
+}
+
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'
 // import { selectedRedditSelector, postsByRedditSelector } from '../reducers/selectors'
@@ -60,15 +69,6 @@ import startup from './startup'
 // export function* watchSelectTempo() {
 //   yield takeEvery('SELECT_TEMPO', selectTempo)
 // }
-
-export default function* root() {
-  yield all([
-    startup(),
-  ])
-  // yield fork(startup)
-  // yield fork(nextRedditChange)
-  // yield fork(invalidateReddit)
-}
 
 // function* watcher() {
 //   while (true) {

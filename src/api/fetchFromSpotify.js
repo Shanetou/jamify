@@ -51,7 +51,6 @@ export const asyncFetchFromSpotify = async (accessToken, urlPart, callback = def
   }
 }
 
-
 // async function fetchUser({ name, id }) {
 //   try {
 //     let user = await fetch(`https://api.github.com/users/${name}`);

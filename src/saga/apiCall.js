@@ -1,5 +1,5 @@
 import { all, take, takeEvery, put, call, fork, select } from 'redux-saga/effects'
-import { asyncFetchFromSpotify } from 'fetchFromSpotify'
+import { asyncFetchFromSpotify } from 'api/fetchFromSpotify'
 import { accessTokenSelector } from 'selectors'
 
 export const apiPhases = {

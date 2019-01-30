@@ -1,7 +1,10 @@
 import React from 'react';
-import { Button, Clearfix, Grid, Row, Col, Image } from 'react-bootstrap';
+import { connect } from 'react-redux'
+import { Grid, Row, Col, Image } from 'react-bootstrap';
 
 import { chunk } from './utils'
+import { selectArtist } from 'redux/actions'
+import { topArtistsSelector, selectedArtistsSelector } from 'selectors'
 
 const UseArtistsAction = (props) => {
   const { selectedArtists, onClick } = props
@@ -13,13 +16,6 @@ const UseArtistsAction = (props) => {
         Select the artists that inspire your guarding.{' '}
         <small>({selectedArtists.length}/5)</small>
       </h3>
-
-      {/* <div className='pull-right' style={{ display: 'inline-block' }}>
-        <div>
-          Selected {selectedArtists.length}/5
-        </div>
-      </div>
-      <Clearfix /> */}
     </div>
   )
 }
@@ -57,8 +53,12 @@ const ArtistListItem = (props) => {
   let containerClasses = `artist-image-container ${isSelected ? 'selected' : ''}`
   containerClasses += isDisabled ? 'disabled' : ''
 
+  const handleClick = () => {
+    handleArtistClick(artist.id)
+  }
+
   return (
-    <Col sm={3} xs={6} key={artist.name} onClick={handleArtistClick(artist.id)}>
+    <Col sm={3} xs={6} key={artist.name} onClick={handleClick}>
       <div className={containerClasses}>
         <h3 className='text-center'>{artist.name}</h3>
         <ArtistImage artist={artist} />
@@ -67,8 +67,10 @@ const ArtistListItem = (props) => {
   )
 }
 
-const TopArtists = (props) => {
-  const { artists, handleArtistClick, selectedArtists, handleSubmitClick } = props
+export const TopArtists = (props) => {
+  const { artists, selectedArtists } = props
+  const { selectArtist, handleSubmitClick } = props
+
   const artistGroups = chunk(artists, 4)
 
   return (
@@ -78,7 +80,12 @@ const TopArtists = (props) => {
         {artistGroups.map((artistGroup, idx) => (
           <Row key={idx} className='artist-images-row'>
             {artistGroup.map(artist => (
-              <ArtistListItem artist={artist} key={artist.name} {...props} />
+              <ArtistListItem 
+                artist={artist} 
+                key={artist.name} 
+                handleArtistClick={selectArtist}
+                {...props} 
+              />
             ))}
           </Row>
         ))}
@@ -87,4 +94,18 @@ const TopArtists = (props) => {
   )
 }
 
-export default TopArtists
+const mapStateToProps = (state, props) => {
+  return {
+    artists: topArtistsSelector(state),
+    selectedArtists: selectedArtistsSelector(state),
+  }
+}
+
+const mapDispatchToProps = {
+  selectArtist,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TopArtists);

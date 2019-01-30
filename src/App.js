@@ -1,52 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button, Grid, Row, Col } from 'react-bootstrap';
-
+import { Grid, Row, Col } from 'react-bootstrap';
 import queryString from 'query-string'
 
-import { fetchFromSpotify, postToSpotify } from './fetchFromSpotify'
+import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
+import { selectArtist } from 'redux/actions'
+import { selectedArtistsSelector, accessTokenSelector, userSelector, selectedTempoSelector } from 'selectors'
+
+import { fetchFromSpotify, postToSpotify } from 'api/fetchFromSpotify'
 import { Stepper } from './stepper'
 import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
-
-import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
-import { selectTempo, selectArtist } from './redux/actions'
-import { accessTokenSelector, userSelector } from 'selectors'
-
+import { Login } from './Login';
 import './App.css';
 
-const Login = () => {
-  return (
-    <div style={{ textAlign: 'center', paddingTop: '5rem' }}>
-      <Button
-        className="login-button"
-        onClick={() => window.location = 'http://localhost:8888/login'}
-      >
-        LOG IN TO SPOTIFY
-      </Button>
-    </div>
-  )
-}
+// this.fetchSongFeatures()
 
 class App extends Component {
-
   state = {
-    topArtists: [],
     recGenres: [],
     recTracks: [],
-  }
-
-  selectTempo = (tempo) => () => {
-    const { selectTempo } = this.props
-
-    selectTempo(tempo.id)
-  }
-
-  fetchTopArtists = () => {
-    return fetchFromSpotify(
-      this.props.accessToken,
-      'me/top/artists?limit=12',
-      data => this.setState({ topArtists: data.items })
-    )
   }
 
   fetchRecGenres = () => {
@@ -91,7 +63,6 @@ class App extends Component {
     const tempo = TEMPO_OPTIONS[selectedTempo]
     const artistIdList = selectedArtists.join(',')
 
-
     const seedParams = queryString.stringify({
       seed_artists: artistIdList,
       target_energy: TARGET_ENERGY,
@@ -106,33 +77,15 @@ class App extends Component {
     )
   }
 
-  handleArtistClick = (artistId) => () => {
-    const { selectArtist } = this.props
+  // handleArtistClick = (artistId) => () => {
+  //   const { selectArtist } = this.props
 
-    selectArtist(artistId)
-  }
-
-  // componentDidMount = () => {
-  //   const accessToken = new URLSearchParams(window.location.search).get('access_token')
-
-  //   const fetchData = () => {
-  //     // this.fetchSongFeatures()
-  //     this.fetchUser()
-  //     this.fetchTopArtists()
-  //   }
-
-  //   if (!accessToken) {
-  //     return
-  //   } else {
-  //     this.setState({
-  //       accessToken,
-  //     }, fetchData)
-  //   }
+  //   selectArtist(artistId)
   // }
 
   render() {
-    const { topArtists, recTracks } = this.state
-    const { accessToken, selectedTempo, selectedArtists } = this.props
+    const { recTracks } = this.state
+    const { accessToken, selectedArtists } = this.props
 
     return (
       <div className='App'>
@@ -148,14 +101,8 @@ class App extends Component {
                   <Login />
                 ) : (
                   <Stepper>
-                    <TempoSelectorStep
-                      selectedTempo={selectedTempo}
-                      handleTempoClick={this.selectTempo}
-                    />
+                    <TempoSelectorStep />
                     <TopArtistsStep
-                      artists={topArtists}
-                      selectedArtists={selectedArtists}
-                      handleArtistClick={this.handleArtistClick}
                       handleSubmitClick={this.fetchRecTracksForArtists}
                     />
                     <RecTracksStep
@@ -175,19 +122,16 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log('state:', state)
-  const { tempos, artists, user } = state
 
   return {
     accessToken: accessTokenSelector(state),
-    selectedArtists: artists.selected,
-    selectedTempo: tempos.selected,
+    selectedArtists: selectedArtistsSelector(state),
+    selectedTempo: selectedTempoSelector(state),
     user: userSelector(state)
   }
 }
 
 const mapDispatchToProps = {
-  selectTempo,
   selectArtist,
 }
 
