@@ -4,8 +4,17 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import queryString from 'query-string'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
-import { selectArtist } from 'redux/actions'
-import { selectedArtistsSelector, accessTokenSelector, userSelector, selectedTempoSelector } from 'selectors'
+import { 
+  fetchRecommendedTracks,
+  selectArtist,
+} from 'redux/actions'
+import { 
+  accessTokenSelector, 
+  recommendedTracksSelector,
+  userSelector, 
+  selectedArtistsSelector,
+  selectedTempoSelector 
+} from 'selectors'
 
 import { fetchFromSpotify, postToSpotify } from 'api/fetchFromSpotify'
 import { Stepper } from './stepper'
@@ -18,20 +27,19 @@ import './App.css';
 class App extends Component {
   state = {
     recGenres: [],
-    recTracks: [],
   }
 
-  fetchRecGenres = () => {
-    fetchFromSpotify(
-      this.props.accessToken,
-      'recommendations/available-genre-seeds',
-      data => this.setState({ recGenres: data.genres })
-    )
-  }
+  // fetchRecGenres = () => {
+  //   fetchFromSpotify(
+  //     this.props.accessToken,
+  //     'recommendations/available-genre-seeds',
+  //     data => this.setState({ recGenres: data.genres })
+  //   )
+  // }
 
   createPlaylistWithTracks = () => {
     this.createPlaylist().then((playlist) => {
-      const trackURIs = this.state.recTracks.map(t => t.uri)
+      const trackURIs = this.state.tracks.map(t => t.uri)
 
       this.addTracksToPlaylist(playlist.id, trackURIs)
     })
@@ -59,33 +67,23 @@ class App extends Component {
   }
 
   fetchRecTracksForArtists = () => {
-    const { selectedTempo, selectedArtists } = this.props
+    const { selectedTempo, selectedArtists, fetchRecommendedTracks } = this.props
     const tempo = TEMPO_OPTIONS[selectedTempo]
-    const artistIdList = selectedArtists.join(',')
-
-    const seedParams = queryString.stringify({
-      seed_artists: artistIdList,
+    const artistsIdsList = selectedArtists.join(',')
+    
+    const queryParams = queryString.stringify({
+      seed_artists: artistsIdsList,
       target_energy: TARGET_ENERGY,
       target_danceability: TARGET_DANCEABILITY,
       target_tempo: tempo.bpm,
     })
-
-    fetchFromSpotify(
-      this.props.accessToken,
-      `recommendations?${seedParams}`,
-      data => this.setState({ recTracks: data.tracks })
-    )
+    
+    fetchRecommendedTracks(queryParams)
   }
 
-  // handleArtistClick = (artistId) => () => {
-  //   const { selectArtist } = this.props
-
-  //   selectArtist(artistId)
-  // }
-
   render() {
-    const { recTracks } = this.state
-    const { accessToken, selectedArtists } = this.props
+    const { accessToken, tracks } = this.props
+    console.log('tracks:', tracks)
 
     return (
       <div className='App'>
@@ -106,7 +104,7 @@ class App extends Component {
                       handleSubmitClick={this.fetchRecTracksForArtists}
                     />
                     <RecTracksStep
-                      tracks={recTracks}
+                      tracks={tracks}
                       handleAddClick={this.createPlaylistWithTracks}
                     />
                     <PlaylistSavedStep />
@@ -125,6 +123,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     accessToken: accessTokenSelector(state),
+    tracks: recommendedTracksSelector(state),
     selectedArtists: selectedArtistsSelector(state),
     selectedTempo: selectedTempoSelector(state),
     user: userSelector(state)
@@ -133,6 +132,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   selectArtist,
+  fetchRecommendedTracks,
 }
 
 export default connect(

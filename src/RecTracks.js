@@ -23,6 +23,7 @@ export const TrackRow = (props) => {
 export default class RecTracks extends Component {
   render() {
     const { tracks } = this.props
+    console.log('tracks in RecTracks:', tracks)
 
     return (
       <Well className='rec-tracks'>

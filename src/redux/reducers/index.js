@@ -1,10 +1,12 @@
-import tempoReducer from './tempo'
-import artistReducer from './artists'
+import temposReducer from './tempo'
+import artistsReducer from './artists'
+import tracksReducer from './tracks'
 import userReducer from './user'
 
 const rootReducer = {
-  artists: artistReducer,
-  tempos: tempoReducer,
+  artists: artistsReducer,
+  tempos: temposReducer,
+  tracks: tracksReducer,
   user: userReducer,
 }
 

@@ -1,19 +1,23 @@
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { fetchUser, saveAccessToken } from 'redux/actions';
+import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { fetchRecommendedTracks, saveAccessToken } from 'redux/actions';
+import { getRecommendedTracksPath } from 'api/paths'
 import { accessTokenSelector } from 'selectors';
 import apiCall from './apiCall';
-import startupSaga from './startup'
-import tracksSaga from './tracks'
+import startup from './startup'
 
-export default function* root() {
-  yield all([
-    startupSaga(),
-    tracksSaga(),
-  ])
-  // yield fork(startup)
-  // yield fork(nextRedditChange)
-  // yield fork(invalidateReddit)
+function* fetchRecommendedTracksTask(action) {
+  const { payload } = action
+  const path = getRecommendedTracksPath(payload)
+
+  yield fork(apiCall, action, path)
 }
+
+export default function* tracks() {
+  yield [
+    takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask)
+  ]
+}
+
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'
