@@ -1,21 +1,22 @@
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { fetchUser, saveAccessToken } from 'redux/actions';
-import { accessTokenSelector } from 'selectors';
+import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { createPlaylist } from 'redux/actions';
+import { createPlaylistPath } from 'api/paths'
 import apiCall from './apiCall';
-import startupSaga from './startup'
-import tracksSaga from './tracks'
-import playlistsSaga from './playlists'
 
-export default function* root() {
-  yield all([
-    startupSaga(),
-    tracksSaga(),
-    playlistsSaga(),
-  ])
-  // yield fork(startup)
-  // yield fork(nextRedditChange)
-  // yield fork(invalidateReddit)
+function* createPlaylistTask(action) {
+  const { payload } = action
+  console.log('payload:', payload)
+  const path = createPlaylistPath(payload)
+
+  yield fork(apiCall, action, path, 'POST')
 }
+
+export default function* tracks() {
+  yield [
+    takeEvery(createPlaylist, createPlaylistTask)
+  ]
+}
+
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'

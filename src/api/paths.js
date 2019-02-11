@@ -5,3 +5,7 @@ export const RECOMMENDED_TRACKS_PATH = 'recommendations'
 export const getRecommendedTracksPath = (queryString) => (
   `${RECOMMENDED_TRACKS_PATH}?${queryString}`
 )
+
+export const createPlaylistPath = ({ userId }) => (
+  `users/${userId}/playlists`
+)

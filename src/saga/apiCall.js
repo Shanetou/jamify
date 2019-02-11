@@ -1,5 +1,6 @@
 import { all, take, takeEvery, put, call, fork, select } from 'redux-saga/effects'
-import { asyncFetchFromSpotify } from 'api/fetchFromSpotify'
+// import { asyncFetchFromSpotify } from 'api/fetchFromSpotify'
+import API from 'api/fetchFromSpotify'
 import { accessTokenSelector } from 'selectors'
 
 export const apiPhases = {
@@ -36,7 +37,7 @@ const completedAction = (action) => (
   apiAction(action, apiPhases.COMPLETED)  
 )
 
-export const apiCall = function* (action, urlPart) {
+export const apiCall = function* (action, urlPart, requestType = 'GET') {
   console.log('action:', action)
   const accessToken = yield select(accessTokenSelector)
 
@@ -48,7 +49,13 @@ export const apiCall = function* (action, urlPart) {
   try {
     yield put(startedAction(action))
 
-    const result = yield call(asyncFetchFromSpotify, accessToken, urlPart)
+    let result
+    if (requestType === 'GET') {
+      result = yield call(API.get, accessToken, urlPart)
+    } else if (requestType === 'POST') {
+      result = yield call(API.post, accessToken, urlPart, action.payload.data)
+    }
+
     console.log('result:', result)
     console.log('successAction(action, result):', successAction(action, result))
     yield put(successAction(action, result))

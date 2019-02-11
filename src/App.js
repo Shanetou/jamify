@@ -5,6 +5,7 @@ import queryString from 'query-string'
 
 import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
 import { 
+  createPlaylist,
   fetchRecommendedTracks,
   selectArtist,
 } from 'redux/actions'
@@ -38,23 +39,31 @@ class App extends Component {
   // }
 
   createPlaylistWithTracks = () => {
-    this.createPlaylist().then((playlist) => {
-      const trackURIs = this.state.tracks.map(t => t.uri)
+    this.createPlaylist()
+    // .then((playlist) => {
+    //   const trackURIs = this.state.tracks.map(t => t.uri)
 
-      this.addTracksToPlaylist(playlist.id, trackURIs)
-    })
+    //   this.addTracksToPlaylist(playlist.id, trackURIs)
+    // })
   }
 
   createPlaylist = () => {
-    const { selectedTempo } = this.props
+    const { createPlaylist, selectedTempo, user } = this.props
     const tempo = TEMPO_OPTIONS[selectedTempo]
+    const currentDateTime = new Date().toLocaleString()
+    const data = { name: `${tempo.bpm} BPM: ${currentDateTime}` }
 
-    return postToSpotify(
-      this.props.accessToken,
-      `users/${this.props.user.id}/playlists`,
-      data => data,
-      { name: `Reel Jams: ${tempo.bpm} BPM` },
-    )
+    createPlaylist({
+      userId: user.id,
+      data,
+    })
+
+    // return postToSpotify(
+    //   this.props.accessToken,
+    //   `users/${this.props.user.id}/playlists`,
+    //   data => data,
+    //   { name: `Reel Jams: ${tempo.bpm} BPM` },
+    // )
   }
 
   addTracksToPlaylist = (playlistId, trackURIs) => {
@@ -83,7 +92,6 @@ class App extends Component {
 
   render() {
     const { accessToken, tracks } = this.props
-    console.log('tracks:', tracks)
 
     return (
       <div className='App'>
@@ -131,6 +139,7 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = {
+  createPlaylist,
   selectArtist,
   fetchRecommendedTracks,
 }

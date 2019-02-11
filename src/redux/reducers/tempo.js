@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-starter-kit'
 
-import { selectTempo } from '../actions'
+import { selectTempo } from 'redux/actions'
 
 import { TEMPO_OPTIONS } from '../../constants'
 
