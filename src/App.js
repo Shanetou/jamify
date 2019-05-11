@@ -17,7 +17,7 @@ import {
   selectedTempoSelector 
 } from 'selectors'
 
-import { fetchFromSpotify, postToSpotify } from 'api/fetchFromSpotify'
+import { postToSpotify } from './api/fetchFromSpotify'
 import { Stepper } from './stepper'
 import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
 import { Login } from './Login';
