@@ -1,13 +1,66 @@
-export const TARGET_ENERGY = '1.0'
-export const TARGET_DANCEABILITY = '1.0'
-export const MAX_SELECTABLE_ARTISTS = 5
+export const TARGET_ENERGY = '1.0';
+export const TARGET_DANCEABILITY = '1.0';
+export const MAX_SELECTABLE_ARTISTS = 5;
 export const TEMPO_OPTIONS = {
-  0: { id: 0, name: 'Siesta', bpm: '115'},
-  1: { id: 1, name: 'Relaxed', bpm: '130'},
-  2: { id: 2, name: 'Standard', bpm: '145'},
-  3: { id: 3, name: 'Vigorous', bpm: '165'},
-  4: { id: 4, name: 'Extreme', bpm: '180'},
-}
+  0: { id: 0, name: 'Siesta', bpm: '115' },
+  1: { id: 1, name: 'Relaxed', bpm: '130' },
+  2: { id: 2, name: 'Standard', bpm: '145' },
+  3: { id: 3, name: 'Vigorous', bpm: '165' },
+  4: { id: 4, name: 'Extreme', bpm: '180' },
+};
+
+// export const TRACK_ATTRIBUTES = {
+//   // DURATION_IN_MILLISECONDS,
+//   // KEY,
+//   // TIME_SIGNATURE,
+//   ACOUSTICNESS,
+//   DANCEABILITY,
+//   ENERGY,
+//   INSTRUMENTALNESS,
+//   LIVENESS,
+//   LOUDNESS,
+//   MODE,
+//   POPULARITY,
+//   SPEECHINESS,
+//   TEMPO,
+//   VALENCE,
+// };
+
+export const TRACK_ATTRIBUTES_RANGES = {
+  // DURATION_IN_MILLISECONDS: [, ],
+  // KEY: [, ],
+  // TIME_SIGNATURE: [,],
+  ACOUSTICNESS: [0.0, 1.0],
+  DANCEABILITY: [0.0, 1.0],
+  ENERGY: [0.0, 1.0],
+  INSTRUMENTALNESS: [0.0, 1.0],
+  LIVENESS: [0.0, 1.0],
+  LOUDNESS: [-60, 0],
+  MODE: [0, 1],
+  POPULARITY: [0, 100],
+  SPEECHINESS: [0.0, 1.0],
+  // TODO: What are avg tempos?
+  TEMPO: [100, 200],
+  VALENCE: [0.0, 1.0],
+};
+
+// export const TRACK_ATTRIBUTE_FIELD_NAMES = {
+//   // DURATION_IN_MILLISECONDS: [, ],
+//   // KEY: [, ],
+//   // TIME_SIGNATURE: [,],
+//   ACOUSTICNESS: [],
+//   DANCEABILITY: [0.0, 1.0],
+//   ENERGY: [0.0, 1.0],
+//   INSTRUMENTALNESS: [0.0, 1.0],
+//   LIVENESS: [0.0, 1.0],
+//   LOUDNESS: [-60, 0],
+//   MODE: [0, 1],
+//   POPULARITY: [0, 100],
+//   SPEECHINESS: [0.0, 1.0],
+//   // TODO: What are avg tempos?
+//   TEMPO: [100, 200],
+//   VALENCE: [0.0, 1.0],
+// };
 
 // export const TEMPO_OPTIONS = {
 //   0: { name: 'Wandering Walk', bpm: '115'},

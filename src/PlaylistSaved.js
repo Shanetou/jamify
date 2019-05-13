@@ -11,7 +11,7 @@ export default class PlaylistSaved extends Component {
           <Glyphicon glyph='ok' />{' '}
           Playlist Saved!
         </h1>
-
+        
         <Button onClick={() => window.location.reload()}>
           Create Another
         </Button>

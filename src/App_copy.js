@@ -1,34 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { Grid, Row, Col } from 'react-bootstrap';
-import queryString from 'query-string'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Grid, Row, Col } from "react-bootstrap";
+import queryString from "query-string";
 
-import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from './constants'
-import { 
+import { TARGET_ENERGY, TARGET_DANCEABILITY, TEMPO_OPTIONS } from "./constants";
+import {
   createPlaylist,
   fetchRecommendedTracks,
-  selectArtist,
-} from 'redux/actions'
-import { 
-  accessTokenSelector, 
+  selectArtist
+} from "redux/actions";
+import {
+  accessTokenSelector,
   recommendedTracksSelector,
-  userSelector, 
+  userSelector,
   selectedArtistsSelector,
-  selectedTempoSelector 
-} from 'selectors'
+  selectedTempoSelector
+} from "selectors";
 
-import { postToSpotify } from './api/fetchFromSpotify'
-import { Stepper } from './stepper'
-import { RecTracksStep, TempoSelectorStep, TopArtistsStep, PlaylistSavedStep } from './stepper/steps'
-import { Login } from './Login';
-import './App.css';
+import { postToSpotify } from "./api/fetchFromSpotify";
+import { Stepper } from "./stepper";
+import {
+  RecTracksStep,
+  TempoSelectorStep,
+  TopArtistsStep,
+  PlaylistSavedStep
+} from "./stepper/steps";
+import { Login } from "./Login";
 
 // this.fetchSongFeatures()
 
 class App extends Component {
   state = {
-    recGenres: [],
-  }
+    recGenres: []
+  };
 
   // fetchRecGenres = () => {
   //   fetchFromSpotify(
@@ -39,24 +43,24 @@ class App extends Component {
   // }
 
   createPlaylistWithTracks = () => {
-    this.createPlaylist()
+    this.createPlaylist();
     // .then((playlist) => {
     //   const trackURIs = this.state.tracks.map(t => t.uri)
 
     //   this.addTracksToPlaylist(playlist.id, trackURIs)
     // })
-  }
+  };
 
   createPlaylist = () => {
-    const { createPlaylist, selectedTempo, user } = this.props
-    const tempo = TEMPO_OPTIONS[selectedTempo]
-    const currentDateTime = new Date().toLocaleString()
-    const data = { name: `${tempo.bpm} BPM: ${currentDateTime}` }
+    const { createPlaylist, selectedTempo, user } = this.props;
+    const tempo = TEMPO_OPTIONS[selectedTempo];
+    const currentDateTime = new Date().toLocaleString();
+    const data = { name: `${tempo.bpm} BPM: ${currentDateTime}` };
 
     createPlaylist({
       userId: user.id,
-      data,
-    })
+      data
+    });
 
     // return postToSpotify(
     //   this.props.accessToken,
@@ -64,45 +68,49 @@ class App extends Component {
     //   data => data,
     //   { name: `Reel Jams: ${tempo.bpm} BPM` },
     // )
-  }
+  };
 
   addTracksToPlaylist = (playlistId, trackURIs) => {
     postToSpotify(
       this.props.accessToken,
       `playlists/${playlistId}/tracks`,
       data => data,
-      { uris: trackURIs },
-    )
-  }
+      { uris: trackURIs }
+    );
+  };
 
   fetchRecTracksForArtists = () => {
-    const { selectedTempo, selectedArtists, fetchRecommendedTracks } = this.props
-    const tempo = TEMPO_OPTIONS[selectedTempo]
-    const artistsIdsList = selectedArtists.join(',')
-    
+    const {
+      selectedTempo,
+      selectedArtists,
+      fetchRecommendedTracks
+    } = this.props;
+    const tempo = TEMPO_OPTIONS[selectedTempo];
+    const artistsIdsList = selectedArtists.join(",");
+
     const queryParams = queryString.stringify({
       seed_artists: artistsIdsList,
       target_energy: TARGET_ENERGY,
       target_danceability: TARGET_DANCEABILITY,
-      target_tempo: tempo.bpm,
-    })
-    
-    fetchRecommendedTracks(queryParams)
-  }
+      target_tempo: tempo.bpm
+    });
+
+    fetchRecommendedTracks(queryParams);
+  };
 
   render() {
-    const { accessToken, tracks } = this.props
+    const { accessToken, tracks } = this.props;
 
     return (
-      <div className='App'>
+      <div className="App">
         <Grid>
           <Row>
             <Col>
-              <header className='App-header'>
+              <header className="App-header">
                 <h1>Spotify BPM</h1>
               </header>
 
-              <div className='App-body'>
+              <div className="App-body">
                 {!accessToken ? (
                   <Login />
                 ) : (
@@ -128,23 +136,22 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-
   return {
     accessToken: accessTokenSelector(state),
     tracks: recommendedTracksSelector(state),
     selectedArtists: selectedArtistsSelector(state),
     selectedTempo: selectedTempoSelector(state),
     user: userSelector(state)
-  }
-}
+  };
+};
 
 const mapDispatchToProps = {
   createPlaylist,
   selectArtist,
-  fetchRecommendedTracks,
-}
+  fetchRecommendedTracks
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(App);

@@ -1,14 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from "react";
+import ReactDOM from "react-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { Provider } from 'react-redux'
-import store from './store'
+import { Provider } from "react-redux";
+import store from "./store";
 
-import './index.css';
-import App from './App';
+import App from "./components/App";
 
-const rootElement = document.getElementById('root')
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <Provider store={store}>
@@ -16,4 +15,4 @@ ReactDOM.render(
     <App />
   </Provider>,
   rootElement
-)
+);
