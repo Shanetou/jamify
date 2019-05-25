@@ -9,7 +9,7 @@ class SliderField extends React.Component {
 
     this.range = props.attribute[1];
     this.state = {
-      value: (this.range[0] + this.range[1]) / 2,
+      value: (this.range[0] + this.range[1]) / 2
     };
   }
 
@@ -25,12 +25,12 @@ class SliderField extends React.Component {
 
     return (
       <div>
-        <Typography id='label'>{name}</Typography>
+        <Typography id="label">{name}</Typography>
         <Slider
           min={min}
           max={max}
           value={value}
-          aria-labelledby='label'
+          aria-labelledby="label"
           onChange={this.handleChange}
         />
       </div>
@@ -55,7 +55,7 @@ class Attributes extends Component {
       <div>
         <h3>Select Attributes</h3>
         {this.attributes.map(attribute => {
-          const [name, _] = attribute;
+          const [name] = attribute;
           return <SliderField key={name} attribute={attribute} />;
         })}
       </div>

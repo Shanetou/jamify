@@ -1,12 +1,4 @@
-import {
-  all,
-  take,
-  takeEvery,
-  put,
-  call,
-  fork,
-  select
-} from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 // import { asyncFetchFromSpotify } from 'api/fetchFromSpotify'
 import API from 'api/fetchFromSpotify';
 import { accessTokenSelector } from 'selectors';

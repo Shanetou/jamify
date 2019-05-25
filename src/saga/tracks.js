@@ -1,23 +1,18 @@
-import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
-import { fetchRecommendedTracks, saveAccessToken } from 'redux/actions';
-import { getRecommendedTracksPath } from 'api/paths'
-import { accessTokenSelector } from 'selectors';
+import { all, fork, takeEvery } from 'redux-saga/effects';
+import { fetchRecommendedTracks } from 'redux/actions';
+import { getRecommendedTracksPath } from 'api/paths';
 import apiCall from './apiCall';
-import startup from './startup'
 
 function* fetchRecommendedTracksTask(action) {
-  const { payload } = action
-  const path = getRecommendedTracksPath(payload)
+  const { payload } = action;
+  const path = getRecommendedTracksPath(payload);
 
-  yield fork(apiCall, action, path)
+  yield fork(apiCall, action, path);
 }
 
 export default function* tracks() {
-  yield [
-    takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask)
-  ]
+  yield all([takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask)]);
 }
-
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'

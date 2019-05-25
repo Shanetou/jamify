@@ -1,12 +1,4 @@
-import {
-  all,
-  call,
-  fork,
-  put,
-  select,
-  take,
-  takeEvery
-} from 'redux-saga/effects';
+import { all, call, fork, put, take } from 'redux-saga/effects';
 import {
   fetchUser,
   fetchTopArtists,

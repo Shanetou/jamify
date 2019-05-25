@@ -1,17 +1,10 @@
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import { fetchUser, saveAccessToken } from 'redux/actions';
-import { accessTokenSelector } from 'selectors';
-import apiCall from './apiCall';
-import startupSaga from './startup'
-import tracksSaga from './tracks'
-import playlistsSaga from './playlists'
+import { all } from 'redux-saga/effects';
+import startupSaga from './startup';
+import tracksSaga from './tracks';
+import playlistsSaga from './playlists';
 
 export default function* root() {
-  yield all([
-    startupSaga(),
-    tracksSaga(),
-    playlistsSaga(),
-  ])
+  yield all([startupSaga(), tracksSaga(), playlistsSaga()]);
   // yield fork(startup)
   // yield fork(nextRedditChange)
   // yield fork(invalidateReddit)
