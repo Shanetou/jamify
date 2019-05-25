@@ -1,4 +1,4 @@
-import { actionType, apiPhases } from 'saga/apiCall'
+import { actionType, apiPhases } from 'saga/apiCall';
 
 // export const actionType = (entity, phase) => (
 //   `API_FETCH_${entity}_${phase}`
@@ -10,7 +10,7 @@ import { actionType, apiPhases } from 'saga/apiCall'
 //   return {
 //     [`API_FETCH_${entity}_SUCCESS`]: (state, action) => {
 //       return {
-//         ...state, 
+//         ...state,
 //         [stateKey]: action.response,
 //       }
 //     },

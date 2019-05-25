@@ -1,16 +1,15 @@
-import { createReducer } from 'redux-starter-kit'
+import { createReducer } from 'redux-starter-kit';
 
-import { createPlaylist } from 'redux/actions'
+import { createPlaylist } from 'redux/actions';
 
-const initialState = {}
+const initialState = {};
 
 const playlistsReducer = createReducer(initialState, {
-  'API_CREATE_PLAYLIST_SUCCESS': (state, action) => {
-    console.log('API_CREATE_PLAYLIST_SUCCESS action:', action)
+  API_CREATE_PLAYLIST_SUCCESS: (state, action) => {
     return {
-      ...state, 
-    }
-  },
-})
+      ...state
+    };
+  }
+});
 
-export default playlistsReducer
+export default playlistsReducer;

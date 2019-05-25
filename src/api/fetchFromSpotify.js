@@ -1,161 +1,135 @@
-export const fetchFromSpotify = (accessToken, urlPart, callback) => (
+export const fetchFromSpotify = (accessToken, urlPart, callback) =>
   fetch(`https://api.spotify.com/v1/${urlPart}`, {
-    headers: {'Authorization': 'Bearer ' + accessToken}
+    headers: { Authorization: 'Bearer ' + accessToken }
   })
     .then(response => response.json())
     .then(response => {
-      console.log(`${urlPart} response`, response);
-      return response
+      return response;
     })
-    .then(callback)
-)
+    .then(callback);
 
-export const postToSpotify = (accessToken, urlPart, callback, data) => (
+export const postToSpotify = (accessToken, urlPart, callback, data) =>
   fetch(`https://api.spotify.com/v1/${urlPart}`, {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + accessToken,
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   })
     .then(response => response.json())
     .then(response => {
-      console.log(`${urlPart} response`, response);
-      return response
+      return response;
     })
-    .then(callback)
-)
+    .then(callback);
 
-const defaultCallback = () => {}
+const defaultCallback = () => {};
 
 export const asyncPostToSpotify = async (
-  accessToken, 
-  urlPart, 
+  accessToken,
+  urlPart,
   callback = defaultCallback,
-  data,
+  data
 ) => {
   try {
     let result = await fetch(`https://api.spotify.com/v1/${urlPart}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data),
-    })
-    result = await result.json()
-    console.log(`POST ${urlPart} result`, result);    
-    
-    callback(result)
+      body: JSON.stringify(data)
+    });
+    result = await result.json();
 
-    return result
+    callback(result);
+
+    return result;
   } catch (error) {
-    console.log('ASYNC POST REQUEST ERROR:', error)
+    console.log('ASYNC POST REQUEST ERROR:', error);
   }
-}
+};
 
 export const asyncFetchFromSpotify = async (
-  accessToken, 
-  urlPart, 
+  accessToken,
+  urlPart,
   callback = defaultCallback
 ) => {
   try {
-    let result = await fetch(`https://api.spotify.com/v1/${urlPart}`, { 
-      headers: { 'Authorization': `Bearer ${accessToken}` } 
-    })
-    result = await result.json()
-    console.log(`FETCH ${urlPart} result`, result);    
-    
-    callback(result)
+    let result = await fetch(`https://api.spotify.com/v1/${urlPart}`, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    result = await result.json();
 
-    return result
+    callback(result);
+
+    return result;
   } catch (error) {
-    console.log('ASYNC FETCH REQUEST ERROR:', error)
+    console.log('ASYNC FETCH REQUEST ERROR:', error);
   }
-}
+};
 
-const buildUrl = (urlPart) => {
-  console.log('urlPart buildUrl:', urlPart)
-  return `https://api.spotify.com/v1/${urlPart}`
-}
+const buildUrl = urlPart => {
+  return `https://api.spotify.com/v1/${urlPart}`;
+};
 
-const buildFetchHeader = (accessToken) => {
+const buildFetchHeader = accessToken => {
   return {
-    headers: { 'Authorization': `Bearer ${accessToken}` } 
-  }
-}
+    headers: { Authorization: `Bearer ${accessToken}` }
+  };
+};
 
 const buildPostHeader = (accessToken, data) => {
-  console.log('data:', data)
-  console.log('JSON.stringify(data):', JSON.stringify(data))
   return {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data),
-  }
-}
+    body: JSON.stringify(data)
+  };
+};
 
 const call = async (url, header, callback) => {
-  console.log('call url:', url)
-  console.log('call header:', header)
-  console.log('call callback:', callback)
   try {
-    let result = await fetch(url, header)
-    result = await result.json()
-    console.log(`FETCH in _call result`, result);    
-    
-    callback(result)
+    let result = await fetch(url, header);
+    result = await result.json();
 
-    return result
+    callback(result);
+
+    return result;
   } catch (error) {
-    console.log('ASYNC FETCH REQUEST ERROR:', error)
+    console.log('ASYNC FETCH REQUEST ERROR:', error);
   }
-}
+};
 
-export const get = async (
-  accessToken, 
-  urlPart, 
-  callback = defaultCallback
-) => {
-  console.log('inside get:', urlPart)
-  console.log('Api.buildUrl:', buildUrl)
-  const url = buildUrl(urlPart)
-  console.log('url:', url)
-  const header = buildFetchHeader(accessToken)
+export const get = async (accessToken, urlPart, callback = defaultCallback) => {
+  const url = buildUrl(urlPart);
+  const header = buildFetchHeader(accessToken);
 
-  console.log('callback:', callback)
-  const callResult = call(url, header, callback)
-  console.log('callResult:', callResult)
+  const callResult = call(url, header, callback);
 
-  return callResult
-}
+  return callResult;
+};
 
 export const post = async (
-  accessToken, 
-  urlPart, 
+  accessToken,
+  urlPart,
   data,
-  callback = defaultCallback,
+  callback = defaultCallback
 ) => {
-  console.log('inside post:', urlPart)
-  console.log('Api.buildUrl:', buildUrl)
-  const url = buildUrl(urlPart)
-  console.log('url:', url)
-  const header = buildPostHeader(accessToken, data)
+  const url = buildUrl(urlPart);
+  const header = buildPostHeader(accessToken, data);
 
-  const callResult = call(url, header, callback)
-  console.log('callResult:', callResult)
+  const callResult = call(url, header, callback);
 
-  return callResult
-}
+  return callResult;
+};
 
 export default {
   get,
-  post,
-}
+  post
+};
 
 // NAMESPACE MODULES LIKE BELOW:
 
@@ -170,8 +144,6 @@ export default {
 
 // let h = new Headline.Headline();
 // let hp = new Headline.Primary();
-
-
 
 // Example calls
 // fetch: Api.fetch()

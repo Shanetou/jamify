@@ -1,32 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import { Button, Well, Table } from 'react-bootstrap';
 
-const getArtistsNames = (artists) => (
-  artists.map((artist) => artist.name).join(', ')
-)
+const getArtistsNames = artists =>
+  artists.map(artist => artist.name).join(', ');
 
-export const TrackRow = (props) => {
-  const { track } = props
-  const { artists, name, album: { name: albumName } } = track
-  const artistNames = getArtistsNames(artists)
+export const TrackRow = props => {
+  const { track } = props;
+  const {
+    artists,
+    name,
+    album: { name: albumName }
+  } = track;
+  const artistNames = getArtistsNames(artists);
 
   return (
     <tr>
       <td>{name}</td>
       <td>{artistNames}</td>
-      <td className='hidden-xs'>{albumName}</td>
+      <td className="hidden-xs">{albumName}</td>
     </tr>
-  )
-}
+  );
+};
 
 export default class RecTracks extends Component {
   render() {
-    const { tracks } = this.props
-    console.log('tracks in RecTracks:', tracks)
+    const { tracks } = this.props;
 
     return (
-      <Well className='rec-tracks'>
+      <Well className="rec-tracks">
         {/* <Button className='pull-right' onClick={handleAddClick}>
           + Add to Spotify
         </Button> */}
@@ -35,17 +37,17 @@ export default class RecTracks extends Component {
             <tr>
               <th>Title</th>
               <th>Artist</th>
-              <th className='hidden-xs'>Album</th>
+              <th className="hidden-xs">Album</th>
             </tr>
           </thead>
 
           <tbody>
-            {tracks.map((track) => (
+            {tracks.map(track => (
               <TrackRow key={track.id} track={track} />
             ))}
           </tbody>
         </Table>
       </Well>
-    )
+    );
   }
 }

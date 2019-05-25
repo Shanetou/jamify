@@ -1,23 +1,47 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
+import { capitalize } from '../utils';
+import { selectGenre } from '../redux/actions';
+
+const buildSelectOptions = genres => {
+  return genres.map(genre => {
+    return {
+      value: genre,
+      label: capitalize(genre)
+    };
+  });
+};
 
 const GenreSearch = props => {
-  const [selectedOption, setSelectedOption] = useState();
+  const { options, selectedOptions, selectGenre } = props;
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
-
-  const handleChange = selectedOption => {
-    setSelectedOption(selectedOption);
-    console.log(`Option selected:`, selectedOption);
+  const handleChange = selectState => {
+    selectGenre(selectState);
   };
 
   return (
-    <Select value={selectedOption} onChange={handleChange} options={options} />
+    <Select
+      isMulti
+      value={selectedOptions}
+      onChange={handleChange}
+      options={options}
+    />
   );
 };
 
-export default GenreSearch;
+const mapStateToProps = state => {
+  return {
+    options: buildSelectOptions(state.genres.recommendationGenres),
+    selectedOptions: state.genres.selected
+  };
+};
+
+const mapDispatchToProps = {
+  selectGenre
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GenreSearch);

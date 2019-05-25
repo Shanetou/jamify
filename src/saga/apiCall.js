@@ -1,69 +1,68 @@
-import { all, take, takeEvery, put, call, fork, select } from 'redux-saga/effects'
+import {
+  all,
+  take,
+  takeEvery,
+  put,
+  call,
+  fork,
+  select
+} from 'redux-saga/effects';
 // import { asyncFetchFromSpotify } from 'api/fetchFromSpotify'
-import API from 'api/fetchFromSpotify'
-import { accessTokenSelector } from 'selectors'
+import API from 'api/fetchFromSpotify';
+import { accessTokenSelector } from 'selectors';
 
 export const apiPhases = {
   STARTED: 'STARTED',
   SUCCESS: 'SUCCESS',
-  ERROR:   'ERROR',
-  COMPLETED: 'COMPLETED',
-}
+  ERROR: 'ERROR',
+  COMPLETED: 'COMPLETED'
+};
 
-export const actionType = (action, phase) => (
-  `API_${action.type}_${phase}`
-)
+export const actionType = (action, phase) => `API_${action.type}_${phase}`;
 
 const apiAction = (action, phase) => ({
   type: actionType(action, phase),
-  payload: action.payload,
-})
+  payload: action.payload
+});
 
-const startedAction = (action) => (
-  apiAction(action, apiPhases.STARTED)  
-)
+const startedAction = action => apiAction(action, apiPhases.STARTED);
 
 const successAction = (action, response) => ({
-  ...apiAction(action, apiPhases.SUCCESS),  
-  response,
-})
+  ...apiAction(action, apiPhases.SUCCESS),
+  response
+});
 
 const errorAction = (action, error) => ({
-  ...apiAction(action, apiPhases.ERROR),  
-  errors: [error.message],
-})
+  ...apiAction(action, apiPhases.ERROR),
+  errors: [error.message]
+});
 
-const completedAction = (action) => (
-  apiAction(action, apiPhases.COMPLETED)  
-)
+const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
-export const apiCall = function* (action, urlPart, requestType = 'GET') {
-  console.log('action:', action)
-  const accessToken = yield select(accessTokenSelector)
+export const apiCall = function*(action, urlPart, requestType = 'GET') {
+  const accessToken = yield select(accessTokenSelector);
 
   if (!accessToken) {
-    console.log('NO TOKEN IN API CALL:', action.type)
-    return // Handle 401 here
+    console.log('NO TOKEN IN API CALL:', action.type);
+    return; // Handle 401 here
   }
 
   try {
-    yield put(startedAction(action))
+    yield put(startedAction(action));
 
-    let result
+    let result;
     if (requestType === 'GET') {
-      result = yield call(API.get, accessToken, urlPart)
+      result = yield call(API.get, accessToken, urlPart);
     } else if (requestType === 'POST') {
-      result = yield call(API.post, accessToken, urlPart, action.payload.data)
+      result = yield call(API.post, accessToken, urlPart, action.payload.data);
     }
 
-    console.log('result:', result)
-    console.log('successAction(action, result):', successAction(action, result))
-    yield put(successAction(action, result))
+    yield put(successAction(action, result));
   } catch (error) {
-    yield put(errorAction(action, error))
+    yield put(errorAction(action, error));
   } finally {
-    yield put(completedAction(action))
+    yield put(completedAction(action));
   }
-}
+};
 
-export default apiCall
+export default apiCall;

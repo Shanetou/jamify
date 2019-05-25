@@ -5,11 +5,11 @@ import { withStyles } from '@material-ui/core';
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   textField: {
-    width: 400,
-  },
+    width: 400
+  }
 });
 
 const ArtistSearch = props => {
@@ -23,21 +23,20 @@ const ArtistSearch = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    console.log('Submitted: ', searchText);
     setSearchText('');
   };
 
   return (
     <form
       noValidate
-      autoComplete='off'
+      autoComplete="off"
       onSubmit={handleSubmit}
       className={classes.container}
     >
       <TextField
-        id='artist-search'
-        label='Search by Artist'
-        margin='normal'
+        id="artist-search"
+        label="Search by Artist"
+        margin="normal"
         className={classes.textField}
         value={searchText}
         onChange={handleChange}

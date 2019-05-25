@@ -1,13 +1,17 @@
-export const chunk = (inputArray=[], chunkLength=1) => (
+export const chunk = (inputArray = [], chunkLength = 1) =>
   inputArray.reduce((resultArray, item, index) => {
-    const chunkIndex = Math.floor(index/chunkLength)
+    const chunkIndex = Math.floor(index / chunkLength);
 
-    if(!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = []
+    if (!resultArray[chunkIndex]) {
+      resultArray[chunkIndex] = [];
     }
 
-    resultArray[chunkIndex].push(item)
+    resultArray[chunkIndex].push(item);
 
-    return resultArray
-  }, [])
-)
+    return resultArray;
+  }, []);
+
+export const capitalize = str => {
+  if (typeof str !== 'string') return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

@@ -1,22 +1,26 @@
-import { all, call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery
+} from 'redux-saga/effects';
 import { createPlaylist } from 'redux/actions';
-import { createPlaylistPath } from 'api/paths'
+import { createPlaylistPath } from 'api/paths';
 import apiCall from './apiCall';
 
 function* createPlaylistTask(action) {
-  const { payload } = action
-  console.log('payload:', payload)
-  const path = createPlaylistPath(payload)
+  const { payload } = action;
+  const path = createPlaylistPath(payload);
 
-  yield fork(apiCall, action, path, 'POST')
+  yield fork(apiCall, action, path, 'POST');
 }
 
 export default function* tracks() {
-  yield [
-    takeEvery(createPlaylist, createPlaylistTask)
-  ]
+  yield [takeEvery(createPlaylist, createPlaylistTask)];
 }
-
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'
