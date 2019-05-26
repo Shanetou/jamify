@@ -4,13 +4,16 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/styles';
 
-import Chip from './Chip';
+import ArtistChip from './ArtistChip';
 
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    // textAlign: 'center',
     color: theme.palette.text.secondary
+  },
+  chip: {
+    margin: theme.spacing(0, 0.5)
   }
 }));
 
@@ -29,10 +32,12 @@ const Options = props => {
           {artistsOptions.map(artist => {
             console.log('artist.name:', artist.name);
             return (
-              <Chip
+              <ArtistChip
+                avatar={null}
                 key={artist.id}
-                label={artist.name}
+                artist={artist}
                 handleDelete={handleDelete}
+                className={classes.chip}
               />
             );
           })}

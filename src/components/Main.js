@@ -38,12 +38,7 @@ const Main = props => {
       </Grid>
 
       <div className={classes.root}>
-        <Grid
-          container
-          // className={classes.demo}
-          // justify='center'
-          spacing={6}
-        >
+        <Grid container spacing={6}>
           <Options />
           <Grid item xs={8}>
             <Paper className={classes.paper} sm={6}>
