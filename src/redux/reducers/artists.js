@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-starter-kit';
 
-import { selectArtist } from 'redux/actions';
+import { selectArtist, searchArtist } from 'redux/actions';
 
 import { MAX_SELECTABLE_ARTISTS } from '../../constants';
 
@@ -20,7 +20,8 @@ const addOrRemoveArtist = (prevSelected, id) => {
 
 const initialState = {
   artists: [],
-  selected: []
+  selected: [],
+  searchResults: []
 };
 
 const artistReducer = createReducer(initialState, {
@@ -31,6 +32,21 @@ const artistReducer = createReducer(initialState, {
     return {
       ...state,
       selected: addOrRemoveArtist(selected, payload)
+    };
+  },
+  [searchArtist]: (state, action) => {
+    return {
+      ...state
+    };
+  },
+  API_SEARCH_ARTIST_SUCCESS: (state, action) => {
+    return {
+      ...state,
+      // searchResults: {
+      //   ...state.searchResults,
+      //   ...action.response.artists.items
+      // }
+      searchResults: action.response.artists.items
     };
   },
   API_FETCH_TOP_ARTISTS_SUCCESS: (state, action) => {

@@ -1,5 +1,7 @@
+import { BASE_SPOTIFY_URL } from './paths';
+
 export const fetchFromSpotify = (accessToken, urlPart, callback) =>
-  fetch(`https://api.spotify.com/v1/${urlPart}`, {
+  fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
     headers: { Authorization: 'Bearer ' + accessToken }
   })
     .then(response => response.json())
@@ -9,7 +11,7 @@ export const fetchFromSpotify = (accessToken, urlPart, callback) =>
     .then(callback);
 
 export const postToSpotify = (accessToken, urlPart, callback, data) =>
-  fetch(`https://api.spotify.com/v1/${urlPart}`, {
+  fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
     method: 'POST',
     headers: {
       Authorization: 'Bearer ' + accessToken,
@@ -32,7 +34,7 @@ export const asyncPostToSpotify = async (
   data
 ) => {
   try {
-    let result = await fetch(`https://api.spotify.com/v1/${urlPart}`, {
+    let result = await fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -56,7 +58,7 @@ export const asyncFetchFromSpotify = async (
   callback = defaultCallback
 ) => {
   try {
-    let result = await fetch(`https://api.spotify.com/v1/${urlPart}`, {
+    let result = await fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
     result = await result.json();
@@ -70,7 +72,7 @@ export const asyncFetchFromSpotify = async (
 };
 
 const buildUrl = urlPart => {
-  return `https://api.spotify.com/v1/${urlPart}`;
+  return `${BASE_SPOTIFY_URL}${urlPart}`;
 };
 
 const buildFetchHeader = accessToken => {

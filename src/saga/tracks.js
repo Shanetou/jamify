@@ -10,9 +10,23 @@ function* fetchRecommendedTracksTask(action) {
   yield fork(apiCall, action, path);
 }
 
-export default function* tracks() {
-  yield all([takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask)]);
+export function* watchFetchRecommendedTracks() {
+  console.log('watchFetchRecommendedTracks:');
+  yield takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask);
 }
+
+export default function* tracks() {
+  yield all([watchFetchRecommendedTracks]);
+}
+
+// export function* incrementAsync() {
+//   yield delay(1000)
+//   yield put({ type: 'INCREMENT' })
+// }
+
+// export function* watchIncrementAsync() {
+//   yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+// }
 
 // import fetch from 'isomorphic-fetch'
 // import * as actions from '../actions'

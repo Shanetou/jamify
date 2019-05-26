@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
+import { connect } from 'react-redux';
+
+import { searchArtist } from '../redux/actions';
 
 const styles = theme => ({
   container: {
@@ -13,11 +16,14 @@ const styles = theme => ({
 });
 
 const ArtistSearch = props => {
-  const { classes } = props;
+  const { classes, searchArtist } = props;
+  console.log('searchArtist:', searchArtist);
   const [searchText, setSearchText] = useState('');
 
   const handleChange = event => {
+    console.log('handleChange:', event);
     setSearchText(event.target.value);
+    searchArtist(event.target.value);
   };
 
   const handleSubmit = event => {
@@ -45,4 +51,13 @@ const ArtistSearch = props => {
   );
 };
 
-export default withStyles(styles)(ArtistSearch);
+const mapDispatchToProps = {
+  searchArtist
+};
+
+const ArtistSearchConnected = connect(
+  null,
+  mapDispatchToProps
+)(ArtistSearch);
+
+export default withStyles(styles)(ArtistSearchConnected);
