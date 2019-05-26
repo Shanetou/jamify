@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
+
+import { makeStyles } from '@material-ui/styles';
+import TextField from '@material-ui/core/TextField';
 
 import { searchArtist } from '../redux/actions';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -13,15 +14,14 @@ const styles = theme => ({
   textField: {
     width: 400
   }
-});
+}));
 
 const ArtistSearch = props => {
-  const { classes, searchArtist } = props;
-  console.log('searchArtist:', searchArtist);
+  const { searchArtist } = props;
+  const classes = useStyles();
   const [searchText, setSearchText] = useState('');
 
   const handleChange = event => {
-    console.log('handleChange:', event);
     setSearchText(event.target.value);
     searchArtist(event.target.value);
   };
@@ -55,9 +55,7 @@ const mapDispatchToProps = {
   searchArtist
 };
 
-const ArtistSearchConnected = connect(
+export default connect(
   null,
   mapDispatchToProps
 )(ArtistSearch);
-
-export default withStyles(styles)(ArtistSearchConnected);

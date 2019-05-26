@@ -1,18 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import { Provider } from "react-redux";
-import store from "./store";
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme } from '@material-ui/core/styles';
 
-import App from "./components/App";
+import { Provider } from 'react-redux';
+import store from './store';
 
-const rootElement = document.getElementById("root");
+import App from './components/App';
+
+const rootElement = document.getElementById('root');
+
+const theme = createMuiTheme({});
 
 ReactDOM.render(
   <Provider store={store}>
-    <CssBaseline />
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
   </Provider>,
   rootElement
 );

@@ -1,32 +1,34 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 import ArtistSearch from './ArtistSearch';
 import GenreSearch from './GenreSearch';
 import Results from './Results';
+import Options from './Options';
 import Attributes from './Attributes';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   control: {
-    padding: theme.spacing.unit * 2,
-  },
-});
+    padding: theme.spacing(2)
+  }
+}));
 
 const Main = props => {
-  const { classes } = props;
+  const classes = useStyles();
+
   return (
     <>
-      <Grid container spacing={24}>
+      <Grid container spacing={6}>
         <Grid item xs={6}>
           <ArtistSearch />
         </Grid>
@@ -40,8 +42,9 @@ const Main = props => {
           container
           // className={classes.demo}
           // justify='center'
-          spacing={24}
+          spacing={6}
         >
+          <Options />
           <Grid item xs={8}>
             <Paper className={classes.paper} sm={6}>
               <Results />
@@ -58,4 +61,4 @@ const Main = props => {
   );
 };
 
-export default withStyles(styles)(Main);
+export default Main;

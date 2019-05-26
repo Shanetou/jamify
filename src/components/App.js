@@ -1,25 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import Typography from '@material-ui/core/Typography';
 
 import { Login } from './Login';
 import Main from './Main';
 
 import { accessTokenSelector } from 'selectors';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  container: {
-    padding: theme.spacing.unit * 4
-  }
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      flexGrow: 1
+    },
+    container: {
+      padding: theme.spacing(4)
+    }
+  };
 });
 
 const App = props => {
-  const { classes } = props;
   const { accessToken } = props;
+
+  const classes = useStyles();
 
   return (
     <div className={classes.container}>
@@ -50,4 +54,4 @@ const mapStateToProps = (state, props) => {
 export default connect(
   mapStateToProps
   // mapDispatchToProps,
-)(withStyles(styles)(App));
+)(App);
