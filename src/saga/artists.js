@@ -1,14 +1,5 @@
-import {
-  all,
-  call,
-  cancel,
-  fork,
-  put,
-  take,
-  takeEvery
-} from 'redux-saga/effects';
+import { all, fork, takeEvery } from 'redux-saga/effects';
 import { searchArtist } from 'redux/actions';
-import { createPlaylist } from 'redux/actions';
 import { getArtistsSearchPath } from '../api/paths';
 
 import apiCall from './apiCall';

@@ -4,18 +4,17 @@ import { selectArtist, searchArtist } from 'redux/actions';
 
 import { MAX_SELECTABLE_ARTISTS } from '../../constants';
 
-const addOrRemoveArtist = (prevSelected, id) => {
-  const selectedIdx = prevSelected.indexOf(id);
-
-  if (selectedIdx > -1) {
-    return prevSelected.filter((_, i) => i !== selectedIdx);
+const addOrRemoveArtist = (curr, item) => {
+  const hasSameId = x => x.id === item.id;
+  if (curr.some(hasSameId)) {
+    return curr.filter(e => !hasSameId(e));
   }
 
-  if (prevSelected.length < MAX_SELECTABLE_ARTISTS) {
-    return [...prevSelected, id];
+  if (curr.length < MAX_SELECTABLE_ARTISTS) {
+    return [...curr, item];
   }
 
-  return prevSelected;
+  return curr;
 };
 
 const initialState = {

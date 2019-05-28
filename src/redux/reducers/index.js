@@ -4,6 +4,7 @@ import temposReducer from './tempo';
 import tracksReducer from './tracks';
 import genresReducer from './genres';
 import userReducer from './user';
+import uiReducer from './ui';
 
 const rootReducer = {
   artists: artistsReducer,
@@ -11,7 +12,8 @@ const rootReducer = {
   playlists: playlistsReducer,
   tempos: temposReducer,
   tracks: tracksReducer,
-  user: userReducer
+  user: userReducer,
+  ui: uiReducer
 };
 
 export default rootReducer;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
@@ -17,37 +17,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ArtistSearch = props => {
-  const { searchArtist } = props;
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
+  const dispatch = useDispatch();
 
   const handleChange = event => {
-    setSearchText(event.target.value);
-    searchArtist(event.target.value);
-  };
-
-  const handleSubmit = event => {
+    const {
+      target: { value }
+    } = event;
     event.preventDefault();
 
-    setSearchText('');
+    setSearchText(value);
+
+    if (value !== '') {
+      dispatch(searchArtist(value));
+    }
   };
 
   return (
-    <form
-      noValidate
+    <TextField
+      id="artist-search"
+      label="Search by Artist"
+      margin="normal"
+      className={classes.textField}
+      value={searchText}
+      onChange={handleChange}
       autoComplete="off"
-      onSubmit={handleSubmit}
-      className={classes.container}
-    >
-      <TextField
-        id="artist-search"
-        label="Search by Artist"
-        margin="normal"
-        className={classes.textField}
-        value={searchText}
-        onChange={handleChange}
-      />
-    </form>
+    />
   );
 };
 
@@ -55,7 +51,4 @@ const mapDispatchToProps = {
   searchArtist
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ArtistSearch);
+export default ArtistSearch;

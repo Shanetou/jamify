@@ -2,7 +2,6 @@ import React from 'react';
 
 import MuiChip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 const getArtistImageUrl = images => {
@@ -15,20 +14,8 @@ const useStyles = makeStyles(theme => ({}));
 
 const ArtistChip = props => {
   const { artist, handleDelete, className } = props;
-  console.log('artist:', artist);
-  let imageUrl = getArtistImageUrl(artist.images);
-
   const classes = useStyles();
-
-  const handleClick = () => {
-    alert('You clicked the Chip.');
-  };
-
-  // const label = (
-  //   <Typography>
-
-  //   </Typography>
-  // )
+  let imageUrl = getArtistImageUrl(artist.images);
 
   return (
     <MuiChip

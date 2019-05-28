@@ -4,10 +4,12 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/styles';
 
 import ArtistSearch from './ArtistSearch';
+import Artists from './Artists';
 import GenreSearch from './GenreSearch';
 import Results from './Results';
 import Options from './Options';
 import Attributes from './Attributes';
+import CategorySearch from './CategoryButtons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,12 +35,18 @@ const Main = props => {
           <ArtistSearch />
         </Grid>
         <Grid item xs={6}>
-          <GenreSearch />
+          {/* <GenreSearch /> */}
+          <CategorySearch />
         </Grid>
       </Grid>
 
       <div className={classes.root}>
         <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper} sm={6}>
+              <Artists />
+            </Paper>
+          </Grid>
           <Options />
           <Grid item xs={8}>
             <Paper className={classes.paper} sm={6}>
@@ -47,7 +55,7 @@ const Main = props => {
           </Grid>
           <Grid item xs={4}>
             <Paper className={classes.paper} sm={6}>
-              <Attributes />
+              {/* <Attributes /> */}
             </Paper>
           </Grid>
         </Grid>
