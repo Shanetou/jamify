@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CategoryButtons() {
+export const CategoryButtons = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { selectedCategory } = useSelector(state => {
@@ -50,10 +50,10 @@ function CategoryButtons() {
     dispatch(selectCategory(newValue));
   }
 
-  const transitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen
-  };
+  // const transitionDuration = {
+  //   enter: theme.transitions.duration.enteringScreen,
+  //   exit: theme.transitions.duration.leavingScreen
+  // };
 
   return (
     <div className={classes.root}>
@@ -74,6 +74,4 @@ function CategoryButtons() {
       </AppBar>
     </div>
   );
-}
-
-export default CategoryButtons;
+};

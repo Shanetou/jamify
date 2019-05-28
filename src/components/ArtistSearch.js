@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ArtistSearch = props => {
+export const ArtistSearch = props => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
@@ -46,9 +46,3 @@ const ArtistSearch = props => {
     />
   );
 };
-
-const mapDispatchToProps = {
-  searchArtist
-};
-
-export default ArtistSearch;

@@ -37,20 +37,7 @@ const App = props => {
 const mapStateToProps = (state, props) => {
   return {
     accessToken: accessTokenSelector(state)
-    // tracks: recommendedTracksSelector(state),
-    // selectedArtists: selectedArtistsSelector(state),
-    // selectedTempo: selectedTempoSelector(state),
-    // user: userSelector(state),
   };
 };
 
-// const mapDispatchToProps = {
-//   createPlaylist,
-//   selectArtist,
-//   fetchRecommendedTracks,
-// }
-
-export default connect(
-  mapStateToProps
-  // mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

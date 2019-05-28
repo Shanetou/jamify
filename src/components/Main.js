@@ -3,13 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/styles';
 
-import ArtistSearch from './ArtistSearch';
-import Artists from './Artists';
-import GenreSearch from './GenreSearch';
-import Results from './Results';
-import Options from './Options';
-import Attributes from './Attributes';
-import CategorySearch from './CategoryButtons';
+import { SearchOrFilter } from './SearchOrFilter';
+import { ArtistResults } from './ArtistResults';
+import { SearchResults } from './SearchResults';
+import { TrackResults } from './TrackResults';
+import { Selections } from './Selections';
+import { CategoryButtons } from './CategoryButtons';
+import { Attributes } from './Attributes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,11 +32,11 @@ const Main = props => {
     <>
       <Grid container spacing={6}>
         <Grid item xs={6}>
-          <ArtistSearch />
+          <SearchOrFilter />
         </Grid>
         <Grid item xs={6}>
           {/* <GenreSearch /> */}
-          <CategorySearch />
+          <CategoryButtons />
         </Grid>
       </Grid>
 
@@ -44,13 +44,13 @@ const Main = props => {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Paper className={classes.paper} sm={6}>
-              <Artists />
+              <SearchResults />
             </Paper>
           </Grid>
-          <Options />
+          <Selections />
           <Grid item xs={8}>
             <Paper className={classes.paper} sm={6}>
-              <Results />
+              <TrackResults />
             </Paper>
           </Grid>
           <Grid item xs={4}>

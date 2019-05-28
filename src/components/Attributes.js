@@ -38,7 +38,7 @@ class SliderField extends React.Component {
   }
 }
 
-class Attributes extends Component {
+export class Attributes extends Component {
   constructor(props) {
     super(props);
 
@@ -62,5 +62,3 @@ class Attributes extends Component {
     );
   }
 }
-
-export default Attributes;

@@ -40,7 +40,7 @@ const getArtistImageUrl = images => {
   return lastItem ? lastItem.url : '';
 };
 
-const Artists = () => {
+export const ArtistResults = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { artistsOptions } = useSelector(state => {
@@ -82,5 +82,3 @@ const Artists = () => {
     </div>
   );
 };
-
-export default Artists;
