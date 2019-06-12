@@ -2,7 +2,7 @@ import { createReducer } from 'redux-starter-kit';
 
 import { selectArtist, searchArtist } from 'redux/actions';
 
-import { MAX_SELECTABLE_ARTISTS } from '../../constants';
+import { MAX_SELECTABLE_SEEDS } from '../../constants';
 
 const addOrRemoveArtist = (curr, item) => {
   const hasSameId = x => x.id === item.id;
@@ -10,7 +10,7 @@ const addOrRemoveArtist = (curr, item) => {
     return curr.filter(e => !hasSameId(e));
   }
 
-  if (curr.length < MAX_SELECTABLE_ARTISTS) {
+  if (curr.length < MAX_SELECTABLE_SEEDS) {
     return [...curr, item];
   }
 

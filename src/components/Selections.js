@@ -48,6 +48,20 @@ export const Selections = props => {
             );
           })}
         </div>
+        <div>
+          {selected.map(artist => {
+            console.log('artist.name:', artist.name);
+            return (
+              <ArtistChip
+                avatar={null}
+                key={artist.id}
+                artist={artist}
+                handleDelete={handleDelete(artist)}
+                className={classes.chip}
+              />
+            );
+          })}
+        </div>
       </Paper>
     </Grid>
   );

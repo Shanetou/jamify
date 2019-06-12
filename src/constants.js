@@ -1,6 +1,6 @@
 export const TARGET_ENERGY = '1.0';
 export const TARGET_DANCEABILITY = '1.0';
-export const MAX_SELECTABLE_ARTISTS = 5;
+export const MAX_SELECTABLE_SEEDS = 5;
 // export const CATEGORIES = {
 //   ARTIST: "Artist",
 //   GENRE: "Genre",

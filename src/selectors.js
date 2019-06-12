@@ -6,4 +6,4 @@ export const categorySelector = state => state.ui.category;
 export const selectedTempoSelector = state => state.tempos.selected;
 export const topArtistsSelector = state => state.artists.artists;
 export const userSelector = state => state.user.user;
-export const genresSelector = state => state.genres.recommendationGenres;
+export const genresSelector = state => state.genres.filteredGenres;

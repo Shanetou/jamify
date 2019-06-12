@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ArtistSearch } from './ArtistSearch';
+import { GenreFilter } from './GenreFilter';
 import { categorySelector } from '../selectors';
 import { CATEGORIES } from '../constants';
 
@@ -14,7 +15,7 @@ export const SearchOrFilter = () => {
   }
 
   if (category.value === CATEGORIES.GENRE.value) {
-    return 'Genre';
+    return <GenreFilter />;
   }
 
   if (category.value === CATEGORIES.FAV_ARTISTS.value) {
