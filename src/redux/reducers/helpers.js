@@ -1,4 +1,15 @@
 import { actionType, apiPhases } from 'saga/apiCall';
+import { MAX_SELECTABLE_SEEDS } from '../../constants';
+
+// export const addRecommendationSeed = (seedId, currentSeeds) => {
+//   console.log("currentSeeds:", currentSeeds);
+//   if (currentSeeds.length > MAX_SELECTABLE_SEEDS) {
+//     console.error("Current seeds maxed out: ", currentSeeds);
+//     // Throw error here
+//   } else {
+//     return [...currentSeeds, seedId];
+//   }
+// };
 
 // export const actionType = (entity, phase) => (
 //   `API_FETCH_${entity}_${phase}`

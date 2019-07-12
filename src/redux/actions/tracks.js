@@ -1,3 +1,3 @@
-import { createAction } from 'redux-starter-kit'
+import { createAction } from 'redux-starter-kit';
 
-export const fetchRecommendedTracks = createAction('FETCH_RECOMMENDED_TRACKS')
+export const fetchRecommendedTracks = createAction('FETCH_RECOMMENDED_TRACKS');

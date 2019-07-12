@@ -5,7 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/styles';
 
 import ArtistChip from './ArtistChip';
-import { selectArtist } from '../redux/actions';
+import { GenreChip } from './GenreChip';
+import { selectArtist, selectGenre } from '../redux/actions';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,42 +22,47 @@ export const Selections = props => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const { selected } = useSelector(state => {
+  const { artists, genres } = useSelector(state => {
     return {
-      selected: state.artists.selected
+      artists: state.artists.selected,
+      genres: state.genres.selected
     };
   });
 
-  const handleDelete = artist => () => {
+  const handleDeleteArtist = artist => () => {
     dispatch(selectArtist(artist));
+  };
+
+  const handleDeleteGenre = genre => () => {
+    dispatch(selectGenre(genre));
   };
 
   return (
     <Grid item xs={12}>
       <Paper className={classes.paper} sm={6}>
         <div>
-          {selected.map(artist => {
+          {artists.map(artist => {
             console.log('artist.name:', artist.name);
             return (
               <ArtistChip
                 avatar={null}
                 key={artist.id}
                 artist={artist}
-                handleDelete={handleDelete(artist)}
+                handleDelete={handleDeleteArtist(artist)}
                 className={classes.chip}
               />
             );
           })}
         </div>
         <div>
-          {selected.map(artist => {
-            console.log('artist.name:', artist.name);
+          {genres.map(genre => {
+            console.log('genre.name:', genre.name);
             return (
-              <ArtistChip
+              <GenreChip
                 avatar={null}
-                key={artist.id}
-                artist={artist}
-                handleDelete={handleDelete(artist)}
+                key={genre}
+                genre={genre}
+                handleDelete={handleDeleteGenre(genre)}
                 className={classes.chip}
               />
             );
