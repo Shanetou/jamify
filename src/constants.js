@@ -6,6 +6,12 @@ export const MAX_SELECTABLE_SEEDS = 5;
 //   GENRE: "Genre",
 //   FAV_ARTISTS: "Favorite Artists"
 // };
+
+export const SEED_TYPE = {
+  artist: 'ARTIST',
+  genre: 'GENRE'
+};
+
 export const CATEGORIES = {
   ARTIST: { id: 0, name: 'Artist', value: 'ARTIST' },
   GENRE: { id: 1, name: 'Genre', value: 'GENRE' },

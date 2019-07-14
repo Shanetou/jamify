@@ -19,8 +19,8 @@ export const GenreChip = props => {
 
   return (
     <MuiChip
-      avatar={<Avatar alt={genre} src={''} />}
-      label={genre}
+      avatar={<Avatar alt={genre.id} src={''} />}
+      label={genre.name}
       onDelete={handleDelete}
       className={className}
       // classes={{

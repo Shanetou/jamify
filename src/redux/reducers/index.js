@@ -1,7 +1,7 @@
 import artistsReducer from './artists';
 import playlistsReducer from './playlists';
 import temposReducer from './tempo';
-import tracksReducer from './tracks';
+import recommendationsReducer from './recommendations';
 import genresReducer from './genres';
 import userReducer from './user';
 import uiReducer from './ui';
@@ -11,7 +11,7 @@ const rootReducer = {
   genres: genresReducer,
   playlists: playlistsReducer,
   tempos: temposReducer,
-  tracks: tracksReducer,
+  recommendations: recommendationsReducer,
   user: userReducer,
   ui: uiReducer
 };

@@ -55,9 +55,9 @@ export const GenreResults = () => {
         spacing={16}
       >
         {genres.map(genre => (
-          <GridListTile key={genre} onClick={handleItemClick(genre)}>
+          <GridListTile key={genre.name} onClick={handleItemClick(genre)}>
             <GridListTileBar
-              title={genre}
+              title={genre.name}
               className={classes.pointer}
               classes={{
                 root: classes.titleBar,

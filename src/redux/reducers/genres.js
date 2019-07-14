@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-starter-kit';
 import { filterGenres } from '../actions';
 
-import { MAX_SELECTABLE_SEEDS } from '../../constants';
+import { MAX_SELECTABLE_SEEDS, SEED_TYPE } from '../../constants';
 
 const initialState = {
   recommendationGenres: [],
@@ -11,12 +11,12 @@ const initialState = {
 
 // TODO: Implement fuzzy search
 const filterGenresByText = (allGenres, filterText) => {
-  const normalizedFilterText = filterText.toLowerCase();
   if (filterText === '') {
     return allGenres;
   }
 
-  return allGenres.filter(genre => genre.includes(normalizedFilterText));
+  const normalizedFilterText = filterText.toLowerCase();
+  return allGenres.filter(genre => genre.name.includes(normalizedFilterText));
 };
 
 const addOrRemoveGenre = (prevSelected, newItem) => {
@@ -34,10 +34,17 @@ const addOrRemoveGenre = (prevSelected, newItem) => {
 
 const genresReducer = createReducer(initialState, {
   API_FETCH_RECOMMENDATION_GENRES_SUCCESS: (state, action) => {
+    let genres = action.response.genres;
+    let normalizedGenres = genres.map(genre => ({
+      id: genre,
+      name: genre,
+      seedType: SEED_TYPE.genre
+    }));
+
     return {
       ...state,
-      filteredGenres: action.response.genres,
-      recommendationGenres: action.response.genres
+      filteredGenres: normalizedGenres,
+      recommendationGenres: normalizedGenres
     };
   },
   FILTER_GENRES: (state, action) => {

@@ -60,7 +60,7 @@ export const Selections = props => {
             return (
               <GenreChip
                 avatar={null}
-                key={genre}
+                key={genre.name}
                 genre={genre}
                 handleDelete={handleDeleteGenre(genre)}
                 className={classes.chip}

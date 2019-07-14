@@ -1,11 +1,16 @@
 import { all } from 'redux-saga/effects';
 import startupSaga from './startup';
-import tracksSaga from './tracks';
+import recommendationsSaga from './recommendations';
 import playlistsSaga from './playlists';
 import artistsSaga from './artists';
 
 export default function* root() {
-  yield all([startupSaga(), tracksSaga(), playlistsSaga(), artistsSaga()]);
+  yield all([
+    startupSaga(),
+    recommendationsSaga(),
+    playlistsSaga(),
+    artistsSaga()
+  ]);
   // yield fork(startup)
   // yield fork(nextRedditChange)
   // yield fork(invalidateReddit)
