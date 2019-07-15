@@ -6,7 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 
 import ArtistChip from './ArtistChip';
 import { GenreChip } from './GenreChip';
-import { selectArtist, selectGenre } from '../redux/actions';
+import { selectRecommendationSeed } from '../redux/actions';
+import { selectedArtistsSelector, selectedGenresSelector } from '../selectors';
+import { SEED_TYPES } from '../constants';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,50 +24,47 @@ export const Selections = props => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const { artists, genres } = useSelector(state => {
+  const { selectedSeeds } = useSelector(state => {
     return {
-      artists: state.artists.selected,
-      genres: state.genres.selected
+      selectedSeeds: state.recommendations.recommendationSeeds
     };
   });
 
-  const handleDeleteArtist = artist => () => {
-    dispatch(selectArtist(artist));
-  };
-
-  const handleDeleteGenre = genre => () => {
-    dispatch(selectGenre(genre));
+  const removeChip = item => () => {
+    dispatch(selectRecommendationSeed(item));
   };
 
   return (
     <Grid item xs={12}>
       <Paper className={classes.paper} sm={6}>
         <div>
-          {artists.map(artist => {
-            console.log('artist.name:', artist.name);
-            return (
-              <ArtistChip
-                avatar={null}
-                key={artist.id}
-                artist={artist}
-                handleDelete={handleDeleteArtist(artist)}
-                className={classes.chip}
-              />
-            );
-          })}
-        </div>
-        <div>
-          {genres.map(genre => {
-            console.log('genre.name:', genre.name);
-            return (
-              <GenreChip
-                avatar={null}
-                key={genre.name}
-                genre={genre}
-                handleDelete={handleDeleteGenre(genre)}
-                className={classes.chip}
-              />
-            );
+          {selectedSeeds.map(seed => {
+            let isArtist = seed.seedType === SEED_TYPES.artist;
+            let isGenre = seed.seedType === SEED_TYPES.genre;
+
+            if (isArtist) {
+              return (
+                <ArtistChip
+                  avatar={null}
+                  key={seed.id}
+                  artist={seed}
+                  handleDelete={removeChip(seed)}
+                  className={classes.chip}
+                />
+              );
+            } else if (isGenre) {
+              return (
+                <GenreChip
+                  avatar={null}
+                  key={seed.name}
+                  genre={seed}
+                  handleDelete={removeChip(seed)}
+                  className={classes.chip}
+                />
+              );
+            } else {
+              throw new Error('Selected seed item of unknown type');
+            }
           })}
         </div>
       </Paper>

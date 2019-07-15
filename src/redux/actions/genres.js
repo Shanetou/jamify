@@ -5,5 +5,3 @@ export const fetchRecommendationGenres = createAction(
 );
 
 export const filterGenres = createAction('FILTER_GENRES');
-
-export const selectGenre = createAction('SELECT_GENRE');

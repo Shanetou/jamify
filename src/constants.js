@@ -7,7 +7,7 @@ export const MAX_SELECTABLE_SEEDS = 5;
 //   FAV_ARTISTS: "Favorite Artists"
 // };
 
-export const SEED_TYPE = {
+export const SEED_TYPES = {
   artist: 'ARTIST',
   genre: 'GENRE'
 };

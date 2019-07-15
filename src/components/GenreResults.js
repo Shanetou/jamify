@@ -6,7 +6,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
-import { selectGenre } from '../redux/actions';
+import { selectRecommendationSeed } from '../redux/actions';
 import { genresSelector } from '../selectors';
 import { capitalize } from '../utils';
 
@@ -43,7 +43,7 @@ export const GenreResults = () => {
   const genres = useSelector(genresSelector);
 
   const handleItemClick = genre => () => {
-    dispatch(selectGenre(genre));
+    dispatch(selectRecommendationSeed(genre));
   };
 
   return (

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { selectArtist } from '../redux/actions';
+import { selectRecommendationSeed } from '../redux/actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,7 +50,7 @@ export const ArtistResults = () => {
   });
 
   const handleItemClick = artist => () => {
-    dispatch(selectArtist(artist));
+    dispatch(selectRecommendationSeed(artist));
   };
 
   return (

@@ -1,21 +1,8 @@
 import { createReducer } from 'redux-starter-kit';
 
-import { selectArtist, searchArtist } from 'redux/actions';
+import { searchArtist } from 'redux/actions';
 
-import { MAX_SELECTABLE_SEEDS } from '../../constants';
-
-const addOrRemoveArtist = (curr, item) => {
-  const hasSameId = x => x.id === item.id;
-  if (curr.some(hasSameId)) {
-    return curr.filter(e => !hasSameId(e));
-  }
-
-  if (curr.length < MAX_SELECTABLE_SEEDS) {
-    return [...curr, item];
-  }
-
-  return curr;
-};
+import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from '../../constants';
 
 const initialState = {
   artists: [],
@@ -23,38 +10,45 @@ const initialState = {
   searchResults: []
 };
 
+let normalizedArtists = artists => {
+  return artists.map(artist => ({
+    seedType: SEED_TYPES.artist,
+    ...artist
+  }));
+};
+
 const artistReducer = createReducer(initialState, {
-  [selectArtist]: (state, action) => {
-    const { selected } = state;
-    const { payload } = action;
+  // [selectArtist]: (state, action) => {
+  //   const { selected } = state;
+  //   const { payload } = action;
+
+  //   return {
+  //     ...state,
+  //     selected: addOrRemoveArtist(selected, payload)
+  //   };
+  // },
+  // [searchArtist]: (state, action) => {
+  //   return {
+  //     ...state
+  //   };
+  // },
+  API_SEARCH_ARTIST_SUCCESS: (state, action) => {
+    let artists = normalizedArtists(action.response.artists.items);
 
     return {
       ...state,
-      selected: addOrRemoveArtist(selected, payload)
-    };
-  },
-  [searchArtist]: (state, action) => {
-    return {
-      ...state
-    };
-  },
-  API_SEARCH_ARTIST_SUCCESS: (state, action) => {
-    return {
-      ...state,
-      // searchResults: {
-      //   ...state.searchResults,
-      //   ...action.response.artists.items
-      // }
-      searchResults: action.response.artists.items
+      searchResults: artists
     };
   },
   API_FETCH_TOP_ARTISTS_SUCCESS: (state, action) => {
+    let artists = normalizedArtists(action.response.items);
+
     return {
       ...state,
       // Just pulling out the items array here
       // there are lots of other attributes in the resp
       // including pagination links and total items length
-      artists: action.response.items
+      artists: artists
     };
   }
 });

@@ -1,5 +1,5 @@
 import { createReducer } from 'redux-starter-kit';
-import { selectArtist, searchArtist } from 'redux/actions';
+import { selectRecommendationSeed, searchArtist } from 'redux/actions';
 import { MAX_SELECTABLE_SEEDS } from '../../constants';
 
 // import { addRecommendationSeed } from "./helpers";
@@ -24,7 +24,7 @@ const addOrRemoveRecSeed = (curr, item) => {
 
 const recommendationsReducer = createReducer(initialState, {
   // Handle some sort of error reporting for too many seeds selected here
-  [selectArtist]: (state, action) => {
+  [selectRecommendationSeed]: (state, action) => {
     console.log('state:', state.recommendationSeeds);
     console.log('action:', action);
 
