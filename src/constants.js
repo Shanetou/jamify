@@ -1,5 +1,5 @@
-export const TARGET_ENERGY = '1.0';
-export const TARGET_DANCEABILITY = '1.0';
+export const TARGET_ENERGY = "1.0";
+export const TARGET_DANCEABILITY = "1.0";
 export const MAX_SELECTABLE_SEEDS = 5;
 // export const CATEGORIES = {
 //   ARTIST: "Artist",
@@ -8,22 +8,22 @@ export const MAX_SELECTABLE_SEEDS = 5;
 // };
 
 export const SEED_TYPES = {
-  artist: 'ARTIST',
-  genre: 'GENRE'
+  artist: "ARTIST",
+  genre: "GENRE"
 };
 
 export const CATEGORIES = {
-  ARTIST: { id: 0, name: 'Artist', value: 'ARTIST' },
-  GENRE: { id: 1, name: 'Genre', value: 'GENRE' },
-  FAV_ARTISTS: { id: 2, name: 'Favorite Artists', value: 'FAV_ARTISTS' }
+  ARTIST: { id: 0, name: "Artist", value: "ARTIST" },
+  GENRE: { id: 1, name: "Genre", value: "GENRE" },
+  FAV_ARTISTS: { id: 2, name: "Favorite Artists", value: "FAV_ARTISTS" }
 };
 
 export const TEMPO_OPTIONS = {
-  0: { id: 0, name: 'Siesta', bpm: '115' },
-  1: { id: 1, name: 'Relaxed', bpm: '130' },
-  2: { id: 2, name: 'Standard', bpm: '145' },
-  3: { id: 3, name: 'Vigorous', bpm: '165' },
-  4: { id: 4, name: 'Extreme', bpm: '180' }
+  0: { id: 0, name: "Siesta", bpm: "115" },
+  1: { id: 1, name: "Relaxed", bpm: "130" },
+  2: { id: 2, name: "Standard", bpm: "145" },
+  3: { id: 3, name: "Vigorous", bpm: "165" },
+  4: { id: 4, name: "Extreme", bpm: "180" }
 };
 
 // export const TRACK_ATTRIBUTES = {

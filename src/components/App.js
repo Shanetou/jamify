@@ -1,12 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from "@material-ui/styles";
 
-import { Login } from './Login';
-import Main from './Main';
+import { Login } from "./Login";
+import Main from "./Main";
 
-import { accessTokenSelector } from 'selectors';
+import { accessTokenSelector } from "selectors";
 
 const useStyles = makeStyles(theme => {
   return {

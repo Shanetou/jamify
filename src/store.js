@@ -1,25 +1,21 @@
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
-import createSagaMiddleware from 'redux-saga'
-import sagas from './saga'
+import { configureStore, getDefaultMiddleware } from "redux-starter-kit";
+import createSagaMiddleware from "redux-saga";
+import sagas from "./saga";
 
-import reducer from 'redux/reducers'
+import reducer from "redux/reducers";
 
-const sagaMiddleware = createSagaMiddleware(
-  // add onError to handle uncaught exceptions
-)
+const sagaMiddleware = createSagaMiddleware();
+// add onError to handle uncaught exceptions
 
-const middleware = [
-  ...getDefaultMiddleware(), 
-  sagaMiddleware,
-]
+const middleware = [...getDefaultMiddleware(), sagaMiddleware];
 
 const store = configureStore({
   reducer,
   middleware,
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.NODE_ENV !== "production"
   // preloadedState,
-})
+});
 
-sagaMiddleware.run(sagas)
+sagaMiddleware.run(sagas);
 
-export default store
+export default store;

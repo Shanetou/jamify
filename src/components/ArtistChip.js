@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import MuiChip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/styles';
+import MuiChip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import { makeStyles } from "@material-ui/styles";
 
 const getArtistImageUrl = images => {
   const lastItem = images.slice(-1).pop();
 
-  return lastItem ? lastItem.url : '';
+  return lastItem ? lastItem.url : "";
 };
 
 const useStyles = makeStyles(theme => ({}));

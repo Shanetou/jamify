@@ -1,4 +1,4 @@
-import { SEED_TYPES } from './constants';
+import { SEED_TYPES } from "./constants";
 
 export const accessTokenSelector = state => state.user.accessToken;
 export const recommendedTracksSelector = state =>

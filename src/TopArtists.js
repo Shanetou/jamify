@@ -1,19 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Grid, Row, Col, Image } from 'react-bootstrap';
+import React from "react";
+import { connect } from "react-redux";
+import { Grid, Row, Col, Image } from "react-bootstrap";
 
-import { chunk } from './utils';
-import { selectRecommendationSeed } from 'redux/actions';
-import { topArtistsSelector, selectedArtistsSelector } from 'selectors';
+import { chunk } from "./utils";
+import { selectRecommendationSeed } from "redux/actions";
+import { topArtistsSelector, selectedArtistsSelector } from "selectors";
 
 const UseArtistsAction = props => {
   const { selectedArtists, onClick } = props;
   const isDisabled = selectedArtists.length < 1;
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: "center" }}>
       <h3>
-        Select the artists that inspire your guarding.{' '}
+        Select the artists that inspire your guarding.{" "}
         <small>({selectedArtists.length}/5)</small>
       </h3>
     </div>
@@ -51,9 +51,9 @@ const ArtistListItem = props => {
   const isDisabled = selectedArtists.length >= 5 && !isSelected;
 
   let containerClasses = `artist-image-container ${
-    isSelected ? 'selected' : ''
+    isSelected ? "selected" : ""
   }`;
-  containerClasses += isDisabled ? 'disabled' : '';
+  containerClasses += isDisabled ? "disabled" : "";
 
   const handleClick = () => {
     handleArtistClick(artist.id);

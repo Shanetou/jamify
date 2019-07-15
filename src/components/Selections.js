@@ -1,15 +1,15 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/styles";
 
-import ArtistChip from './ArtistChip';
-import { GenreChip } from './GenreChip';
-import { selectRecommendationSeed } from '../redux/actions';
-import { selectedArtistsSelector, selectedGenresSelector } from '../selectors';
-import { SEED_TYPES } from '../constants';
-import { isArtistSeed, isGenreSeed } from '../redux/reducers/helpers';
+import ArtistChip from "./ArtistChip";
+import { GenreChip } from "./GenreChip";
+import { selectRecommendationSeed } from "../redux/actions";
+import { selectedArtistsSelector, selectedGenresSelector } from "../selectors";
+import { SEED_TYPES } from "../constants";
+import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -64,7 +64,7 @@ export const Selections = props => {
                 />
               );
             } else {
-              throw new Error('Selected seed item of unknown type');
+              throw new Error("Selected seed item of unknown type");
             }
           })}
         </div>

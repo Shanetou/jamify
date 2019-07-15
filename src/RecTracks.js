@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Button, Well, Table } from 'react-bootstrap';
+import { Button, Well, Table } from "react-bootstrap";
 
 const getArtistsNames = artists =>
-  artists.map(artist => artist.name).join(', ');
+  artists.map(artist => artist.name).join(", ");
 
 export const TrackRow = props => {
   const { track } = props;
