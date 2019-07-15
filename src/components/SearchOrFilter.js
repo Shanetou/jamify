@@ -8,7 +8,6 @@ import { CATEGORIES } from '../constants';
 
 export const SearchOrFilter = () => {
   const category = useSelector(categorySelector);
-  console.log('category:', category);
 
   if (category.value === CATEGORIES.ARTIST.value) {
     return <ArtistSearch />;

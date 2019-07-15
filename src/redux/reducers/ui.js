@@ -10,7 +10,6 @@ const initialState = {
 
 const uiReducer = createReducer(initialState, {
   [selectCategory]: (state, action) => {
-    console.log('action:', action);
     return {
       ...state,
       category: action.payload

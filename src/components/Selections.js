@@ -9,6 +9,7 @@ import { GenreChip } from './GenreChip';
 import { selectRecommendationSeed } from '../redux/actions';
 import { selectedArtistsSelector, selectedGenresSelector } from '../selectors';
 import { SEED_TYPES } from '../constants';
+import { isArtistSeed, isGenreSeed } from '../redux/reducers/helpers';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,8 +40,8 @@ export const Selections = props => {
       <Paper className={classes.paper} sm={6}>
         <div>
           {selectedSeeds.map(seed => {
-            let isArtist = seed.seedType === SEED_TYPES.artist;
-            let isGenre = seed.seedType === SEED_TYPES.genre;
+            let isArtist = isArtistSeed(seed);
+            let isGenre = isGenreSeed(seed);
 
             if (isArtist) {
               return (

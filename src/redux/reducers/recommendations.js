@@ -2,14 +2,12 @@ import { createReducer } from 'redux-starter-kit';
 import { selectRecommendationSeed, searchArtist } from 'redux/actions';
 import { MAX_SELECTABLE_SEEDS } from '../../constants';
 
-// import { addRecommendationSeed } from "./helpers";
-
 const initialState = {
   recommendationSeeds: [],
   recommendedTracks: []
 };
 
-const addOrRemoveRecSeed = (curr, item) => {
+const addOrRemoveRecommendationSeed = (curr, item) => {
   const isPrevSelected = x => x.id === item.id;
   if (curr.some(isPrevSelected)) {
     return curr.filter(e => !isPrevSelected(e));
@@ -25,18 +23,10 @@ const addOrRemoveRecSeed = (curr, item) => {
 const recommendationsReducer = createReducer(initialState, {
   // Handle some sort of error reporting for too many seeds selected here
   [selectRecommendationSeed]: (state, action) => {
-    console.log('state:', state.recommendationSeeds);
-    console.log('action:', action);
-
-    let newRecommendationSeeds = addOrRemoveRecSeed(
+    let newRecommendationSeeds = addOrRemoveRecommendationSeed(
       state.recommendationSeeds,
       action.payload
     );
-
-    // let newRecommendationSeeds = addRecommendationSeed(
-    //   action.payload.id,
-    //   state.recommendationSeeds
-    // );
 
     return {
       ...state,

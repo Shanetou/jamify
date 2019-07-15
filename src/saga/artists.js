@@ -1,5 +1,5 @@
-import { all, fork, takeEvery } from 'redux-saga/effects';
-import { searchArtist } from 'redux/actions';
+import { all, fork, put, takeEvery } from 'redux-saga/effects';
+import { fetchRecommendedTracks, searchArtist } from 'redux/actions';
 import { getArtistsSearchPath } from '../api/paths';
 
 import apiCall from './apiCall';
@@ -20,6 +20,6 @@ function* searchArtistTask(action) {
 }
 
 export function* watchSearchArtist() {
-  console.log('watchSearchArtist:');
   yield takeEvery(searchArtist, searchArtistTask);
+  console.log('initialized: watchSearchArtist  saga');
 }

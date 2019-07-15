@@ -32,7 +32,7 @@ const errorAction = (action, error) => ({
 const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
 export const apiCall = function*(action, urlPart, requestType = 'GET') {
-  console.log('action:', action);
+  console.log('apiCall action:', action);
   const accessToken = yield select(accessTokenSelector);
 
   if (!accessToken) {
