@@ -1,6 +1,6 @@
-import { createReducer } from 'redux-starter-kit';
-import { selectRecommendationSeed, searchArtist } from 'redux/actions';
-import { MAX_SELECTABLE_SEEDS } from '../../constants';
+import { createReducer } from "redux-starter-kit";
+import { selectRecommendationSeed } from "redux/actions";
+import { MAX_SELECTABLE_SEEDS } from "../../constants";
 
 const initialState = {
   recommendationSeeds: [],

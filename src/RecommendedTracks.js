@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Button, Well, Table } from "react-bootstrap";
+import { Well, Table } from "react-bootstrap";
 
 const getArtistsNames = artists =>
   artists.map(artist => artist.name).join(", ");
@@ -23,7 +23,7 @@ export const TrackRow = props => {
   );
 };
 
-export default class RecTracks extends Component {
+export default class RecommendedTracks extends Component {
   render() {
     const { tracks } = this.props;
 

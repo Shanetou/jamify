@@ -7,8 +7,8 @@ import { makeStyles } from "@material-ui/styles";
 import ArtistChip from "./ArtistChip";
 import { GenreChip } from "./GenreChip";
 import { selectRecommendationSeed } from "../redux/actions";
-import { selectedArtistsSelector, selectedGenresSelector } from "../selectors";
-import { SEED_TYPES } from "../constants";
+// import { selectedArtistsSelector, selectedGenresSelector } from "../selectors";
+// import { SEED_TYPES } from '../constants';
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 const useStyles = makeStyles(theme => ({

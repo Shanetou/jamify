@@ -1,5 +1,8 @@
-import { actionType, apiPhases } from 'saga/apiCall';
-import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from '../../constants';
+// import { actionType, apiPhases } from 'saga/apiCall';
+import {
+  // MAX_SELECTABLE_SEEDS,
+  SEED_TYPES
+} from "../../constants";
 
 export const isArtistSeed = seed => seed.seedType === SEED_TYPES.artist;
 export const isGenreSeed = seed => seed.seedType === SEED_TYPES.genre;

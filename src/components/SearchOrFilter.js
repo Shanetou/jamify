@@ -1,10 +1,10 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { ArtistSearch } from './ArtistSearch';
-import { GenreFilter } from './GenreFilter';
-import { categorySelector } from '../selectors';
-import { CATEGORIES } from '../constants';
+import { ArtistSearch } from "./ArtistSearch";
+import { GenreFilter } from "./GenreFilter";
+import { categorySelector } from "../selectors";
+import { CATEGORIES } from "../constants";
 
 export const SearchOrFilter = () => {
   const category = useSelector(categorySelector);
@@ -18,8 +18,8 @@ export const SearchOrFilter = () => {
   }
 
   if (category.value === CATEGORIES.FAV_ARTISTS.value) {
-    return 'Fav Artists';
+    return "Fav Artists";
   }
 
-  throw new Error('Unrecognized category');
+  throw new Error("Unrecognized category");
 };

@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { makeStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles } from "@material-ui/styles";
+import TextField from "@material-ui/core/TextField";
 
-import { searchArtist } from '../redux/actions';
-import { filterGenres } from '../redux/actions';
+import { filterGenres } from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: "flex",
+    flexWrap: "wrap"
   },
   textField: {
     width: 400
@@ -19,8 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 export const GenreFilter = props => {
   const classes = useStyles();
-  const [searchText, setSearchText] = useState('');
-  console.log('searchText:', searchText);
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = event => {
@@ -28,7 +26,6 @@ export const GenreFilter = props => {
       target: { value }
     } = event;
     event.preventDefault();
-    console.log('value:', value);
 
     setSearchText(value);
 

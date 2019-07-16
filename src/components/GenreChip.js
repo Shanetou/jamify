@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import MuiChip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/styles';
+import MuiChip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
 
 // const getArtistImageUrl = images => {
 //   const lastItem = images.slice(-1).pop();
@@ -10,7 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 //   return lastItem ? lastItem.url : '';
 // };
 
-const useStyles = makeStyles(theme => ({}));
+// const useStyles = makeStyles(theme => ({}));
 
 export const GenreChip = props => {
   const { genre, handleDelete, className } = props;
@@ -19,7 +18,7 @@ export const GenreChip = props => {
 
   return (
     <MuiChip
-      avatar={<Avatar alt={genre.id} src={''} />}
+      avatar={<Avatar alt={genre.id} src={""} />}
       label={genre.name}
       onDelete={handleDelete}
       className={className}

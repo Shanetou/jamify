@@ -1,7 +1,6 @@
-import { createReducer } from 'redux-starter-kit';
-import { filterGenres } from '../actions';
+import { createReducer } from "redux-starter-kit";
 
-import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from '../../constants';
+import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from "../../constants";
 
 const initialState = {
   recommendationGenres: [],
@@ -18,7 +17,7 @@ let normalizeGenres = genres =>
 
 // TODO: Implement fuzzy search
 const filterGenresByText = (allGenres, filterText) => {
-  if (filterText === '') {
+  if (filterText === "") {
     return allGenres;
   }
 

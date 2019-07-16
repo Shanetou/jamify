@@ -1,8 +1,5 @@
-import { createReducer } from 'redux-starter-kit';
-
-import { searchArtist } from 'redux/actions';
-
-import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from '../../constants';
+import { createReducer } from "redux-starter-kit";
+import { SEED_TYPES } from "../../constants";
 
 const initialState = {
   artists: [],

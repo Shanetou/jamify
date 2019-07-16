@@ -15,3 +15,12 @@ export const capitalize = str => {
   if (typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const millisecondsToMinutesAndSeconds = milliseconds => {
+  var minutes = Math.floor(milliseconds / 60000);
+  var seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+  // return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+  return seconds == 60
+    ? minutes + 1 + ":00"
+    : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+};

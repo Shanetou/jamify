@@ -1,15 +1,13 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/styles";
 
-import { SearchOrFilter } from './SearchOrFilter';
-import { ArtistResults } from './ArtistResults';
-import { SearchResults } from './SearchResults';
-import { TrackResults } from './TrackResults';
-import { Selections } from './Selections';
-import { CategoryButtons } from './CategoryButtons';
-import { Attributes } from './Attributes';
+import { SearchOrFilter } from "./SearchOrFilter";
+import { SearchResults } from "./SearchResults";
+import { TrackResults } from "./TrackResults";
+import { Selections } from "./Selections";
+import { CategoryButtons } from "./CategoryButtons";
 
 const useStyles = makeStyles(theme => ({
   root: {

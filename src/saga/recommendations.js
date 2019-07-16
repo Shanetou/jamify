@@ -1,36 +1,32 @@
-import { all, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 import {
   selectRecommendationSeed,
   fetchRecommendedTracks
-} from 'redux/actions';
-import { getRecommendedTracksPath } from 'api/paths';
-import apiCall from './apiCall';
-import { recommendationSeedsSelector } from '../selectors';
+} from "redux/actions";
+import { getRecommendedTracksPath } from "api/paths";
+import apiCall from "./apiCall";
+import { recommendationSeedsSelector } from "../selectors";
 
 function* fetchRecommendedTracksTask(action) {
-  const { payload } = action;
-  console.log('fetchRecommendedTracksTask payload:', payload);
+  // const { payload } = action;
   const recommendationSeeds = yield select(recommendationSeedsSelector);
   const path = getRecommendedTracksPath(recommendationSeeds);
-  console.log('fetchRecommendedTracksTask path:', path);
+  console.log("fetchRecommendedTracksTask path:", path);
 
   yield fork(apiCall, action, path);
 }
 
 export function* watchFetchRecommendedTracks() {
-  console.log('initialized: watchFetchRecommendedTracks  saga');
   yield takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask);
 }
 
 function* selectRecommendationSeedTask(action) {
-  const { payload } = action;
-  console.log('selectRecommendationSeedTask payload:', payload);
+  // const { payload } = action;
 
   yield put(fetchRecommendedTracks());
 }
 
 export function* watchsSelectRecommendationSeed() {
-  console.log('initialized: watchsSelectRecommendationSeed  saga');
   yield takeEvery(selectRecommendationSeed, selectRecommendationSeedTask);
 }
 
