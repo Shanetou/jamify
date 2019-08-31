@@ -10,6 +10,7 @@ import { recommendationSeedsSelector } from "../selectors";
 function* fetchRecommendedTracksTask(action) {
   // const { payload } = action;
   const recommendationSeeds = yield select(recommendationSeedsSelector);
+  console.log("recommendationSeeds:", recommendationSeeds);
   const path = getRecommendedTracksPath(recommendationSeeds);
   console.log("fetchRecommendedTracksTask path:", path);
 

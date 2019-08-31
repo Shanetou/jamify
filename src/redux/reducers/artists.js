@@ -15,20 +15,6 @@ let normalizedArtists = artists => {
 };
 
 const artistReducer = createReducer(initialState, {
-  // [selectArtist]: (state, action) => {
-  //   const { selected } = state;
-  //   const { payload } = action;
-
-  //   return {
-  //     ...state,
-  //     selected: addOrRemoveArtist(selected, payload)
-  //   };
-  // },
-  // [searchArtist]: (state, action) => {
-  //   return {
-  //     ...state
-  //   };
-  // },
   API_SEARCH_ARTIST_SUCCESS: (state, action) => {
     let artists = normalizedArtists(action.response.artists.items);
 

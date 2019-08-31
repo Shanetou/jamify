@@ -17,7 +17,7 @@ const addOrRemoveRecommendationSeed = (curr, item) => {
     return [...curr, item];
   }
 
-  return curr;
+  return [...curr];
 };
 
 const recommendationsReducer = createReducer(initialState, {

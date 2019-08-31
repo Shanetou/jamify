@@ -8,6 +8,7 @@ import { SearchResults } from "./SearchResults";
 import { TrackResults } from "./TrackResults";
 import { Selections } from "./Selections";
 import { CategoryButtons } from "./CategoryButtons";
+import { Attributes } from "./Attributes";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +53,7 @@ const Main = props => {
           </Grid>
           <Grid item xs={4}>
             <Paper className={classes.paper} sm={6}>
-              {/* <Attributes /> */}
+              <Attributes />
             </Paper>
           </Grid>
         </Grid>

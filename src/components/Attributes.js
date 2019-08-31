@@ -1,64 +1,76 @@
-import React, { Component } from 'react';
-import Slider from '@material-ui/lab/Slider';
-import { TRACK_ATTRIBUTES_RANGES } from '../constants';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-class SliderField extends React.Component {
-  constructor(props) {
-    super(props);
+import { SEED_TYPES } from "../constants";
+import { TRACK_ATTRIBUTES } from "../constants";
+import { selectRecommendationSeed } from "../redux/actions";
 
-    this.range = props.attribute[1];
-    this.state = {
-      value: (this.range[0] + this.range[1]) / 2
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
+
+const SliderField = props => {
+  const {
+    attribute,
+    attribute: { name, range }
+  } = props;
+  const { min, max, scale } = range;
+  let scaledMin = min * scale;
+  let scaledMax = max * scale;
+
+  const dispatch = useDispatch();
+  const [value, setValue] = useState(scaledMax / 2);
+  const [isSelected, setSelected] = useState(false);
+
+  const toggleAttribute = () => {
+    // add to redux
+    const selectedAttribute = {
+      ...attribute,
+      value
     };
-  }
-
-  handleChange = (event, value) => {
-    this.setState({ value });
+    dispatch(selectRecommendationSeed(selectedAttribute));
+    setSelected(!isSelected);
   };
 
-  render() {
-    const { attribute } = this.props;
-    const [name, range] = attribute;
-    const [min, max] = range;
-    const { value } = this.state;
+  return (
+    <div>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={isSelected}
+            onChange={toggleAttribute}
+            // value="checkedB"
+            color="primary"
+          />
+        }
+        label={<Typography variant="caption">{name}</Typography>}
+      />
 
-    return (
-      <div>
-        <Typography id="label">{name}</Typography>
-        <Slider
-          min={min}
-          max={max}
-          value={value}
-          aria-labelledby="label"
-          onChange={this.handleChange}
-        />
-      </div>
-    );
-  }
-}
+      <Slider
+        disabled={!isSelected}
+        min={scaledMin}
+        max={scaledMax}
+        value={value}
+        aria-labelledby="label"
+        onChange={(_event, value) => setValue(value)}
+      />
+    </div>
+  );
+};
 
-export class Attributes extends Component {
-  constructor(props) {
-    super(props);
+export const Attributes = props => {
+  const attributes = TRACK_ATTRIBUTES;
+  console.log("attributes:", attributes);
 
-    this.state = { counter: 0 };
-    this.attributes = Object.entries(TRACK_ATTRIBUTES_RANGES);
-  }
+  return (
+    <div>
+      <h3>Select Attributes</h3>
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  render() {
-    return (
-      <div>
-        <h3>Select Attributes</h3>
-        {this.attributes.map(attribute => {
-          const [name] = attribute;
-          return <SliderField key={name} attribute={attribute} />;
-        })}
-      </div>
-    );
-  }
-}
+      {attributes.map(attribute => {
+        return <SliderField key={attribute.name} attribute={attribute} />;
+      })}
+    </div>
+  );
+};

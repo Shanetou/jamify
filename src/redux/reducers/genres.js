@@ -1,6 +1,6 @@
 import { createReducer } from "redux-starter-kit";
 
-import { MAX_SELECTABLE_SEEDS, SEED_TYPES } from "../../constants";
+import { SEED_TYPES } from "../../constants";
 
 const initialState = {
   recommendationGenres: [],
@@ -25,19 +25,6 @@ const filterGenresByText = (allGenres, filterText) => {
   return allGenres.filter(genre => genre.name.includes(normalizedFilterText));
 };
 
-const addOrRemoveGenre = (prevSelected, newItem) => {
-  const wasPrevSelected = x => x === newItem;
-  if (prevSelected.some(wasPrevSelected)) {
-    return prevSelected.filter(e => !wasPrevSelected(e));
-  }
-
-  if (prevSelected.length < MAX_SELECTABLE_SEEDS) {
-    return [...prevSelected, newItem];
-  }
-
-  return prevSelected;
-};
-
 const genresReducer = createReducer(initialState, {
   API_FETCH_RECOMMENDATION_GENRES_SUCCESS: (state, action) => {
     let normalizedGenres = normalizeGenres(action.response.genres);
@@ -55,15 +42,6 @@ const genresReducer = createReducer(initialState, {
     return {
       ...state,
       filteredGenres: filterGenresByText(allGenres, filterText)
-    };
-  },
-  SELECT_GENRE: (state, action) => {
-    const prevSelected = state.selected;
-    const newItem = action.payload;
-
-    return {
-      ...state,
-      selected: addOrRemoveGenre(prevSelected, newItem)
     };
   }
 });
