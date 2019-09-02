@@ -19,21 +19,17 @@ export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-gen
 
 // ("https://api.spotify.com/v1/recommendations?market=US&seed_artists=4NHQUGzhtTLFvgF5SZesLK%2C4NHQUGzhtTLFvgF5SZesLK&seed_genres=acoustic%2Cclassical&min_energy=0.4&min_popularity=50");
 
-const decimalFromPercentage = percentage => Math.fround(percentage / 100);
-
 // id: "DANCEABILITY"
 // name: "DANCEABILITY"
 // range: {min: 0, max: 1, scale: 100}
 // seedType: "ATTRIBUTE"
 // value: 50
 
-const targetAttributeQueryParams = (existingParams, attributes) => {
+const targetAttributeQueryArgs = attributes => {
   const selectedAttributes = Object.values(attributes).filter(
     attribute => attribute.isSelected === true
   );
-  console.log("selectedAttributes:", selectedAttributes);
-
-  const bam = selectedAttributes.reduce((prev, curr) => {
+  const packagedQueryParams = selectedAttributes.reduce((prev, curr) => {
     let attributeName = curr.name.toLowerCase();
     const attributeParamKey = `target_${attributeName}`;
     let value = curr.value;
@@ -42,20 +38,14 @@ const targetAttributeQueryParams = (existingParams, attributes) => {
       ...prev,
       [attributeParamKey]: value
     };
-  }, existingParams);
+  }, {});
 
-  console.log("bam:", bam);
-  return bam;
+  console.log("packagedQueryParams:", packagedQueryParams);
+  return packagedQueryParams;
 };
 
-export const getRecommendedTracksPath = (recommendationSeeds, attributes) => {
-  const initialQueryParameters = {
-    market: "US",
-    seed_artists: [],
-    seed_genres: []
-    // seed_attributes: [],
-  };
-
+const recommendationSeedQueryArgs = recommendationSeeds => {
+  const queryArgs = { seed_artists: [], seed_genres: [] };
   const packagedQueryParams = (prev, curr) => {
     if (isArtistSeed(curr)) {
       return {
@@ -72,23 +62,26 @@ export const getRecommendedTracksPath = (recommendationSeeds, attributes) => {
     }
   };
 
-  const queryParameters = recommendationSeeds.reduce(
-    packagedQueryParams,
-    initialQueryParameters
-  );
+  return recommendationSeeds.reduce(packagedQueryParams, queryArgs);
+};
 
-  const attributesQueryParams = targetAttributeQueryParams(
-    queryParameters,
-    attributes
-  );
-  console.log("attributesQueryParams:", attributesQueryParams);
+export const recommendedTracksPath = (
+  recommendationSeeds,
+  attributes,
+  basePath = RECOMMENDATIONS_PATH
+) => {
+  const baseQueryArgs = { market: "US" };
+  const queryArgs = {
+    ...baseQueryArgs,
+    ...recommendationSeedQueryArgs(recommendationSeeds),
+    ...targetAttributeQueryArgs(attributes)
+  };
 
-  const queryString = queryStringHelper.stringify(queryParameters, {
+  const queryString = queryStringHelper.stringify(queryArgs, {
     arrayFormat: "comma"
   });
-  console.log("queryString:", queryString);
 
-  return `${RECOMMENDATIONS_PATH}?${queryString}`;
+  return `${basePath}?${queryString}`;
 };
 
 export const createPlaylistPath = ({ userId }) => `users/${userId}/playlists`;

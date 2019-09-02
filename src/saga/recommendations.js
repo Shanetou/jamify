@@ -2,10 +2,11 @@ import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 import {
   selectRecommendationSeed,
   fetchRecommendedTracks,
-  toggleAttribute,
+  deselectAttribute,
+  selectAttribute,
   setAttributeValue
 } from "redux/actions";
-import { getRecommendedTracksPath } from "api/paths";
+import { recommendedTracksPath } from "api/paths";
 import apiCall from "./apiCall";
 import { attributesSelector, recommendationSeedsSelector } from "../selectors";
 
@@ -13,7 +14,7 @@ function* fetchRecommendedTracksTask(action) {
   // const { payload } = action;
   const recommendationSeeds = yield select(recommendationSeedsSelector);
   const attributes = yield select(attributesSelector);
-  const path = getRecommendedTracksPath(recommendationSeeds, attributes);
+  const path = recommendedTracksPath(recommendationSeeds, attributes);
   console.log("fetchRecommendedTracksTask path:", path);
 
   yield fork(apiCall, action, path);
@@ -46,13 +47,7 @@ function* updateRecommendationAttributesTask(action) {
 
 export function* watchUpdateRecommendationAttributes() {
   yield takeEvery(
-    [
-      // We will not watching "toggleAttribute" here because we are currently
-      // always calling the "toggleAttribute" and "setAttributeValue" actions
-      // together--wathing both would duplicate requests
-      // toggleAttribute,
-      setAttributeValue
-    ],
+    [deselectAttribute, selectAttribute, setAttributeValue],
     updateRecommendationAttributesTask
   );
 }

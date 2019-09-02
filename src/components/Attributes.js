@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleAttribute, setAttributeValue } from "../redux/actions";
+import {
+  deselectAttribute,
+  selectAttribute,
+  setAttributeValue
+} from "../redux/actions";
 
 import { attributesSelector } from "selectors";
 
@@ -19,19 +23,22 @@ const SliderField = props => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(attribute.value);
 
-  const updateAttribute = () => {
-    dispatch(setAttributeValue({ attribute, newValue: value }));
-    dispatch(toggleAttribute(attribute));
+  const handleCheckboxClick = () => {
+    if (attribute.isSelected) {
+      dispatch(deselectAttribute({ attribute }));
+    } else {
+      dispatch(selectAttribute({ attribute, value }));
+    }
   };
 
-  const updateValue = value => {
+  const handleSliderChange = value => {
     // update the value locally, as it changes
     setValue(value);
   };
 
-  const updateValueCommitted = value => {
+  const handleSliderChangeCommitted = value => {
     // save updated value in redux, when change is finished
-    dispatch(setAttributeValue({ attribute, newValue: value }));
+    dispatch(setAttributeValue({ attribute, value }));
   };
 
   return (
@@ -40,7 +47,7 @@ const SliderField = props => {
         control={
           <Checkbox
             checked={attribute.isSelected}
-            onChange={updateAttribute}
+            onChange={handleCheckboxClick}
             color="primary"
           />
         }
@@ -53,9 +60,9 @@ const SliderField = props => {
         max={max * scale}
         value={value * scale}
         aria-labelledby="label"
-        onChange={(_event, value) => updateValue(value / scale)}
+        onChange={(_event, value) => handleSliderChange(value / scale)}
         onChangeCommitted={(_event, value) =>
-          updateValueCommitted(value / scale)
+          handleSliderChangeCommitted(value / scale)
         }
       />
     </div>

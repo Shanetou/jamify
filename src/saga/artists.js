@@ -13,7 +13,7 @@ export default function* artistsSaga() {
 
 function* searchArtistTask(action) {
   const { payload } = action;
-  // const path = getRecommendedTracksPath(payload);
+  // const path = recommendedTracksPath(payload);
   const path = getArtistsSearchPath(payload);
 
   yield fork(apiCall, action, path);
