@@ -1,8 +1,8 @@
-import { BASE_SPOTIFY_URL } from './paths';
+import { BASE_SPOTIFY_URL } from "./paths";
 
 export const fetchFromSpotify = (accessToken, urlPart, callback) =>
   fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
-    headers: { Authorization: 'Bearer ' + accessToken }
+    headers: { Authorization: "Bearer " + accessToken }
   })
     .then(response => response.json())
     .then(response => {
@@ -12,10 +12,10 @@ export const fetchFromSpotify = (accessToken, urlPart, callback) =>
 
 export const postToSpotify = (accessToken, urlPart, callback, data) =>
   fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: 'Bearer ' + accessToken,
-      'Content-Type': 'application/json'
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
   })
@@ -35,10 +35,10 @@ export const asyncPostToSpotify = async (
 ) => {
   try {
     let result = await fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
     });
@@ -48,7 +48,7 @@ export const asyncPostToSpotify = async (
 
     return result;
   } catch (error) {
-    console.log('ASYNC POST REQUEST ERROR:', error);
+    console.log("ASYNC POST REQUEST ERROR:", error);
   }
 };
 
@@ -67,7 +67,7 @@ export const asyncFetchFromSpotify = async (
 
     return result;
   } catch (error) {
-    console.log('ASYNC FETCH REQUEST ERROR:', error);
+    console.log("ASYNC FETCH REQUEST ERROR:", error);
   }
 };
 
@@ -83,33 +83,43 @@ const buildFetchHeader = accessToken => {
 
 const buildPostHeader = (accessToken, data) => {
   return {
-    method: 'POST',
+    method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
   };
 };
 
 const call = async (url, header, callback) => {
-  try {
-    let result = await fetch(url, header);
-    result = await result.json();
+  let result = await fetch(url, header);
+  result = await result.json();
+  console.log("result in call in fetchFromSpotify:", result);
 
-    callback(result);
+  callback(result);
 
-    return result;
-  } catch (error) {
-    console.log('ASYNC FETCH REQUEST ERROR:', error);
+  if (result.error) {
+    throw result;
   }
+
+  return result;
+
+  // TODO: Is it helpful to have a try/catch here? Doesn't seem like we get an error here for a 401
+  // try {
+  // } catch (error) {
+  // 	console.log('ASYNC FETCH REQUEST ERROR:', error);
+  // }
 };
 
 export const get = async (accessToken, urlPart, callback = defaultCallback) => {
   const url = buildUrl(urlPart);
   const header = buildFetchHeader(accessToken);
 
+  console.log("url:", url);
+  console.log("header:", header);
   const callResult = call(url, header, callback);
+  console.log("callResult:", callResult);
 
   return callResult;
 };

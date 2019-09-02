@@ -1,5 +1,10 @@
 export const MAX_SELECTABLE_SEEDS = 5;
 
+export const DIALOGS = {
+  GENERIC_ERROR: "GENERIC_ERROR",
+  AUTHENTICATION_ERROR: "AUTHENTICATION_ERROR"
+};
+
 export const SEED_TYPES = {
   artist: "ARTIST",
   genre: "GENRE",

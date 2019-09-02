@@ -11,7 +11,6 @@ import apiCall from "./apiCall";
 import { attributesSelector, recommendationSeedsSelector } from "../selectors";
 
 function* fetchRecommendedTracksTask(action) {
-  // const { payload } = action;
   const recommendationSeeds = yield select(recommendationSeedsSelector);
   const attributes = yield select(attributesSelector);
   const path = recommendedTracksPath(recommendationSeeds, attributes);

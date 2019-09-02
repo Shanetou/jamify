@@ -24,17 +24,19 @@ const successAction = (action, response) => ({
   response
 });
 
-const errorAction = (action, error) => ({
+const errorAction = (action, response) => ({
   ...apiAction(action, apiPhases.ERROR),
-  errors: [error.message]
+  error: response.error
 });
 
 const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
 export const apiCall = function*(action, urlPart, requestType = "GET") {
+  console.log("action in apiCall:", action);
   const accessToken = yield select(accessTokenSelector);
 
   if (!accessToken) {
+    console.log("accessToken:", accessToken);
     console.log("NO TOKEN IN API CALL:", action.type);
     return; // Handle 401 here
   }
@@ -44,14 +46,17 @@ export const apiCall = function*(action, urlPart, requestType = "GET") {
 
     let result;
     if (requestType === "GET") {
-      result = yield call(API.get, accessToken, urlPart);
+      // result = yield call(API.get, accessToken, urlPart);
+      result = yield call(API.get, "fakeaccesstoken", urlPart);
+      console.log("result:", result);
     } else if (requestType === "POST") {
       result = yield call(API.post, accessToken, urlPart, action.payload.data);
     }
 
     yield put(successAction(action, result));
-  } catch (error) {
-    yield put(errorAction(action, error));
+  } catch (response) {
+    console.log("response:", response);
+    yield put(errorAction(action, response));
   } finally {
     yield put(completedAction(action));
   }

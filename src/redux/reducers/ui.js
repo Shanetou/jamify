@@ -1,11 +1,15 @@
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from "redux-starter-kit";
+import {
+  hideErrorDialog,
+  selectCategory,
+  showErrorDialog
+} from "redux/actions";
 
-import { selectCategory } from 'redux/actions';
-
-import { CATEGORIES } from '../../constants';
+import { CATEGORIES, DIALOGS } from "../../constants";
 
 const initialState = {
-  category: CATEGORIES.ARTIST
+  category: CATEGORIES.ARTIST,
+  dialog: null
 };
 
 const uiReducer = createReducer(initialState, {
@@ -13,6 +17,22 @@ const uiReducer = createReducer(initialState, {
     return {
       ...state,
       category: action.payload
+    };
+  },
+  [showErrorDialog]: (state, action) => {
+    console.log("UI SHOW ERROR DIALOG state:", state);
+    console.log("UI SHOW ERROR DIALOG action:", action);
+    return {
+      ...state,
+      dialog: action.payload
+    };
+  },
+  [hideErrorDialog]: (state, action) => {
+    console.log("UI HIDE ERROR DIALOG state:", state);
+    console.log("UI HIDE ERROR DIALOG action:", action);
+    return {
+      ...state,
+      dialog: null
     };
   }
 });

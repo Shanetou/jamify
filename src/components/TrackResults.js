@@ -1,5 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
+import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -11,9 +13,6 @@ import { recommendedTracksSelector } from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
 
 const useStyles = makeStyles(theme => ({
-  title: {
-    textAlign: "center"
-  },
   control: {
     padding: theme.spacing(2)
   },
@@ -25,6 +24,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const PlaylistActions = props => {
+  return (
+    <div>
+      <Button>Save to Spotify</Button>
+    </div>
+  );
+};
+
 export const TrackResults = props => {
   const classes = useStyles();
   const { tracks } = useSelector(state => {
@@ -35,7 +42,8 @@ export const TrackResults = props => {
 
   return (
     <div>
-      <h3 className={classes.title}>Recommendations</h3>
+      <h3>Recommendations</h3>
+      <PlaylistActions />
       <div>
         <Table className={classes.table}>
           <TableHead>
