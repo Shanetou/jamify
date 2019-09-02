@@ -7,13 +7,13 @@ import {
 } from "redux/actions";
 import { getRecommendedTracksPath } from "api/paths";
 import apiCall from "./apiCall";
-import { recommendationSeedsSelector } from "../selectors";
+import { attributesSelector, recommendationSeedsSelector } from "../selectors";
 
 function* fetchRecommendedTracksTask(action) {
   // const { payload } = action;
   const recommendationSeeds = yield select(recommendationSeedsSelector);
-  console.log("recommendationSeeds:", recommendationSeeds);
-  const path = getRecommendedTracksPath(recommendationSeeds);
+  const attributes = yield select(attributesSelector);
+  const path = getRecommendedTracksPath(recommendationSeeds, attributes);
   console.log("fetchRecommendedTracksTask path:", path);
 
   yield fork(apiCall, action, path);

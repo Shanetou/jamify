@@ -27,19 +27,28 @@ const decimalFromPercentage = percentage => Math.fround(percentage / 100);
 // seedType: "ATTRIBUTE"
 // value: 50
 
-const targetAttributeQueryParams = (existingParams, attributeSeed) => {
-  console.log("attributeSeed:", attributeSeed);
-  console.log("existingParams:", existingParams);
-  let attributeName = attributeSeed.name.toLowerCase();
-  const targetAttributeParamKey = `target_${attributeName}`;
+const targetAttributeQueryParams = (existingParams, attributes) => {
+  const selectedAttributes = Object.values(attributes).filter(
+    attribute => attribute.isSelected === true
+  );
+  console.log("selectedAttributes:", selectedAttributes);
 
-  return {
-    ...existingParams,
-    [targetAttributeParamKey]: attributeSeed.value
-  };
+  const bam = selectedAttributes.reduce((prev, curr) => {
+    let attributeName = curr.name.toLowerCase();
+    const attributeParamKey = `target_${attributeName}`;
+    let value = curr.value;
+
+    return {
+      ...prev,
+      [attributeParamKey]: value
+    };
+  }, existingParams);
+
+  console.log("bam:", bam);
+  return bam;
 };
 
-export const getRecommendedTracksPath = recommendationSeeds => {
+export const getRecommendedTracksPath = (recommendationSeeds, attributes) => {
   const initialQueryParameters = {
     market: "US",
     seed_artists: [],
@@ -67,6 +76,12 @@ export const getRecommendedTracksPath = recommendationSeeds => {
     packagedQueryParams,
     initialQueryParameters
   );
+
+  const attributesQueryParams = targetAttributeQueryParams(
+    queryParameters,
+    attributes
+  );
+  console.log("attributesQueryParams:", attributesQueryParams);
 
   const queryString = queryStringHelper.stringify(queryParameters, {
     arrayFormat: "comma"
