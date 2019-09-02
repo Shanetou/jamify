@@ -4,8 +4,7 @@ import { SEED_TYPES } from "../../constants";
 
 const initialState = {
   recommendationGenres: [],
-  filteredGenres: [],
-  selected: []
+  filteredGenres: []
 };
 
 let normalizeGenres = genres =>

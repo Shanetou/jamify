@@ -1,4 +1,5 @@
 export * from "./artists";
+export * from "./attributes";
 export * from "./genres";
 export * from "./playlists";
 export * from "./recommendations";

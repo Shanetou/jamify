@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectRecommendationSeed,
+  toggleAttribute as bam,
+  // deselectAttribute,
+  setAttributeValue
+} from "../redux/actions";
 
+import { attributesSelector } from "selectors";
 import { SEED_TYPES } from "../constants";
-import { TRACK_ATTRIBUTES } from "../constants";
-import { selectRecommendationSeed } from "../redux/actions";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -17,21 +22,22 @@ const SliderField = props => {
     attribute: { name, range }
   } = props;
   const { min, max, scale } = range;
-  let scaledMin = min * scale;
-  let scaledMax = max * scale;
-
   const dispatch = useDispatch();
-  const [value, setValue] = useState(scaledMax / 2);
-  const [isSelected, setSelected] = useState(false);
+  const [value, setValue] = useState(attribute.value);
 
-  const toggleAttribute = () => {
-    // add to redux
-    const selectedAttribute = {
-      ...attribute,
-      value
-    };
-    dispatch(selectRecommendationSeed(selectedAttribute));
-    setSelected(!isSelected);
+  const addAttribute = () => {
+    dispatch(setAttributeValue({ attribute, newValue: value }));
+    dispatch(bam(attribute));
+  };
+
+  const updateValue = value => {
+    // update the value locally, as it changes
+    setValue(value);
+  };
+
+  const updateValueCommitted = value => {
+    // save updated value in redux, when change is finished
+    dispatch(setAttributeValue({ attribute, newValue: value }));
   };
 
   return (
@@ -39,9 +45,8 @@ const SliderField = props => {
       <FormControlLabel
         control={
           <Checkbox
-            checked={isSelected}
-            onChange={toggleAttribute}
-            // value="checkedB"
+            checked={attribute.isSelected}
+            onChange={addAttribute}
             color="primary"
           />
         }
@@ -49,26 +54,28 @@ const SliderField = props => {
       />
 
       <Slider
-        disabled={!isSelected}
-        min={scaledMin}
-        max={scaledMax}
-        value={value}
+        disabled={!attribute.isSelected}
+        min={min * scale}
+        max={max * scale}
+        value={value * scale}
         aria-labelledby="label"
-        onChange={(_event, value) => setValue(value)}
+        onChange={(_event, value) => updateValue(value / scale)}
+        onChangeCommitted={(_event, value) =>
+          updateValueCommitted(value / scale)
+        }
       />
     </div>
   );
 };
 
 export const Attributes = props => {
-  const attributes = TRACK_ATTRIBUTES;
-  console.log("attributes:", attributes);
+  const attributes = useSelector(attributesSelector);
 
   return (
     <div>
       <h3>Select Attributes</h3>
 
-      {attributes.map(attribute => {
+      {Object.values(attributes).map(attribute => {
         return <SliderField key={attribute.name} attribute={attribute} />;
       })}
     </div>

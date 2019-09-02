@@ -83,27 +83,22 @@ export const TRACK_ATTRIBUTES_RANGES = {
 };
 
 export const normalizedAttributes = attributes => {
-  console.log("attributes ARG:", attributes);
-  const attributesArray = Object.entries(attributes);
-  console.log("attributesArray:", attributesArray);
-
-  const results = attributesArray.map(item => {
-    console.log("item:", item);
-
-    const [name, range] = item;
-    console.log("range:", range);
-    console.log("name:", name);
-    return {
-      seedType: SEED_TYPES.attribute,
-      id: name,
-      name: name,
-      range,
-      value: null
-    };
+  const entries = Object.entries(attributes);
+  const normalizedEntries = entries.map(([name, range]) => {
+    return [
+      name,
+      {
+        seedType: SEED_TYPES.attribute,
+        id: name,
+        isSelected: false,
+        name: name,
+        range,
+        value: range.max / 2
+      }
+    ];
   });
 
-  console.log("results:", results);
-  return results;
+  return Object.fromEntries(normalizedEntries);
 };
 
 export const TRACK_ATTRIBUTES = normalizedAttributes(TRACK_ATTRIBUTES_RANGES);

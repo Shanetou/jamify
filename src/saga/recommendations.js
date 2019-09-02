@@ -23,8 +23,16 @@ export function* watchFetchRecommendedTracks() {
 
 function* selectRecommendationSeedTask(action) {
   // const { payload } = action;
+  // console.log('action:', action);
 
-  yield put(fetchRecommendedTracks());
+  // const recommendationSeeds = yield select(recommendationSeedsSelector);
+  // console.log('recommendationSeeds:', recommendationSeeds);
+
+  const recommendationSeeds = yield select(recommendationSeedsSelector);
+
+  if (recommendationSeeds.length > 0) {
+    yield put(fetchRecommendedTracks());
+  }
 }
 
 export function* watchsSelectRecommendationSeed() {

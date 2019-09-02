@@ -1,9 +1,9 @@
 import { SEED_TYPES } from "./constants";
 
 export const accessTokenSelector = state => state.user.accessToken;
+export const attributesSelector = state => state.attributes.attributes;
 export const recommendedTracksSelector = state =>
   state.recommendations.recommendedTracks;
-// export const selectedArtistsSelector = state => state.artists.selected;
 export const categorySelector = state => state.ui.category;
 export const selectedTempoSelector = state => state.tempos.selected;
 export const topArtistsSelector = state => state.artists.artists;

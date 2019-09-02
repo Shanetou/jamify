@@ -3,7 +3,6 @@ import { SEED_TYPES } from "../../constants";
 
 const initialState = {
   artists: [],
-  selected: [],
   searchResults: []
 };
 
