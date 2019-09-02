@@ -1,9 +1,5 @@
 import { default as queryStringHelper } from "query-string";
-import {
-  isArtistSeed,
-  isGenreSeed,
-  isAttributeSeed
-} from "../redux/reducers/helpers";
+import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 export const USER = "me";
 export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
@@ -62,16 +58,6 @@ export const getRecommendedTracksPath = recommendationSeeds => {
         ...prev,
         seed_genres: [...prev.seed_genres, curr.id]
       };
-    } else if (isAttributeSeed(curr)) {
-      const attributeQueryParams = targetAttributeQueryParams(prev, curr);
-      console.log("attributeQueryParams:", attributeQueryParams);
-      return {
-        ...prev,
-        ...attributeQueryParams
-      };
-
-      // DO THE STUFF HERE
-      // throw new Error('Recommendation seed of unknown type');
     } else {
       throw new Error("Recommendation seed of unknown type");
     }

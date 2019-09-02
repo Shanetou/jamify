@@ -7,13 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 import ArtistChip from "./ArtistChip";
 import { GenreChip } from "./GenreChip";
 import { selectRecommendationSeed } from "../redux/actions";
-// import { selectedArtistsSelector, selectedGenresSelector } from "../selectors";
-// import { SEED_TYPES } from '../constants';
-import {
-  isArtistSeed,
-  isGenreSeed,
-  isAttributeSeed
-} from "../redux/reducers/helpers";
+import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,7 +40,6 @@ export const Selections = props => {
           {selectedSeeds.map(seed => {
             let isArtist = isArtistSeed(seed);
             let isGenre = isGenreSeed(seed);
-            let isAttribute = isAttributeSeed(seed);
 
             if (isArtist) {
               return (
@@ -68,8 +61,6 @@ export const Selections = props => {
                   className={classes.chip}
                 />
               );
-            } else if (isAttribute) {
-              return null;
             } else {
               throw new Error("Selected seed item of unknown type");
             }

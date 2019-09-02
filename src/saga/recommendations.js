@@ -1,7 +1,9 @@
 import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 import {
   selectRecommendationSeed,
-  fetchRecommendedTracks
+  fetchRecommendedTracks,
+  toggleAttribute,
+  setAttributeValue
 } from "redux/actions";
 import { getRecommendedTracksPath } from "api/paths";
 import apiCall from "./apiCall";
@@ -21,13 +23,7 @@ export function* watchFetchRecommendedTracks() {
   yield takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask);
 }
 
-function* selectRecommendationSeedTask(action) {
-  // const { payload } = action;
-  // console.log('action:', action);
-
-  // const recommendationSeeds = yield select(recommendationSeedsSelector);
-  // console.log('recommendationSeeds:', recommendationSeeds);
-
+function* selectRecommendationSeedTask(_action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
 
   if (recommendationSeeds.length > 0) {
@@ -35,12 +31,38 @@ function* selectRecommendationSeedTask(action) {
   }
 }
 
-export function* watchsSelectRecommendationSeed() {
+export function* watchSelectRecommendationSeed() {
   yield takeEvery(selectRecommendationSeed, selectRecommendationSeedTask);
 }
 
+function* updateRecommendationAttributesTask(action) {
+  console.log("action:", action);
+  const recommendationSeeds = yield select(recommendationSeedsSelector);
+
+  if (recommendationSeeds.length > 0) {
+    yield put(fetchRecommendedTracks());
+  }
+}
+
+export function* watchUpdateRecommendationAttributes() {
+  yield takeEvery(
+    [
+      // We will not watching "toggleAttribute" here because we are currently
+      // always calling the "toggleAttribute" and "setAttributeValue" actions
+      // together--wathing both would duplicate requests
+      // toggleAttribute,
+      setAttributeValue
+    ],
+    updateRecommendationAttributesTask
+  );
+}
+
 export default function* recommendations() {
-  yield all([watchFetchRecommendedTracks(), watchsSelectRecommendationSeed()]);
+  yield all([
+    watchFetchRecommendedTracks(),
+    watchSelectRecommendationSeed(),
+    watchUpdateRecommendationAttributes()
+  ]);
 }
 
 // export function* incrementAsync() {

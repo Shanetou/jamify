@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectRecommendationSeed,
-  toggleAttribute as bam,
-  // deselectAttribute,
-  setAttributeValue
-} from "../redux/actions";
+import { toggleAttribute, setAttributeValue } from "../redux/actions";
 
 import { attributesSelector } from "selectors";
-import { SEED_TYPES } from "../constants";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -25,9 +19,9 @@ const SliderField = props => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(attribute.value);
 
-  const addAttribute = () => {
+  const updateAttribute = () => {
     dispatch(setAttributeValue({ attribute, newValue: value }));
-    dispatch(bam(attribute));
+    dispatch(toggleAttribute(attribute));
   };
 
   const updateValue = value => {
@@ -46,7 +40,7 @@ const SliderField = props => {
         control={
           <Checkbox
             checked={attribute.isSelected}
-            onChange={addAttribute}
+            onChange={updateAttribute}
             color="primary"
           />
         }
