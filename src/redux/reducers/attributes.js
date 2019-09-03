@@ -11,65 +11,6 @@ const initialState = {
   attributes: TRACK_ATTRIBUTES
 };
 
-// const toggledAttribute = attribute => {
-// 	const isAlreadySelected = attribute.isSelected;
-
-// 	if (isAlreadySelected) {
-// 		return {
-// 			...attribute,
-// 			isSelected: false,
-// 		};
-// 	} else {
-// 		return {
-// 			...attribute,
-// 			isSelected: true,
-// 		};
-// 	}
-// };
-
-// const updatedValueAttribute = (attribute, newValue) => {
-// 	const isAlreadySelected = attribute.isSelected;
-
-// 	if (isAlreadySelected) {
-// 		return {
-// 			...attribute,
-// 			value: null,
-// 		};
-// 	} else {
-// 		return {
-// 			...attribute,
-// 			value: newValue,
-// 		};
-// 	}
-// };
-
-// const attributesReducer = createReducer(initialState, {
-// 	[setAttributeValue]: (state, action) => {
-// 		const attribute = action.payload.attribute;
-// 		const newValue = action.payload.newValue;
-// 		console.log('newValue:', newValue);
-
-// 		return {
-// 			...state,
-// 			attributes: {
-// 				...state.attributes,
-// 				[attribute.name]: updatedValueAttribute(attribute, newValue),
-// 			},
-// 		};
-// 	},
-// 	[toggleAttribute]: (state, action) => {
-// 		const attribute = action.payload;
-
-// 		return {
-// 			...state,
-// 			attributes: {
-// 				...state.attributes,
-// 				[attribute.name]: toggledAttribute(attribute),
-// 			},
-// 		};
-// 	},
-// });
-
 const attributesReducer = createReducer(initialState, {
   [selectAttribute]: (state, action) => {
     const {

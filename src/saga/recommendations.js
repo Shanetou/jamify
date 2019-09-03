@@ -4,11 +4,13 @@ import {
   fetchRecommendedTracks,
   deselectAttribute,
   selectAttribute,
-  setAttributeValue
+  setAttributeValue,
+  showToast
 } from "redux/actions";
 import { recommendedTracksPath } from "api/paths";
 import apiCall from "./apiCall";
 import { attributesSelector, recommendationSeedsSelector } from "../selectors";
+import { MAX_SELECTABLE_SEEDS, TOASTS } from "../constants";
 
 function* fetchRecommendedTracksTask(action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
@@ -25,8 +27,11 @@ export function* watchFetchRecommendedTracks() {
 
 function* selectRecommendationSeedTask(_action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
+  const selectedSeedsCount = recommendationSeeds.length;
 
-  if (recommendationSeeds.length > 0) {
+  if (selectedSeedsCount >= MAX_SELECTABLE_SEEDS) {
+    yield put(showToast(TOASTS.MAX_SEEDS_SELECTED));
+  } else if (selectedSeedsCount > 0) {
     yield put(fetchRecommendedTracks());
   }
 }

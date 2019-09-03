@@ -46,9 +46,8 @@ export const apiCall = function*(action, urlPart, requestType = "GET") {
 
     let result;
     if (requestType === "GET") {
-      // result = yield call(API.get, accessToken, urlPart);
-      result = yield call(API.get, "fakeaccesstoken", urlPart);
-      console.log("result:", result);
+      result = yield call(API.get, accessToken, urlPart);
+      // result = yield call(API.get, 'fakeaccesstoken', urlPart);
     } else if (requestType === "POST") {
       result = yield call(API.post, accessToken, urlPart, action.payload.data);
     }

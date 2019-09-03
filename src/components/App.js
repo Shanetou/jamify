@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
 import { Login } from "./Login";
-import { Dialog } from "./Dialog";
+import { Dialog } from "./ui/Dialog";
+import { Toast } from "./ui/Toast";
 import Main from "./Main";
 
 import { accessTokenSelector } from "selectors";
@@ -28,6 +29,7 @@ const App = props => {
   return (
     <div className={classes.container}>
       <Dialog />
+      <Toast />
       <header>
         <h1>Spotify BPM</h1>
       </header>
