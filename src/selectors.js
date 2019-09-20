@@ -2,8 +2,9 @@ import { SEED_TYPES } from "./constants";
 
 export const accessTokenSelector = state => state.user.accessToken;
 export const attributesSelector = state => state.attributes.attributes;
-export const recommendedTracksSelector = state =>
-  state.recommendations.recommendedTracks;
+export const tracksSelector = state => state.recommendations.tracks;
+export const selectedTracksSelector = state =>
+  state.recommendations.selectedTracks;
 export const dialogSelector = state => state.ui.dialog;
 export const toastSelector = state => state.ui.toast;
 export const categorySelector = state => state.ui.category;

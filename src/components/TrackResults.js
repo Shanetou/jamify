@@ -1,7 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,8 +10,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 
-import { recommendedTracksSelector } from "../selectors";
+import { selectedTracksSelector, tracksSelector } from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
+import {
+  createPlaylist,
+  deselectAllTracks,
+  selectAllTracks,
+  toggleTrack
+} from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
   control: {
@@ -25,29 +32,64 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PlaylistActions = props => {
+  const { onClick } = props;
   return (
     <div>
-      <Button>Save to Spotify</Button>
+      <Button onClick={onClick}>Save to Spotify</Button>
     </div>
   );
 };
 
 export const TrackResults = props => {
   const classes = useStyles();
-  const { tracks } = useSelector(state => {
+  const dispatch = useDispatch();
+  const { selectedTracks, tracks } = useSelector(state => {
     return {
-      tracks: recommendedTracksSelector(state)
+      selectedTracks: selectedTracksSelector(state),
+      tracks: Object.values(tracksSelector(state))
     };
   });
+
+  const areAllChecked =
+    selectedTracks.length > 0 && selectedTracks.length === tracks.length;
+  let areSomeButNotAllChecked = selectedTracks.length > 0 && !areAllChecked;
+
+  const handleCheckboxAllClick = _event => {
+    areAllChecked ? dispatch(deselectAllTracks()) : dispatch(selectAllTracks());
+  };
+
+  const handleCheckboxClick = (event, trackUri) => {
+    console.log("event:", event);
+    console.log("toggleTrack:", toggleTrack);
+    dispatch(toggleTrack(trackUri));
+  };
+
+  const handleRowClick = (event, track) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    window.open(track.external_urls.spotify);
+  };
+
+  const handleSavePlaylistClick = () => {
+    dispatch(createPlaylist());
+  };
 
   return (
     <div>
       <h3>Recommendations</h3>
-      <PlaylistActions />
+      <PlaylistActions onClick={handleSavePlaylistClick} />
       <div>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell>
+                <Checkbox
+                  checked={areAllChecked}
+                  indeterminate={areSomeButNotAllChecked}
+                  onChange={handleCheckboxAllClick}
+                />
+              </TableCell>
               <TableCell>Title</TableCell>
               <TableCell align="right">Artist</TableCell>
               <TableCell align="right">Length</TableCell>
@@ -63,9 +105,17 @@ export const TrackResults = props => {
                 <TableRow
                   hover
                   key={track.id}
-                  onClick={() => window.open(track.external_urls.spotify)}
+                  // onClick={e => handleRowClick(e, track)}
                   className={classes.trackRow}
                 >
+                  <TableCell component="th" scope="row">
+                    <Checkbox
+                      // indeterminate={numSelected > 0 && numSelected < rowCount}
+                      checked={selectedTracks.includes(track.uri)}
+                      onChange={e => handleCheckboxClick(e, track.uri)}
+                      // inputProps={{ 'aria-label': 'select all desserts' }}
+                    />
+                  </TableCell>
                   <TableCell component="th" scope="row">
                     {track.name}
                   </TableCell>

@@ -24,3 +24,10 @@ export const millisecondsToMinutesAndSeconds = milliseconds => {
     ? minutes + 1 + ":00"
     : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 };
+
+export const arrayToObject = (array, keyTarget = "id") =>
+  array.reduce((obj, item) => {
+    obj[item[keyTarget]] = item;
+
+    return obj;
+  }, {});

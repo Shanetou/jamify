@@ -1,28 +1,28 @@
 import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 import {
   selectRecommendationSeed,
-  fetchRecommendedTracks,
+  fetchTracks,
   deselectAttribute,
   selectAttribute,
   setAttributeValue,
   showToast
 } from "redux/actions";
-import { recommendedTracksPath } from "api/paths";
+import { tracksPath } from "api/paths";
 import apiCall from "./apiCall";
 import { attributesSelector, recommendationSeedsSelector } from "../selectors";
 import { MAX_SELECTABLE_SEEDS, TOASTS } from "../constants";
 
-function* fetchRecommendedTracksTask(action) {
+function* fetchTracksTask(action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
   const attributes = yield select(attributesSelector);
-  const path = recommendedTracksPath(recommendationSeeds, attributes);
-  console.log("fetchRecommendedTracksTask path:", path);
+  const path = tracksPath(recommendationSeeds, attributes);
+  console.log("fetchTracksTask path:", path);
 
   yield fork(apiCall, action, path);
 }
 
-export function* watchFetchRecommendedTracks() {
-  yield takeEvery(fetchRecommendedTracks, fetchRecommendedTracksTask);
+export function* watchFetchTracks() {
+  yield takeEvery(fetchTracks, fetchTracksTask);
 }
 
 function* selectRecommendationSeedTask(_action) {
@@ -32,7 +32,7 @@ function* selectRecommendationSeedTask(_action) {
   if (selectedSeedsCount >= MAX_SELECTABLE_SEEDS) {
     yield put(showToast(TOASTS.MAX_SEEDS_SELECTED));
   } else if (selectedSeedsCount > 0) {
-    yield put(fetchRecommendedTracks());
+    yield put(fetchTracks());
   }
 }
 
@@ -45,7 +45,7 @@ function* updateRecommendationAttributesTask(action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
 
   if (recommendationSeeds.length > 0) {
-    yield put(fetchRecommendedTracks());
+    yield put(fetchTracks());
   }
 }
 
@@ -58,7 +58,7 @@ export function* watchUpdateRecommendationAttributes() {
 
 export default function* recommendations() {
   yield all([
-    watchFetchRecommendedTracks(),
+    watchFetchTracks(),
     watchSelectRecommendationSeed(),
     watchUpdateRecommendationAttributes()
   ]);

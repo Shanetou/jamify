@@ -23,7 +23,7 @@ export const TrackRow = props => {
   );
 };
 
-export default class RecommendedTracks extends Component {
+export default class Tracks extends Component {
   render() {
     const { tracks } = this.props;
 

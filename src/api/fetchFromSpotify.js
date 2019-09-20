@@ -33,6 +33,7 @@ export const asyncPostToSpotify = async (
   callback = defaultCallback,
   data
 ) => {
+  console.log("JSON.stringify(data)", JSON.stringify(data));
   try {
     let result = await fetch(`${BASE_SPOTIFY_URL}${urlPart}`, {
       method: "POST",
@@ -95,7 +96,6 @@ const buildPostHeader = (accessToken, data) => {
 const call = async (url, header, callback) => {
   let result = await fetch(url, header);
   result = await result.json();
-  console.log("result in call in fetchFromSpotify:", result);
 
   callback(result);
 
@@ -116,10 +116,7 @@ export const get = async (accessToken, urlPart, callback = defaultCallback) => {
   const url = buildUrl(urlPart);
   const header = buildFetchHeader(accessToken);
 
-  console.log("url:", url);
-  console.log("header:", header);
   const callResult = call(url, header, callback);
-  console.log("callResult:", callResult);
 
   return callResult;
 };

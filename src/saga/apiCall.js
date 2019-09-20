@@ -31,7 +31,7 @@ const errorAction = (action, response) => ({
 
 const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
-export const apiCall = function*(action, urlPart, requestType = "GET") {
+export const apiCall = function*(action, urlPart, requestType = "GET", data) {
   console.log("action in apiCall:", action);
   const accessToken = yield select(accessTokenSelector);
 
@@ -47,9 +47,8 @@ export const apiCall = function*(action, urlPart, requestType = "GET") {
     let result;
     if (requestType === "GET") {
       result = yield call(API.get, accessToken, urlPart);
-      // result = yield call(API.get, 'fakeaccesstoken', urlPart);
     } else if (requestType === "POST") {
-      result = yield call(API.post, accessToken, urlPart, action.payload.data);
+      result = yield call(API.post, accessToken, urlPart, data);
     }
 
     yield put(successAction(action, result));

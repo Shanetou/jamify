@@ -65,7 +65,7 @@ const recommendationSeedQueryArgs = recommendationSeeds => {
   return recommendationSeeds.reduce(packagedQueryParams, queryArgs);
 };
 
-export const recommendedTracksPath = (
+export const tracksPath = (
   recommendationSeeds,
   attributes,
   basePath = RECOMMENDATIONS_PATH
@@ -84,4 +84,4 @@ export const recommendedTracksPath = (
   return `${basePath}?${queryString}`;
 };
 
-export const createPlaylistPath = ({ userId }) => `users/${userId}/playlists`;
+export const createPlaylistPath = userId => `users/${userId}/playlists`;
