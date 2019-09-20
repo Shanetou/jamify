@@ -49,12 +49,15 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
       result = yield call(API.get, accessToken, urlPart);
     } else if (requestType === "POST") {
       result = yield call(API.post, accessToken, urlPart, data);
+      console.log("result: in apiCall", result);
     }
 
     yield put(successAction(action, result));
+    return result;
   } catch (response) {
     console.log("response:", response);
     yield put(errorAction(action, response));
+    return response;
   } finally {
     yield put(completedAction(action));
   }

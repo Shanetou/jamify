@@ -1,32 +1,45 @@
-import { all, fork, takeEvery, select } from "redux-saga/effects";
+import { all, call, takeLatest, select } from "redux-saga/effects";
 import { createPlaylist } from "redux/actions";
-import { createPlaylistPath } from "api/paths";
+import {
+  addTracksToPlaylistData,
+  addTracksToPlaylistPath,
+  createPlaylistData,
+  createPlaylistPath
+} from "api/paths";
 import apiCall from "./apiCall";
-import { userSelector } from "../selectors";
+import { userSelector, selectedTracksSelector } from "../selectors";
 
 function* createPlaylistTask(action) {
   // const { payload } = action;
-  const user = yield select(userSelector);
+  try {
+    const user = yield select(userSelector);
+    const createPlaylistApiPath = createPlaylistPath(user.id);
+    const createPlaylistApiData = createPlaylistData;
+    const createPlaylistResult = yield call(
+      apiCall,
+      action,
+      createPlaylistApiPath,
+      "POST",
+      createPlaylistApiData
+    );
 
-  const path = createPlaylistPath(user.id);
-  const data = {
-    name: "Shane's New Playlist",
-    description: "New playlist description",
-    public: false
-  };
+    const playlistId = createPlaylistResult.id;
+    if (playlistId) {
+      const selectedTracksURIs = yield select(selectedTracksSelector);
+      const addTracksApiPath = addTracksToPlaylistPath(playlistId);
+      const addTracksApiData = addTracksToPlaylistData(selectedTracksURIs);
 
-  // create playlist
-  // then: dispatch action to add tracks
+      yield call(apiCall, action, addTracksApiPath, "POST", addTracksApiData);
+    }
+  } catch (error) {
+    // handle error
+  }
+}
 
-  const task = yield fork(apiCall, action, path, "POST", data);
-  // console.log('task:', task);
-
-  // console.log('task.toPromise():', task.toPromise());
-  // task.toPromise().then(result => {
-  // 	console.log('result from task:', result);
-  // });
+function* watchCreatePlaylistTask() {
+  yield takeLatest(createPlaylist, createPlaylistTask);
 }
 
 export default function* tracks() {
-  yield all([takeEvery(createPlaylist, createPlaylistTask)]);
+  yield all([watchCreatePlaylistTask()]);
 }
