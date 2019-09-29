@@ -7,8 +7,8 @@ import { TOASTS } from "../../constants";
 import { toastSelector } from "../../selectors";
 import { hideToast } from "../../redux/actions";
 
-const MaxSeedsSelectedToast = props => {
-  const { close, isOpen } = props;
+const SnackbarBasic = props => {
+  const { close, isOpen, children } = props;
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -18,10 +18,24 @@ const MaxSeedsSelectedToast = props => {
         "aria-describedby": "message-id"
       }}
       autoHideDuration={4000}
-      message={
-        <span id="message-id">Select at total of 5 artists or genres.</span>
-      }
+      message={children}
     />
+  );
+};
+
+const MaxSeedsSelectedToast = props => {
+  return (
+    <SnackbarBasic {...props}>
+      <span>Select at total of 5 artists or genres.</span>
+    </SnackbarBasic>
+  );
+};
+
+const InsufficientSeedsSelectedToast = props => {
+  return (
+    <SnackbarBasic {...props}>
+      <span>Select at least one track.</span>
+    </SnackbarBasic>
   );
 };
 
@@ -29,12 +43,24 @@ export const Toast = props => {
   const toast = useSelector(toastSelector);
   const dispatch = useDispatch();
   const showMaxSeedsSelected = toast === TOASTS.MAX_SEEDS_SELECTED;
+  const showInsufficientSeedsSelected =
+    toast === TOASTS.INSUFFICIENT_SEEDS_SELECTED;
 
   const handleClose = () => {
     dispatch(hideToast());
   };
 
   return (
-    <MaxSeedsSelectedToast isOpen={showMaxSeedsSelected} close={handleClose} />
+    <>
+      <MaxSeedsSelectedToast
+        isOpen={showMaxSeedsSelected}
+        close={handleClose}
+      />
+      {/* // Consider getting rid of this toast entirely; disable button */}
+      <InsufficientSeedsSelectedToast
+        isOpen={showInsufficientSeedsSelected}
+        close={handleClose}
+      />
+    </>
   );
 };

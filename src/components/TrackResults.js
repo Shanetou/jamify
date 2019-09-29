@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles } from "@material-ui/styles";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 import { selectedTracksSelector, tracksSelector } from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
@@ -19,29 +20,52 @@ import {
   toggleTrack
 } from "../redux/actions";
 
-const useStyles = makeStyles(theme => ({
-  control: {
-    padding: theme.spacing(2)
-  },
-  trackRow: {
-    "&:hover": {
-      color: "white"
-    },
-    color: "red"
-  }
-}));
-
 const PlaylistActions = props => {
-  const { onClick } = props;
+  const { onClick, canCreatePlaylist } = props;
+  console.log("canCreatePlaylist:", canCreatePlaylist);
   return (
     <div>
-      <Button onClick={onClick}>Save to Spotify</Button>
+      <Button disabled={!canCreatePlaylist} onClick={onClick}>
+        Save to Spotify
+      </Button>
     </div>
   );
 };
 
+const useAudio = sourceUrl => {
+  const [audio] = useState(new Audio(sourceUrl));
+  const [isPlaying, setIsPlaying] = useState(false);
+  const toggle = () => setIsPlaying(!isPlaying);
+
+  useEffect(() => {
+    isPlaying ? audio.play() : audio.pause();
+  }, [audio, isPlaying]);
+
+  return [isPlaying, toggle];
+};
+
+const TrackPlayer = ({ track }) => {
+  // eslint-disable-next-line no-unused-vars
+  const [isPlaying, toggle] = useAudio(track.preview_url);
+
+  return (
+    <IconButton onMouseEnter={toggle} onMouseLeave={toggle}>
+      <PlayCircleOutlineIcon />
+    </IconButton>
+  );
+};
+
+const TrackPreviewPlayer = ({ track }) => {
+  return track.preview_url !== null ? (
+    <TrackPlayer track={track} />
+  ) : (
+    <IconButton disabled={true}>
+      <PlayCircleOutlineIcon />
+    </IconButton>
+  );
+};
+
 export const TrackResults = props => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { selectedTracks, tracks } = useSelector(state => {
     return {
@@ -58,17 +82,8 @@ export const TrackResults = props => {
     areAllChecked ? dispatch(deselectAllTracks()) : dispatch(selectAllTracks());
   };
 
-  const handleCheckboxClick = (event, trackUri) => {
-    console.log("event:", event);
-    console.log("toggleTrack:", toggleTrack);
+  const handleCheckboxClick = trackUri => () => {
     dispatch(toggleTrack(trackUri));
-  };
-
-  const handleRowClick = (event, track) => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    window.open(track.external_urls.spotify);
   };
 
   const handleSavePlaylistClick = () => {
@@ -78,9 +93,12 @@ export const TrackResults = props => {
   return (
     <div>
       <h3>Recommendations</h3>
-      <PlaylistActions onClick={handleSavePlaylistClick} />
+      <PlaylistActions
+        onClick={handleSavePlaylistClick}
+        canCreatePlaylist={selectedTracks.length > 0}
+      />
       <div>
-        <Table className={classes.table}>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -93,6 +111,7 @@ export const TrackResults = props => {
               <TableCell>Title</TableCell>
               <TableCell align="right">Artist</TableCell>
               <TableCell align="right">Length</TableCell>
+              <TableCell align="right" />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -102,18 +121,11 @@ export const TrackResults = props => {
               );
 
               return (
-                <TableRow
-                  hover
-                  key={track.id}
-                  // onClick={e => handleRowClick(e, track)}
-                  className={classes.trackRow}
-                >
+                <TableRow hover key={track.id}>
                   <TableCell component="th" scope="row">
                     <Checkbox
-                      // indeterminate={numSelected > 0 && numSelected < rowCount}
                       checked={selectedTracks.includes(track.uri)}
-                      onChange={e => handleCheckboxClick(e, track.uri)}
-                      // inputProps={{ 'aria-label': 'select all desserts' }}
+                      onChange={handleCheckboxClick(track.uri)}
                     />
                   </TableCell>
                   <TableCell component="th" scope="row">
@@ -121,6 +133,9 @@ export const TrackResults = props => {
                   </TableCell>
                   <TableCell align="right">{track.artists[0].name}</TableCell>
                   <TableCell align="right">{duration}</TableCell>
+                  <TableCell align="right">
+                    <TrackPreviewPlayer track={track} />
+                  </TableCell>
                 </TableRow>
               );
             })}
