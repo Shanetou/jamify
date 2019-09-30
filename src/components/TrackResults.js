@@ -22,7 +22,6 @@ import {
 
 const PlaylistActions = props => {
   const { onClick, canCreatePlaylist } = props;
-  console.log("canCreatePlaylist:", canCreatePlaylist);
   return (
     <div>
       <Button disabled={!canCreatePlaylist} onClick={onClick}>
@@ -38,7 +37,25 @@ const useAudio = sourceUrl => {
   const toggle = () => setIsPlaying(!isPlaying);
 
   useEffect(() => {
-    isPlaying ? audio.play() : audio.pause();
+    const play = () => {
+      // We handle the promise returned by play
+      // to account for a a race condition and existing issue in Chrome
+      // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
+      var playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(_error => {
+          toggle();
+        });
+      }
+    };
+
+    isPlaying ? play() : audio.pause();
+
+    return function cleanup() {
+      audio.pause();
+      audio.remove();
+    };
   }, [audio, isPlaying]);
 
   return [isPlaying, toggle];
