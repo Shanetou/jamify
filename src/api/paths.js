@@ -3,8 +3,7 @@ import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 export const USER = "me";
 export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
-// export const GENERIC_SEARCH_PATH = "search";
-export const TOP_ARTISTS_PATH = "me/top/artists?limit=12";
+export const TOP_ARTISTS_PATH = "me/top/artists?limit=25";
 // BEWARE: You changed the name of this var
 export const RECOMMENDATIONS_PATH = "recommendations";
 
@@ -16,14 +15,6 @@ export const getArtistsSearchPath = queryString => {
 };
 
 export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-genre-seeds`;
-
-// ("https://api.spotify.com/v1/recommendations?market=US&seed_artists=4NHQUGzhtTLFvgF5SZesLK%2C4NHQUGzhtTLFvgF5SZesLK&seed_genres=acoustic%2Cclassical&min_energy=0.4&min_popularity=50");
-
-// id: "DANCEABILITY"
-// name: "DANCEABILITY"
-// range: {min: 0, max: 1, scale: 100}
-// seedType: "ATTRIBUTE"
-// value: 50
 
 const targetAttributeQueryArgs = attributes => {
   const selectedAttributes = Object.values(attributes).filter(
@@ -40,7 +31,6 @@ const targetAttributeQueryArgs = attributes => {
     };
   }, {});
 
-  console.log("packagedQueryParams:", packagedQueryParams);
   return packagedQueryParams;
 };
 

@@ -7,10 +7,10 @@ import {
   showToast
 } from "redux/actions";
 
-import { CATEGORIES, DIALOGS } from "../../constants";
+import { CATEGORIES } from "../../constants";
 
 const initialState = {
-  category: CATEGORIES.ARTIST,
+  category: CATEGORIES.FAV_ARTISTS,
   dialog: null,
   toast: null
 };
@@ -28,7 +28,7 @@ const uiReducer = createReducer(initialState, {
       dialog: action.payload
     };
   },
-  [hideErrorDialog]: (state, action) => {
+  [hideErrorDialog]: (state, _action) => {
     return {
       ...state,
       dialog: null
@@ -40,7 +40,7 @@ const uiReducer = createReducer(initialState, {
       toast: action.payload
     };
   },
-  [hideToast]: (state, action) => {
+  [hideToast]: (state, _action) => {
     return {
       ...state,
       toast: null

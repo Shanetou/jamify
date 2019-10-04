@@ -2,7 +2,7 @@ import { createReducer } from "redux-starter-kit";
 import { SEED_TYPES } from "../../constants";
 
 const initialState = {
-  artists: [],
+  topArtists: [],
   searchResults: []
 };
 
@@ -30,7 +30,7 @@ const artistReducer = createReducer(initialState, {
       // Just pulling out the items array here
       // there are lots of other attributes in the resp
       // including pagination links and total items length
-      artists: artists
+      topArtists: artists
     };
   }
 });

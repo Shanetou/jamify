@@ -1,12 +1,12 @@
-import { all, call, fork, put, take } from 'redux-saga/effects';
+import { all, call, fork, put, take } from "redux-saga/effects";
 import {
   fetchUser,
   fetchTopArtists,
   saveAccessToken,
   fetchRecommendationGenres
-} from 'redux/actions';
-import apiCall from './apiCall';
-import { RECOMMENDATION_GENRES_PATH, TOP_ARTISTS_PATH } from 'api/paths';
+} from "redux/actions";
+import apiCall from "./apiCall";
+import { RECOMMENDATION_GENRES_PATH, TOP_ARTISTS_PATH } from "api/paths";
 
 export function* getStartupData(accessToken) {
   yield fork(fetchUserTask, accessToken);
@@ -16,7 +16,7 @@ export function* getStartupData(accessToken) {
 
 export function* getAccessToken() {
   const accessToken = new URLSearchParams(window.location.search).get(
-    'access_token'
+    "access_token"
   );
 
   if (accessToken) {
@@ -29,7 +29,7 @@ export function* watchFetchUser() {
   while (true) {
     const action = yield take(fetchUser);
 
-    yield fork(apiCall, action, 'me');
+    yield fork(apiCall, action, "me");
   }
 }
 
