@@ -9,10 +9,12 @@ import {
 import apiCall from "./apiCall";
 import { userSelector, selectedTracksSelector } from "../selectors";
 import { showToast } from "../redux/actions";
-import { MAX_SELECTABLE_SEEDS, TOASTS } from "../constants";
+import { TOASTS } from "../constants";
 
 function* createPlaylistTask(action) {
-  const user = yield select(userSelector);
+  // const user = yield select(userSelector);
+
+  // What is this false case?
   if (false) {
     yield put(showToast(TOASTS.MAX_SEEDS_SELECTED));
   } else {

@@ -39,7 +39,7 @@ const useAudio = sourceUrl => {
   useEffect(() => {
     const play = () => {
       // We handle the promise returned by play
-      // to account for a a race condition and existing issue in Chrome
+      // to account for a race condition and existing issue in Chrome
       // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
       var playPromise = audio.play();
 
@@ -63,7 +63,7 @@ const useAudio = sourceUrl => {
 
 const TrackPlayer = ({ track }) => {
   // eslint-disable-next-line no-unused-vars
-  const [isPlaying, toggle] = useAudio(track.preview_url);
+  const [_isPlaying, toggle] = useAudio(track.preview_url);
 
   return (
     <IconButton onMouseEnter={toggle} onMouseLeave={toggle}>
