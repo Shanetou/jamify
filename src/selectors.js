@@ -9,6 +9,7 @@ export const dialogSelector = state => state.ui.dialog;
 export const toastSelector = state => state.ui.toast;
 export const categorySelector = state => state.ui.category;
 export const selectedTempoSelector = state => state.tempos.selected;
+export const artistsSelector = state => state.artists.searchResults;
 export const topArtistsSelector = state => state.artists.topArtists;
 export const userSelector = state => state.user.user;
 export const genresSelector = state => state.genres.filteredGenres;

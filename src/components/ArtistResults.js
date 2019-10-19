@@ -1,53 +1,58 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { selectRecommendationSeed } from '../redux/actions';
+import { makeStyles } from "@material-ui/core/styles";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import { selectRecommendationSeed } from "../redux/actions";
+import { artistsSelector, topArtistsSelector } from "../selectors";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
     flexGrow: 1,
-    flexWrap: 'nowrap',
+    flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)'
+    transform: "translateZ(0)"
   },
   pointer: {
-    cursor: 'pointer'
+    cursor: "pointer"
   },
   title: {
     color: theme.palette.primary.light,
-    textAlign: 'initial'
+    textAlign: "initial"
   },
   titleBar: {
     background:
-      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
   }
 }));
 
 const getArtistImageUrl = images => {
   const lastItem = images.slice(-1).pop();
 
-  return lastItem ? lastItem.url : '';
+  return lastItem ? lastItem.url : "";
 };
 
 export const ArtistResults = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { artistsOptions } = useSelector(state => {
+  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
     return {
-      artistsOptions: state.artists.searchResults
+      searchArtistsOptions: artistsSelector(state),
+      topArtistOptions: topArtistsSelector(state)
     };
   });
+
+  let artistsOptions =
+    searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
 
   const handleItemClick = artist => () => {
     dispatch(selectRecommendationSeed(artist));

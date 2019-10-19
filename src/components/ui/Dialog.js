@@ -25,8 +25,8 @@ export const Dialog = props => {
 
   return (
     <>
-      <GenericErrorDialog isOpen={showGenericDialog} close={handleClose} />;
-      <AuthenticationErrorDialog isOpen={showAuthDialog} close={handleClose} />;
+      <GenericErrorDialog isOpen={showGenericDialog} close={handleClose} />
+      <AuthenticationErrorDialog isOpen={showAuthDialog} close={handleClose} />
     </>
   );
 };
