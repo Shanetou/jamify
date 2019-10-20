@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { makeStyles } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 import { selectedTracksSelector, tracksSelector } from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
@@ -23,11 +26,16 @@ import {
 const PlaylistActions = props => {
   const { onClick, canCreatePlaylist } = props;
   return (
-    <div>
-      <Button disabled={!canCreatePlaylist} onClick={onClick}>
-        Save to Spotify
-      </Button>
-    </div>
+    <Button
+      size="small"
+      variant="contained"
+      disabled={!canCreatePlaylist}
+      color="primary"
+      onClick={onClick}
+    >
+      <AddIcon />
+      Save to Spotify
+    </Button>
   );
 };
 
@@ -83,6 +91,14 @@ const TrackPreviewPlayer = ({ track }) => {
 };
 
 export const TrackResults = props => {
+  const useStyles = makeStyles(theme => ({
+    headerGrid: {
+      display: "flex",
+      alignItems: "center"
+    }
+  }));
+  const classes = useStyles();
+
   const dispatch = useDispatch();
   const { selectedTracks, tracks } = useSelector(state => {
     return {
@@ -109,11 +125,17 @@ export const TrackResults = props => {
 
   return (
     <div>
-      <h3>Recommendations</h3>
-      <PlaylistActions
-        onClick={handleSavePlaylistClick}
-        canCreatePlaylist={selectedTracks.length > 0}
-      />
+      <Grid container justify="space-between">
+        <Grid item>
+          <h3>Recommendations</h3>
+        </Grid>
+        <Grid item className={classes.headerGrid}>
+          <PlaylistActions
+            onClick={handleSavePlaylistClick}
+            canCreatePlaylist={selectedTracks.length > 0}
+          />
+        </Grid>
+      </Grid>
       <div>
         <Table>
           <TableHead>

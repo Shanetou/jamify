@@ -50,9 +50,6 @@ const Main = props => {
           <Selections />
           <Grid item xs={8}>
             <Paper className={classes.paper} sm={6}>
-              <Button onClick={() => setShowTracks(!showTracks)}>
-                Show Track Results
-              </Button>
               {showTracks ? <TrackResults /> : null}
             </Paper>
           </Grid>

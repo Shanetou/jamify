@@ -2,21 +2,17 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
+import MuiChip from "@material-ui/core/Chip";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-
+import Typography from "@material-ui/core/Typography";
 import { selectRecommendationSeed } from "../redux/actions";
 import { genresSelector } from "../selectors";
-// import { capitalize } from '../utils';
+import { chunk } from "../utils";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+  chip: {
+    width: "-webkit-fill-available"
   },
   gridList: {
     flexGrow: 1,
@@ -26,6 +22,11 @@ const useStyles = makeStyles(theme => ({
   },
   pointer: {
     cursor: "pointer"
+  },
+  tile: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly"
   },
   title: {
     color: theme.palette.primary.light,
@@ -41,32 +42,42 @@ export const GenreResults = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const genres = useSelector(genresSelector);
+  const chunkedGenres = chunk(genres, 2);
 
   const handleItemClick = genre => () => {
     dispatch(selectRecommendationSeed(genre));
   };
 
   return (
-    <div className={classes.root}>
-      <GridList
-        className={classes.gridList}
-        cols={5}
-        cellHeight={100}
-        spacing={16}
-      >
-        {genres.map(genre => (
-          <GridListTile key={genre.name} onClick={handleItemClick(genre)}>
-            <GridListTileBar
-              title={genre.name}
-              className={classes.pointer}
-              classes={{
-                root: classes.titleBar,
-                title: classes.title
-              }}
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
+    <GridList
+      className={classes.gridList}
+      cols={5}
+      cellHeight={100}
+      spacing={16}
+    >
+      {chunkedGenres.map((genrePair, idx) => (
+        <GridListTile
+          classes={{
+            tile: classes.tile
+          }}
+          key={idx}
+        >
+          {genrePair.map(genre => (
+            <div key={genre.name}>
+              <MuiChip
+                label={
+                  <Typography className={classes.title}>
+                    {genre.name}
+                  </Typography>
+                }
+                clickable={true}
+                className={classes.chip}
+                onClick={handleItemClick(genre)}
+              />
+            </div>
+          ))}
+        </GridListTile>
+      ))}
+    </GridList>
   );
 };

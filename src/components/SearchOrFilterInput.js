@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const ArtistSearch = props => {
+export const SearchOrFilterInput = props => {
+  const { label, onChange } = props;
   const classes = useStyles();
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
@@ -31,14 +32,13 @@ export const ArtistSearch = props => {
     setSearchText(value);
 
     if (value !== "") {
-      dispatch(searchArtist(value));
+      dispatch(onChange(value));
     }
   };
 
   return (
     <TextField
-      id="artist-search"
-      label="Search by Artist"
+      label={label}
       margin="normal"
       className={classes.textField}
       value={searchText}
