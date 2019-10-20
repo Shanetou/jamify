@@ -9,15 +9,7 @@ import { selectRecommendationSeed } from "../redux/actions";
 import { topArtistsSelector } from "../selectors";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
-  },
   gridList: {
-    flexGrow: 1,
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)"
@@ -55,31 +47,29 @@ export const TopArtistsResults = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <GridList
-        className={classes.gridList}
-        cols={5}
-        cellHeight={100}
-        spacing={16}
-      >
-        {topArtistsOptions.map(artist => (
-          <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
-            <img
-              src={getArtistImageUrl(artist.images)}
-              alt={artist.name}
-              className={classes.pointer}
-            />
-            <GridListTileBar
-              title={artist.name}
-              className={classes.pointer}
-              classes={{
-                root: classes.titleBar,
-                title: classes.title
-              }}
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
+    <GridList
+      className={classes.gridList}
+      cols={5}
+      cellHeight={100}
+      spacing={16}
+    >
+      {topArtistsOptions.map(artist => (
+        <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
+          <img
+            src={getArtistImageUrl(artist.images)}
+            alt={artist.name}
+            className={classes.pointer}
+          />
+          <GridListTileBar
+            title={artist.name}
+            className={classes.pointer}
+            classes={{
+              root: classes.titleBar,
+              title: classes.title
+            }}
+          />
+        </GridListTile>
+      ))}
+    </GridList>
   );
 };

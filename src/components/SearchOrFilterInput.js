@@ -4,8 +4,6 @@ import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 
-import { searchArtist } from "../redux/actions";
-
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",

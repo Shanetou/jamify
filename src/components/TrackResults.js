@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { makeStyles } from "@material-ui/core";
@@ -42,7 +42,7 @@ const PlaylistActions = props => {
 const useAudio = sourceUrl => {
   const [audio] = useState(new Audio(sourceUrl));
   const [isPlaying, setIsPlaying] = useState(false);
-  const toggle = () => setIsPlaying(!isPlaying);
+  const toggle = useCallback(() => setIsPlaying(!isPlaying), [isPlaying]);
 
   useEffect(() => {
     const play = () => {
@@ -64,7 +64,7 @@ const useAudio = sourceUrl => {
       audio.pause();
       audio.remove();
     };
-  }, [audio, isPlaying]);
+  }, [audio, isPlaying, toggle]);
 
   return [isPlaying, toggle];
 };

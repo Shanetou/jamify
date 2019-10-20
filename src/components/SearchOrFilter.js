@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { ArtistSearch } from "./ArtistSearch";
-import { GenreFilter } from "./GenreFilter";
 import { categorySelector } from "../selectors";
 import { CATEGORIES } from "../constants";
 import { filterGenres, searchArtist } from "../redux/actions";
