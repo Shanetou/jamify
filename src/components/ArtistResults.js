@@ -9,8 +9,15 @@ import { selectRecommendationSeed } from "../redux/actions";
 import { artistsSelector, topArtistsSelector } from "../selectors";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper
+  },
   gridList: {
-    flexGrow: "1",
+    flexGrow: 1,
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)"
@@ -34,39 +41,49 @@ const getArtistImageUrl = images => {
   return lastItem ? lastItem.url : "";
 };
 
-export const ArtistResults = props => {
-  const { options } = props;
+export const ArtistResults = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
+    return {
+      searchArtistsOptions: artistsSelector(state),
+      topArtistOptions: topArtistsSelector(state)
+    };
+  });
+
+  let artistsOptions =
+    searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
 
   const handleItemClick = artist => () => {
     dispatch(selectRecommendationSeed(artist));
   };
 
   return (
-    <GridList
-      className={classes.gridList}
-      cols={5}
-      cellHeight={100}
-      spacing={16}
-    >
-      {options.map(artist => (
-        <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
-          <img
-            src={getArtistImageUrl(artist.images)}
-            alt={artist.name}
-            className={classes.pointer}
-          />
-          <GridListTileBar
-            title={artist.name}
-            className={classes.pointer}
-            classes={{
-              root: classes.titleBar,
-              title: classes.title
-            }}
-          />
-        </GridListTile>
-      ))}
-    </GridList>
+    <div className={classes.root}>
+      <GridList
+        className={classes.gridList}
+        cols={5}
+        cellHeight={100}
+        spacing={16}
+      >
+        {artistsOptions.map(artist => (
+          <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
+            <img
+              src={getArtistImageUrl(artist.images)}
+              alt={artist.name}
+              className={classes.pointer}
+            />
+            <GridListTileBar
+              title={artist.name}
+              className={classes.pointer}
+              classes={{
+                root: classes.titleBar,
+                title: classes.title
+              }}
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
   );
 };
