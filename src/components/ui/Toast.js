@@ -101,7 +101,7 @@ export const Toast = props => {
       case TOASTS.PLAYLIST_CREATED:
         return <PlaylistCreated />;
       default:
-        throw Error("Unrecognized toast type");
+        throw new Error("Unrecognized toast type");
     }
   };
 

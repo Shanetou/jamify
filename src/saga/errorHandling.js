@@ -9,7 +9,6 @@ export default function* errorHandlingSaga() {
 
 function* errorHandlingTask(action) {
   const { error } = action;
-
   console.log("ERROR -> errorHandlingTask error.status:", error.status);
   if (error.status === 401) {
     yield put(showErrorDialog(DIALOGS.AUTHENTICATION_ERROR));

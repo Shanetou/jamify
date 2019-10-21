@@ -24,13 +24,23 @@ function* createPlaylistTask(action) {
   );
   const playlistId = createPlaylistResult.id;
 
+  // TODO: Extract to function
   if (playlistId) {
     const selectedTracksURIs = yield select(selectedTracksSelector);
     const addTracksApiPath = addTracksToPlaylistPath(playlistId);
     const addTracksApiData = addTracksToPlaylistData(selectedTracksURIs);
-    yield call(apiCall, action, addTracksApiPath, "POST", addTracksApiData);
+    const addTracksApiDataResult = yield call(
+      apiCall,
+      action,
+      addTracksApiPath,
+      "POST",
+      addTracksApiData
+    );
 
-    yield put(showToast(TOASTS.PLAYLIST_CREATED));
+    // TODO: Extract to function
+    if (addTracksApiDataResult.snapshot_id) {
+      yield put(showToast(TOASTS.PLAYLIST_CREATED));
+    }
   }
 }
 

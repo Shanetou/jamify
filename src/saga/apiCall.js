@@ -34,11 +34,11 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
   console.log("action in apiCall:", action);
   const accessToken = yield select(accessTokenSelector);
 
-  if (!accessToken) {
-    console.log("NO TOKEN IN API CALL:", action.type);
-    return; // Handle 401 here
-    // actually, this is handled pretty nicely in errorHandling
-  }
+  // if (!accessToken) {
+  //   console.log("NO TOKEN IN API CALL:", action.type);
+  //   return; // Handle 401 here
+  //   // actually, this is handled pretty nicely in errorHandling
+  // }
 
   try {
     yield put(startedAction(action));
@@ -48,13 +48,12 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
       result = yield call(API.get, accessToken, urlPart);
     } else if (requestType === "POST") {
       result = yield call(API.post, accessToken, urlPart, data);
-      console.log("result: in apiCall", result);
     }
 
     yield put(successAction(action, result));
+
     return result;
   } catch (error) {
-    console.log("error from catch in apiCall:", error);
     // Propogate error to error handling by calling api error action
     yield put(errorAction(action, error));
     return error;
