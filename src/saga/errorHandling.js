@@ -14,7 +14,7 @@ function* errorHandlingTask(action) {
   if (error.status === 401) {
     yield put(showErrorDialog(DIALOGS.AUTHENTICATION_ERROR));
   } else {
-    yield put(showErrorDialog({ error, dialogType: DIALOGS.GENERIC_ERROR }));
+    yield put(showErrorDialog(DIALOGS.GENERIC_ERROR));
   }
 }
 

@@ -68,7 +68,7 @@ export const GenericErrorDialog = props => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClick} color="primary" autoFocus>
-          Refresh page.
+          Refresh page
         </Button>
       </DialogActions>
     </MuiDialog>

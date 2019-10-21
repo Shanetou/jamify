@@ -12,35 +12,25 @@ import { showToast } from "../redux/actions";
 import { TOASTS } from "../constants";
 
 function* createPlaylistTask(action) {
-  // const user = yield select(userSelector);
+  const user = yield select(userSelector);
+  const createPlaylistApiPath = createPlaylistPath(user.id);
+  const createPlaylistApiData = createPlaylistData;
+  const createPlaylistResult = yield call(
+    apiCall,
+    action,
+    createPlaylistApiPath,
+    "POST",
+    createPlaylistApiData
+  );
+  const playlistId = createPlaylistResult.id;
 
-  // What is this false case?
-  if (false) {
-    yield put(showToast(TOASTS.MAX_SEEDS_SELECTED));
-  } else {
-    try {
-      const user = yield select(userSelector);
-      const createPlaylistApiPath = createPlaylistPath(user.id);
-      const createPlaylistApiData = createPlaylistData;
-      const createPlaylistResult = yield call(
-        apiCall,
-        action,
-        createPlaylistApiPath,
-        "POST",
-        createPlaylistApiData
-      );
+  if (playlistId) {
+    const selectedTracksURIs = yield select(selectedTracksSelector);
+    const addTracksApiPath = addTracksToPlaylistPath(playlistId);
+    const addTracksApiData = addTracksToPlaylistData(selectedTracksURIs);
+    yield call(apiCall, action, addTracksApiPath, "POST", addTracksApiData);
 
-      const playlistId = createPlaylistResult.id;
-      if (playlistId) {
-        const selectedTracksURIs = yield select(selectedTracksSelector);
-        const addTracksApiPath = addTracksToPlaylistPath(playlistId);
-        const addTracksApiData = addTracksToPlaylistData(selectedTracksURIs);
-
-        yield call(apiCall, action, addTracksApiPath, "POST", addTracksApiData);
-      }
-    } catch (error) {
-      // handle error
-    }
+    yield put(showToast(TOASTS.PLAYLIST_CREATED));
   }
 }
 

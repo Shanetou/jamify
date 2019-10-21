@@ -1,65 +1,121 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
+import { amber, green } from "@material-ui/core/colors";
+import { makeStyles } from "@material-ui/styles";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
+import InfoIcon from "@material-ui/icons/Info";
 import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+import WarningIcon from "@material-ui/icons/Warning";
+
 import { TOASTS } from "../../constants";
 import { toastSelector } from "../../selectors";
 import { hideToast } from "../../redux/actions";
 
-const SnackbarBasic = props => {
-  const { close, isOpen, children } = props;
+const variantIcon = {
+  success: CheckCircleIcon,
+  warning: WarningIcon,
+  error: ErrorIcon,
+  info: InfoIcon
+};
+
+const useStyles = makeStyles(theme => ({
+  success: {
+    backgroundColor: green[600]
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark
+  },
+  info: {
+    backgroundColor: theme.palette.primary.main
+  },
+  warning: {
+    backgroundColor: amber[700]
+  },
+  icon: {
+    fontSize: 20
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1)
+  },
+  message: {
+    display: "flex",
+    alignItems: "center"
+  }
+}));
+
+const MaxSeedsSelected = props => {
   return (
-    <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isOpen}
-      onClose={close}
-      ContentProps={{
-        "aria-describedby": "message-id"
-      }}
-      autoHideDuration={4000}
-      message={children}
+    <ToastContent
+      variant="warning"
+      message="Select at total of 5 artists or genres."
     />
   );
 };
 
-const MaxSeedsSelectedToast = props => {
+const PlaylistCreated = props => {
   return (
-    <SnackbarBasic {...props}>
-      <span>Select at total of 5 artists or genres.</span>
-    </SnackbarBasic>
+    <ToastContent variant="success" message="Playlist was saved to Spotify!" />
   );
 };
 
-const InsufficientSeedsSelectedToast = props => {
+export const ToastContent = props => {
+  const { message, variant } = props;
+  const classes = useStyles();
+  const Icon = variantIcon[variant];
+
   return (
-    <SnackbarBasic {...props}>
-      <span>Select at least one track.</span>
-    </SnackbarBasic>
+    <SnackbarContent
+      className={classes[variant]}
+      message={
+        <span className={classes.message}>
+          <Icon className={`${classes.icon} ${classes.iconVariant}`} />
+          {message}
+        </span>
+      }
+    />
   );
+};
+
+ToastContent.propTypes = {
+  message: PropTypes.string,
+  variant: PropTypes.oneOf(["error", "info", "success", "warning"]).isRequired
 };
 
 export const Toast = props => {
   const toast = useSelector(toastSelector);
   const dispatch = useDispatch();
-  const showMaxSeedsSelected = toast === TOASTS.MAX_SEEDS_SELECTED;
-  const showInsufficientSeedsSelected =
-    toast === TOASTS.INSUFFICIENT_SEEDS_SELECTED;
 
   const handleClose = () => {
     dispatch(hideToast());
   };
 
+  const renderContent = () => {
+    switch (toast) {
+      case TOASTS.MAX_SEEDS_SELECTED:
+        return <MaxSeedsSelected />;
+      case TOASTS.PLAYLIST_CREATED:
+        return <PlaylistCreated />;
+      default:
+        throw Error("Unrecognized toast type");
+    }
+  };
+
   return (
-    <>
-      <MaxSeedsSelectedToast
-        isOpen={showMaxSeedsSelected}
-        close={handleClose}
-      />
-      {/* // Consider getting rid of this toast entirely; disable button */}
-      <InsufficientSeedsSelectedToast
-        isOpen={showInsufficientSeedsSelected}
-        close={handleClose}
-      />
-    </>
+    <Snackbar
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      open={toast !== null}
+      onClose={handleClose}
+      ContentProps={{
+        "aria-describedby": "message-id"
+      }}
+      autoHideDuration={4000}
+    >
+      {toast && renderContent()}
+    </Snackbar>
   );
 };
