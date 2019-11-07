@@ -28,6 +28,10 @@ const Main = props => {
 
   return (
     <>
+      <header>
+        <h1>Spotify BPM</h1>
+      </header>
+
       <Grid container spacing={6}>
         <Grid item xs={6}>
           <SearchOrFilter />

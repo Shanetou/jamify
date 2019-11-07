@@ -27,14 +27,12 @@ const App = props => {
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
+    <>
       <Dialog />
       <Toast />
-      <header>
-        <h1>Spotify BPM</h1>
-      </header>
+
       <main>{!accessToken ? <Login /> : <Main />}</main>
-    </div>
+    </>
   );
 };
 

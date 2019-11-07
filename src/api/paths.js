@@ -6,6 +6,7 @@ export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
 export const TOP_ARTISTS_PATH = "me/top/artists?limit=25";
 // BEWARE: You changed the name of this var
 export const RECOMMENDATIONS_PATH = "recommendations";
+export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-genre-seeds`;
 
 export const getArtistsSearchPath = queryString => {
   // "https://api.spotify.com/v1/search?query=tania+bowra\u0026offset=0\u0026limit=20\u0026type=artist"
@@ -13,8 +14,6 @@ export const getArtistsSearchPath = queryString => {
 
   return `search/?query=${queryString}\u0026type=artist\u0026limit=${limit}`;
 };
-
-export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-genre-seeds`;
 
 const targetAttributeQueryArgs = attributes => {
   const selectedAttributes = Object.values(attributes).filter(
