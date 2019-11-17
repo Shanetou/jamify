@@ -11,6 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { dialogSelector } from "../../selectors";
 import { DIALOGS } from "../../constants";
 import { hideErrorDialog } from "../../redux/actions/ui";
+import { LOGIN } from "../../api/paths";
 
 export const Dialog = props => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const AuthenticationErrorDialog = props => {
   const { close, isOpen } = props;
   function handleClick() {
     close();
-    window.location = "http://localhost:8888/login";
+    window.location = LOGIN;
   }
 
   return (

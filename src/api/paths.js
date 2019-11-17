@@ -1,6 +1,8 @@
 import { default as queryStringHelper } from "query-string";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
+export const LOGIN = "http://localhost:8888/login";
+
 export const USER = "me";
 export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
 export const TOP_ARTISTS_PATH = "me/top/artists?limit=25";

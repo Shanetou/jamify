@@ -6,6 +6,7 @@ const querystring = require('querystring');
 
 const app = express();
 
+// TODO: Trim these to include only needed permissions
 const SCOPES = [
 	'user-read-private',
 	'user-read-email',
@@ -22,7 +23,7 @@ const SCOPES = [
 const redirect_uri =
 	process.env.REDIRECT_URI || 'http://localhost:8888/callback';
 
-app.get('/login', (req, res) => {
+app.get('/login', (_req, res) => {
 	const querystrings = querystring.stringify({
 		response_type: 'code',
 		client_id: process.env.SPOTIFY_CLIENT_ID,
@@ -54,16 +55,10 @@ app.get('/callback', (req, res) => {
 		json: true,
 	};
 
-	request.post(authOptions, (error, response, body) => {
-		console.log('body', body);
+	request.post(authOptions, (_error, _response, body) => {
 		var access_token = body.access_token;
-		console.log('access_token', access_token);
 		const uri = process.env.FRONTEND_URI || 'http://localhost:3000';
 
-		console.log(
-			'uri + querystring.stringify({ access_token })',
-			uri + querystring.stringify({ access_token }),
-		);
 		res.redirect(uri + '?' + querystring.stringify({ access_token }));
 	});
 });

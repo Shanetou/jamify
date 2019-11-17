@@ -10,10 +10,6 @@ import { selectRecommendationSeed } from "../redux/actions";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    color: theme.palette.text.secondary
-  },
   chip: {
     margin: theme.spacing(0, 0.5)
   }
@@ -34,39 +30,35 @@ export const Selections = props => {
   };
 
   return (
-    <Grid item xs={12}>
-      <Paper className={classes.paper} sm={6}>
-        <div>
-          {selectedSeeds.map(seed => {
-            let isArtist = isArtistSeed(seed);
-            let isGenre = isGenreSeed(seed);
+    <>
+      {selectedSeeds.map(seed => {
+        let isArtist = isArtistSeed(seed);
+        let isGenre = isGenreSeed(seed);
 
-            if (isArtist) {
-              return (
-                <ArtistChip
-                  avatar={null}
-                  key={seed.id}
-                  artist={seed}
-                  handleDelete={removeChip(seed)}
-                  className={classes.chip}
-                />
-              );
-            } else if (isGenre) {
-              return (
-                <GenreChip
-                  avatar={null}
-                  key={seed.name}
-                  genre={seed}
-                  handleDelete={removeChip(seed)}
-                  className={classes.chip}
-                />
-              );
-            } else {
-              throw new Error("Selected seed item of unknown type");
-            }
-          })}
-        </div>
-      </Paper>
-    </Grid>
+        if (isArtist) {
+          return (
+            <ArtistChip
+              avatar={null}
+              key={seed.id}
+              artist={seed}
+              handleDelete={removeChip(seed)}
+              className={classes.chip}
+            />
+          );
+        } else if (isGenre) {
+          return (
+            <GenreChip
+              avatar={null}
+              key={seed.name}
+              genre={seed}
+              handleDelete={removeChip(seed)}
+              className={classes.chip}
+            />
+          );
+        } else {
+          throw new Error("Selected seed item of unknown type");
+        }
+      })}
+    </>
   );
 };
