@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
+import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { searchArtist } from "../redux/actions";
 
@@ -24,9 +27,10 @@ export const ArtistSearch = props => {
 
   const handleChange = event => {
     const {
-      target: { value }
+      target: { value },
+      preventDefault
     } = event;
-    event.preventDefault();
+    preventDefault();
 
     setSearchText(value);
 
@@ -44,6 +48,17 @@ export const ArtistSearch = props => {
       value={searchText}
       onChange={handleChange}
       autoComplete="off"
+      endAdornment={
+        <InputAdornment position="end">
+          <IconButton
+            aria-label="clear text"
+            onClick={handleClickShowPassword}
+            onMouseDown={handleMouseDownPassword}
+          >
+            <ClearIcon />
+          </IconButton>
+        </InputAdornment>
+      }
     />
   );
 };

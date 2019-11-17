@@ -12,9 +12,9 @@ export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-gen
 
 export const getArtistsSearchPath = queryString => {
   // "https://api.spotify.com/v1/search?query=tania+bowra\u0026offset=0\u0026limit=20\u0026type=artist"
-  const limit = 5;
+  const LIMIT = 6;
 
-  return `search/?query=${queryString}\u0026type=artist\u0026limit=${limit}`;
+  return `search/?query=${queryString}\u0026type=artist\u0026limit=${LIMIT}`;
 };
 
 const targetAttributeQueryArgs = attributes => {

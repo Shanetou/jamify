@@ -1,23 +1,64 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/styles";
 
 import ArtistChip from "./ArtistChip";
 import { GenreChip } from "./GenreChip";
 import { selectRecommendationSeed } from "../redux/actions";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
+import { Typography } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStylesSelection = makeStyles(theme => ({
   chip: {
     margin: theme.spacing(0, 0.5)
   }
 }));
 
-export const Selections = props => {
-  const classes = useStyles();
+const Selection = ({ onDeleteClick, seed }) => {
+  const classes = useStylesSelection();
+  let isArtist = isArtistSeed(seed);
+  let isGenre = isGenreSeed(seed);
 
+  if (isArtist) {
+    return (
+      <ArtistChip
+        avatar={null}
+        artist={seed}
+        handleDelete={onDeleteClick(seed)}
+        className={classes.chip}
+      />
+    );
+  } else if (isGenre) {
+    return (
+      <GenreChip
+        avatar={null}
+        genre={seed}
+        handleDelete={onDeleteClick(seed)}
+        className={classes.chip}
+      />
+    );
+  } else {
+    throw new Error("Selected seed item of unknown type");
+  }
+};
+
+const useStylesSelections = makeStyles(theme => ({
+  chip: {
+    margin: theme.spacing(0, 0.5)
+  },
+  container: {
+    height: theme.spacing(4)
+  },
+  noItemsText: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    height: "100%"
+  }
+}));
+
+export const Selections = props => {
+  const classes = useStylesSelections();
   const dispatch = useDispatch();
   const { selectedSeeds } = useSelector(state => {
     return {
@@ -30,35 +71,18 @@ export const Selections = props => {
   };
 
   return (
-    <>
-      {selectedSeeds.map(seed => {
-        let isArtist = isArtistSeed(seed);
-        let isGenre = isGenreSeed(seed);
-
-        if (isArtist) {
+    <div className={classes.container}>
+      {selectedSeeds.length > 0 ? (
+        selectedSeeds.map(seed => {
           return (
-            <ArtistChip
-              avatar={null}
-              key={seed.id}
-              artist={seed}
-              handleDelete={removeChip(seed)}
-              className={classes.chip}
-            />
+            <Selection key={seed.name} seed={seed} onDeleteClick={removeChip} />
           );
-        } else if (isGenre) {
-          return (
-            <GenreChip
-              avatar={null}
-              key={seed.name}
-              genre={seed}
-              handleDelete={removeChip(seed)}
-              className={classes.chip}
-            />
-          );
-        } else {
-          throw new Error("Selected seed item of unknown type");
-        }
-      })}
-    </>
+        })
+      ) : (
+        <div className={classes.noItemsText}>
+          <Typography variant="caption">Select an artist or genre</Typography>
+        </div>
+      )}
+    </div>
   );
 };
