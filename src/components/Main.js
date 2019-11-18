@@ -11,16 +11,19 @@ import { CategoryButtons } from "./CategoryButtons";
 import { Attributes } from "./Attributes";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(4)
+  control: {
+    padding: theme.spacing(2)
   },
   paper: {
     padding: theme.spacing(2),
     color: theme.palette.text.secondary
   },
-  control: {
-    padding: theme.spacing(2)
+  searchResultsPaper: {
+    height: "147px"
+  },
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(4)
   }
 }));
 
@@ -44,7 +47,10 @@ const Main = props => {
         </Grid>
 
         <Grid item xs={12}>
-          <Paper className={classes.paper} sm={6}>
+          <Paper
+            className={`${classes.paper} ${classes.searchResultsPaper}`}
+            sm={6}
+          >
             <SearchResults />
           </Paper>
         </Grid>

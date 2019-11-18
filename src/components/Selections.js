@@ -6,7 +6,7 @@ import ArtistChip from "./ArtistChip";
 import { GenreChip } from "./GenreChip";
 import { selectRecommendationSeed } from "../redux/actions";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
-import { Typography } from "@material-ui/core";
+import { PlaceholderText } from "./PlaceholderText";
 
 const useStylesSelection = makeStyles(theme => ({
   chip: {
@@ -43,17 +43,8 @@ const Selection = ({ onDeleteClick, seed }) => {
 };
 
 const useStylesSelections = makeStyles(theme => ({
-  chip: {
-    margin: theme.spacing(0, 0.5)
-  },
   container: {
     height: theme.spacing(4)
-  },
-  noItemsText: {
-    alignItems: "center",
-    display: "flex",
-    justifyContent: "center",
-    height: "100%"
   }
 }));
 
@@ -79,9 +70,7 @@ export const Selections = props => {
           );
         })
       ) : (
-        <div className={classes.noItemsText}>
-          <Typography variant="caption">Select an artist or genre</Typography>
-        </div>
+        <PlaceholderText>Select an artist or genre</PlaceholderText>
       )}
     </div>
   );

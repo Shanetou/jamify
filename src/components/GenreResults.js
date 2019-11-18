@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { selectRecommendationSeed } from "../redux/actions";
 import { genresSelector } from "../selectors";
 import { chunk } from "../utils";
+import { PlaceholderText } from "./PlaceholderText";
 
 const useStyles = makeStyles(theme => ({
   chip: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)"
+    transform: "translateZ(0)",
+    height: "131px"
   },
   pointer: {
     cursor: "pointer"
@@ -55,6 +57,9 @@ export const GenreResults = () => {
       cellHeight={100}
       spacing={16}
     >
+      {chunkedGenres.length === 0 && (
+        <PlaceholderText>Loosen up that filter, bra</PlaceholderText>
+      )}
       {chunkedGenres.map((genrePair, idx) => (
         <GridListTile
           classes={{
