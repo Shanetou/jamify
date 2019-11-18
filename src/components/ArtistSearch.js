@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { searchArtist } from "../redux/actions";
 

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/styles";
+import ClearIcon from "@material-ui/icons/Clear";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +21,11 @@ export const SearchOrFilterInput = props => {
   const { label, onChange } = props;
   const classes = useStyles();
   const [searchText, setSearchText] = useState("");
-  const dispatch = useDispatch();
+
+  const updateSearchValue = value => {
+    setSearchText(value);
+    onChange(value);
+  };
 
   const handleChange = event => {
     const {
@@ -27,11 +33,7 @@ export const SearchOrFilterInput = props => {
     } = event;
     event.preventDefault();
 
-    setSearchText(value);
-
-    if (value !== "") {
-      dispatch(onChange(value));
-    }
+    updateSearchValue(value);
   };
 
   return (
@@ -42,6 +44,21 @@ export const SearchOrFilterInput = props => {
       value={searchText}
       onChange={handleChange}
       autoComplete="off"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              size="small"
+              aria-label="clear text"
+              disabled={searchText === ""}
+              onClick={() => updateSearchValue("")}
+              // onMouseDown={handleMouseDownPassword}
+            >
+              <ClearIcon />
+            </IconButton>
+          </InputAdornment>
+        )
+      }}
     />
   );
 };
