@@ -16,7 +16,6 @@ function* fetchTracksTask(action) {
   const recommendationSeeds = yield select(recommendationSeedsSelector);
   const attributes = yield select(attributesSelector);
   const path = tracksPath(recommendationSeeds, attributes);
-  console.log("fetchTracksTask path:", path);
 
   yield fork(apiCall, action, path);
 }
@@ -41,7 +40,6 @@ export function* watchSelectRecommendationSeed() {
 }
 
 function* updateRecommendationAttributesTask(action) {
-  console.log("action:", action);
   const recommendationSeeds = yield select(recommendationSeedsSelector);
 
   if (recommendationSeeds.length > 0) {
