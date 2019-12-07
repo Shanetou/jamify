@@ -1,7 +1,7 @@
 import { default as queryStringHelper } from "query-string";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
-export const LOGIN = "http://localhost:8888/login";
+export const LOGIN = process.env.REACT_APP_AUTH_URI;
 
 export const USER = "me";
 export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
