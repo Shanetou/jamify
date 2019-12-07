@@ -14,7 +14,7 @@ import { TOASTS } from "../constants";
 function* createPlaylistTask(action) {
   const user = yield select(userSelector);
   const createPlaylistApiPath = createPlaylistPath(user.id);
-  const createPlaylistApiData = createPlaylistData;
+  const createPlaylistApiData = createPlaylistData(new Date());
   const createPlaylistResult = yield call(
     apiCall,
     action,

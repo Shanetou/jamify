@@ -76,11 +76,11 @@ export const tracksPath = (
 };
 
 export const createPlaylistPath = userId => `users/${userId}/playlists`;
-export const createPlaylistData = {
-  name: "Shane's New Playlist",
+export const createPlaylistData = dateNow => ({
+  name: `Jayce Is Fat - ${dateNow.toDateString()}`,
   description: "New playlist description",
   public: false
-};
+});
 
 export const addTracksToPlaylistPath = playlistId =>
   `playlists/${playlistId}/tracks`;
