@@ -59,7 +59,7 @@ const MaxSeedsSelected = props => {
 
 const PlaylistCreated = props => {
   return (
-    <ToastContent variant="success" message="Playlist was saved to Spotify!" />
+    <ToastContent variant="success" message="Playlist saved to Spotify!" />
   );
 };
 

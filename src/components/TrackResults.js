@@ -14,10 +14,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import { selectedTracksSelector, tracksSelector } from "../selectors";
+import {
+  playlistsSelector,
+  selectedTracksSelector,
+  tracksSelector
+} from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
 import {
-  createPlaylist,
+  createAndPopulatePlaylist,
   deselectAllTracks,
   selectAllTracks,
   toggleTrack
@@ -100,12 +104,15 @@ export const TrackResults = props => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const { selectedTracks, tracks } = useSelector(state => {
-    return {
-      selectedTracks: selectedTracksSelector(state),
-      tracks: Object.values(tracksSelector(state))
-    };
-  });
+  const { isPlaylistRequestPending, selectedTracks, tracks } = useSelector(
+    state => {
+      return {
+        selectedTracks: selectedTracksSelector(state),
+        tracks: Object.values(tracksSelector(state)),
+        isPlaylistRequestPending: playlistsSelector(state).addToSpotifyPending
+      };
+    }
+  );
 
   const areAllChecked =
     selectedTracks.length > 0 && selectedTracks.length === tracks.length;
@@ -120,7 +127,7 @@ export const TrackResults = props => {
   };
 
   const handleSavePlaylistClick = () => {
-    dispatch(createPlaylist());
+    dispatch(createAndPopulatePlaylist());
   };
 
   return (
@@ -132,7 +139,9 @@ export const TrackResults = props => {
         <Grid item className={classes.headerGrid}>
           <PlaylistActions
             onClick={handleSavePlaylistClick}
-            canCreatePlaylist={selectedTracks.length > 0}
+            canCreatePlaylist={
+              selectedTracks.length > 0 && !isPlaylistRequestPending
+            }
           />
         </Grid>
       </Grid>

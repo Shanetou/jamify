@@ -1,11 +1,18 @@
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from "redux-starter-kit";
 
-const initialState = {};
+const initialState = {
+  isRequestPending: false
+};
 
 const playlistsReducer = createReducer(initialState, {
-  API_CREATE_PLAYLIST_SUCCESS: (state, action) => {
+  SET_ADD_TO_SPOTIFY_STARTED: (state, action) => {
     return {
-      ...state
+      isRequestPending: true
+    };
+  },
+  SET_ADD_TO_SPOTIFY_FINISHED: (state, action) => {
+    return {
+      isRequestPending: false
     };
   }
 });

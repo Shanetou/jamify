@@ -24,7 +24,7 @@ export function* getAccessToken() {
     yield call(getStartupData, accessToken);
   }
 
-  // TODO: should we trow if we can't get an accessToken?
+  // TODO: should we throw if we can't get an accessToken?
 }
 
 export function* watchFetchUser() {

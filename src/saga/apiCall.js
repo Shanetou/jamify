@@ -41,6 +41,7 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
   // }
 
   try {
+    console.log("started");
     yield put(startedAction(action));
 
     let result;
@@ -50,14 +51,17 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
       result = yield call(API.post, accessToken, urlPart, data);
     }
 
+    console.log("success");
     yield put(successAction(action, result));
 
     return result;
   } catch (error) {
     // Propogate error to error handling by calling api error action
+    console.log("error");
     yield put(errorAction(action, error));
     return error;
   } finally {
+    console.log("success");
     yield put(completedAction(action));
   }
 };
