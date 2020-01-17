@@ -74,7 +74,7 @@ export const Attributes = props => {
 
   return (
     <div>
-      <h3>Select Attributes</h3>
+      <h3>Attributes</h3>
 
       {Object.values(attributes).map(attribute => {
         return <SliderField key={attribute.name} attribute={attribute} />;

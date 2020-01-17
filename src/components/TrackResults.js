@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -99,6 +99,10 @@ export const TrackResults = props => {
     headerGrid: {
       display: "flex",
       alignItems: "center"
+    },
+    tableCell: {
+      paddingTop: "0.5rem",
+      paddingBottom: "0.5rem"
     }
   }));
   const classes = useStyles();
@@ -109,10 +113,12 @@ export const TrackResults = props => {
       return {
         selectedTracks: selectedTracksSelector(state),
         tracks: Object.values(tracksSelector(state)),
-        isPlaylistRequestPending: playlistsSelector(state).addToSpotifyPending
+        isPlaylistRequestPending: playlistsSelector(state).isAddToSpotifyPending
       };
     }
   );
+
+  console.log("ispladfad", isPlaylistRequestPending);
 
   const areAllChecked =
     selectedTracks.length > 0 && selectedTracks.length === tracks.length;
@@ -146,7 +152,7 @@ export const TrackResults = props => {
         </Grid>
       </Grid>
       <div>
-        <Table>
+        <Table padding="checkbox">
           <TableHead>
             <TableRow>
               <TableCell>
@@ -156,9 +162,13 @@ export const TrackResults = props => {
                   onChange={handleCheckboxAllClick}
                 />
               </TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell align="right">Artist</TableCell>
-              <TableCell align="right">Length</TableCell>
+              {/* <TableCell>Title</TableCell>
+							<TableCell align='right'>Artist</TableCell>
+							<TableCell align='right'>Length</TableCell>
+							<TableCell align='right' /> */}
+              <TableCell />
+              {/* <TableCell /> */}
+              <TableCell align="right" />
               <TableCell align="right" />
             </TableRow>
           </TableHead>
@@ -176,10 +186,15 @@ export const TrackResults = props => {
                       onChange={handleCheckboxClick(track.uri)}
                     />
                   </TableCell>
-                  <TableCell component="th" scope="row">
-                    {track.name}
+                  <TableCell
+                    className={classes.tableCell}
+                    component="th"
+                    scope="row"
+                  >
+                    <Typography noWrap={true}>{track.name}</Typography>
+                    {track.artists[0].name}
                   </TableCell>
-                  <TableCell align="right">{track.artists[0].name}</TableCell>
+                  {/* <TableCell>{track.artists[0].name}</TableCell> */}
                   <TableCell align="right">{duration}</TableCell>
                   <TableCell align="right">
                     <TrackPreviewPlayer track={track} />

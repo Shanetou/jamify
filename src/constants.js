@@ -40,9 +40,6 @@ export const CATEGORIES = {
 // };
 
 export const TRACK_ATTRIBUTES_RANGES = {
-  // DURATION_IN_MILLISECONDS: [, ],
-  // KEY: [, ],
-  // TIME_SIGNATURE: [,],
   ACOUSTICNESS: {
     min: 0.0,
     max: 1.0,
@@ -63,15 +60,6 @@ export const TRACK_ATTRIBUTES_RANGES = {
     max: 1.0,
     scale: 100
   },
-  LIVENESS: {
-    min: 0.0,
-    max: 1.0,
-    scale: 100
-  },
-  // TODO: FIND A WAY TO SCALE THIS
-  // LOUDNESS: [-60, 0],
-  // TODO: FIND A WAY TO SCALE THIS
-  // MODE: [0, 1],
   POPULARITY: {
     min: 0,
     max: 100,
@@ -82,9 +70,6 @@ export const TRACK_ATTRIBUTES_RANGES = {
     max: 1.0,
     scale: 100
   },
-  // TODO: FIND A WAY TO SCALE THIS
-  // TODO: What are avg tempos?
-  TEMPO: { min: 100, max: 200, scale: 0.5 },
   VALENCE: {
     min: 0.0,
     max: 1.0,
@@ -93,8 +78,7 @@ export const TRACK_ATTRIBUTES_RANGES = {
 };
 
 export const normalizedAttributes = attributes => {
-  const entries = Object.entries(attributes);
-  const normalizedEntries = entries.map(([name, range]) => {
+  const normalizedEntries = Object.entries(attributes).map(([name, range]) => {
     return [
       name,
       {
