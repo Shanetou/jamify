@@ -70,7 +70,9 @@ export const Selections = props => {
           );
         })
       ) : (
-        <PlaceholderText>Select an artist or genre</PlaceholderText>
+        <PlaceholderText>
+          Select an artist or genre to see recommended tracks
+        </PlaceholderText>
       )}
     </div>
   );

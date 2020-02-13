@@ -3,6 +3,8 @@ import { SEED_TYPES } from "./constants";
 export const attributesSelector = state => state.attributes.attributes;
 
 export const tracksSelector = state => state.recommendations.tracks;
+export const isTracksRequestPending = state =>
+  state.recommendations.isTracksRequestPending;
 export const selectedTracksSelector = state =>
   state.recommendations.selectedTracks;
 

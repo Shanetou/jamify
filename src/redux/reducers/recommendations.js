@@ -9,6 +9,7 @@ import { MAX_SELECTABLE_SEEDS } from "../../constants";
 import { arrayToObject } from "../../utils";
 
 const initialState = {
+  isTracksRequestPending: false,
   recommendationSeeds: [],
   tracks: {},
   // array(uri)
@@ -48,6 +49,18 @@ const recommendationsReducer = createReducer(initialState, {
     return {
       ...state,
       recommendationSeeds: newRecommendationSeeds
+    };
+  },
+  API_FETCH_RECOMMENDED_TRACKS_STARTED: (state, action) => {
+    return {
+      ...state,
+      isTracksRequestPending: true
+    };
+  },
+  API_FETCH_RECOMMENDED_TRACKS_COMPLETED: (state, action) => {
+    return {
+      ...state,
+      isTracksRequestPending: false
     };
   },
   API_FETCH_RECOMMENDED_TRACKS_SUCCESS: (state, action) => {

@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/styles";
+import { useSelector } from "react-redux";
 
 import { SearchOrFilter } from "./SearchOrFilter";
 import { SearchResults } from "./SearchResults";
@@ -9,6 +10,7 @@ import { TrackResults } from "./TrackResults";
 import { Selections } from "./Selections";
 import { CategoryButtons } from "./CategoryButtons";
 import { Attributes } from "./Attributes";
+import { tracksSelector } from "selectors";
 
 const useStyles = makeStyles(theme => ({
   control: {
@@ -29,6 +31,13 @@ const useStyles = makeStyles(theme => ({
 
 const Main = props => {
   const classes = useStyles();
+  const { recommendedTracks } = useSelector(state => {
+    return {
+      recommendedTracks: Object.values(tracksSelector(state))
+    };
+  });
+
+  console.log("bam", recommendedTracks);
 
   return (
     <div className={classes.root}>
@@ -61,17 +70,21 @@ const Main = props => {
           </Paper>
         </Grid>
 
-        <Grid item xs={8}>
-          <Paper className={classes.paper} sm={6}>
-            <TrackResults />
-          </Paper>
-        </Grid>
+        {recommendedTracks.length > 0 && (
+          <>
+            <Grid item xs={8}>
+              <Paper className={classes.paper} sm={6}>
+                <TrackResults />
+              </Paper>
+            </Grid>
 
-        <Grid item xs={4}>
-          <Paper className={classes.paper} sm={6}>
-            <Attributes />
-          </Paper>
-        </Grid>
+            <Grid item xs={4}>
+              <Paper className={classes.paper} sm={6}>
+                <Attributes />
+              </Paper>
+            </Grid>
+          </>
+        )}
       </Grid>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -17,7 +18,8 @@ import TableRow from "@material-ui/core/TableRow";
 import {
   playlistsSelector,
   selectedTracksSelector,
-  tracksSelector
+  tracksSelector,
+  isTracksRequestPending
 } from "../selectors";
 import { millisecondsToMinutesAndSeconds } from "../utils";
 import {
@@ -108,17 +110,19 @@ export const TrackResults = props => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const { isPlaylistRequestPending, selectedTracks, tracks } = useSelector(
-    state => {
-      return {
-        selectedTracks: selectedTracksSelector(state),
-        tracks: Object.values(tracksSelector(state)),
-        isPlaylistRequestPending: playlistsSelector(state).isAddToSpotifyPending
-      };
-    }
-  );
-
-  console.log("ispladfad", isPlaylistRequestPending);
+  const {
+    tracksRequestPending,
+    isPlaylistRequestPending,
+    selectedTracks,
+    tracks
+  } = useSelector(state => {
+    return {
+      selectedTracks: selectedTracksSelector(state),
+      tracks: Object.values(tracksSelector(state)),
+      tracksRequestPending: isTracksRequestPending(state),
+      isPlaylistRequestPending: playlistsSelector(state).isAddToSpotifyPending
+    };
+  });
 
   const areAllChecked =
     selectedTracks.length > 0 && selectedTracks.length === tracks.length;
@@ -140,7 +144,14 @@ export const TrackResults = props => {
     <div>
       <Grid container justify="space-between">
         <Grid item>
-          <h3>Recommendations</h3>
+          <Typography
+            variant="h6"
+            display="inline"
+            style={{ paddingRight: "8px" }}
+          >
+            Recommendations
+          </Typography>
+          {tracksRequestPending && <CircularProgress size={16} />}
         </Grid>
         <Grid item className={classes.headerGrid}>
           <PlaylistActions
