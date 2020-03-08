@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const getArtistImageUrl = images => {
+  console.log("images", images);
   const lastItem = images.slice(-1).pop();
 
   return lastItem ? lastItem.url : "";

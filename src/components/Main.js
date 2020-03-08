@@ -37,8 +37,6 @@ const Main = props => {
     };
   });
 
-  console.log("bam", recommendedTracks);
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>

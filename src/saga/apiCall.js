@@ -31,7 +31,6 @@ const errorAction = (action, response) => ({
 const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
 export const apiCall = function*(action, urlPart, requestType = "GET", data) {
-  console.log("action in apiCall:", action);
   const accessToken = yield select(accessTokenSelector);
 
   // if (!accessToken) {
@@ -41,7 +40,6 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
   // }
 
   try {
-    console.log("started");
     yield put(startedAction(action));
 
     let result;
