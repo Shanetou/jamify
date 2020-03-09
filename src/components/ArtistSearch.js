@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     flexWrap: "wrap"
   },
   textField: {
-    width: 400,
+    // add some right padding?
+    width: "100%",
     margin: 0
   }
 }));

@@ -22,23 +22,6 @@ export const CATEGORIES = {
   FAV_ARTISTS: { id: 2, name: "Favorite Artists", value: "FAV_ARTISTS" }
 };
 
-// export const TRACK_ATTRIBUTES = {
-//   // DURATION_IN_MILLISECONDS,
-//   // KEY,
-//   // TIME_SIGNATURE,
-//   ACOUSTICNESS,
-//   DANCEABILITY,
-//   ENERGY,
-//   INSTRUMENTALNESS,
-//   LIVENESS,
-//   LOUDNESS,
-//   MODE,
-//   POPULARITY,
-//   SPEECHINESS,
-//   TEMPO,
-//   VALENCE,
-// };
-
 export const TRACK_ATTRIBUTES_RANGES = {
   ACOUSTICNESS: {
     min: 0.0,

@@ -26,6 +26,18 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(4)
+  },
+  trackResultsContainer: {
+    order: 1,
+    [theme.breakpoints.down("sm")]: {
+      order: 2
+    }
+  },
+  attributesContainer: {
+    order: 2,
+    [theme.breakpoints.down("sm")]: {
+      order: 1
+    }
   }
 }));
 
@@ -46,10 +58,10 @@ const Main = props => {
           </header>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item sm={6} md={6}>
           <SearchOrFilter />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={6} md={6}>
           <CategoryButtons />
         </Grid>
 
@@ -70,13 +82,13 @@ const Main = props => {
 
         {recommendedTracks.length > 0 && (
           <>
-            <Grid item xs={8}>
+            <Grid item xs={12} md={8} className={classes.trackResultsContainer}>
               <Paper className={classes.paper} sm={6}>
                 <TrackResults />
               </Paper>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4} className={classes.attributesContainer}>
               <Paper className={classes.paper} sm={6}>
                 <Attributes />
               </Paper>
