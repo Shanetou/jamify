@@ -147,6 +147,7 @@ export const TrackResults = props => {
           <Typography
             variant="h6"
             display="inline"
+            gutterBottom
             style={{ paddingRight: "8px" }}
           >
             Recommendations
@@ -173,12 +174,7 @@ export const TrackResults = props => {
                   onChange={handleCheckboxAllClick}
                 />
               </TableCell>
-              {/* <TableCell>Title</TableCell>
-							<TableCell align='right'>Artist</TableCell>
-							<TableCell align='right'>Length</TableCell>
-							<TableCell align='right' /> */}
               <TableCell />
-              {/* <TableCell /> */}
               <TableCell align="right" />
               <TableCell align="right" />
             </TableRow>

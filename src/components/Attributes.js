@@ -8,11 +8,22 @@ import {
 
 import { attributesSelector } from "selectors";
 
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { makeStyles } from "@material-ui/styles";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+const useStyles = makeStyles(theme => ({
+  titleContainer: {
+    display: "flex",
+    justifyContent: "space-between"
+  }
+}));
 
 const SliderField = props => {
   const {
@@ -69,16 +80,55 @@ const SliderField = props => {
   );
 };
 
-export const Attributes = props => {
-  const attributes = useSelector(attributesSelector);
-
+const SliderFields = props => {
+  const { attributes } = props;
   return (
-    <div>
-      <h3>Attributes</h3>
-
+    <>
       {Object.values(attributes).map(attribute => {
         return <SliderField key={attribute.name} attribute={attribute} />;
       })}
-    </div>
+    </>
+  );
+};
+
+const AttributesSmallViewport = props => {
+  const { attributes } = props;
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <div onClick={() => setOpen(!open)} className={classes.titleContainer}>
+        <Typography variant="h6" gutterBottom>
+          Attributes
+        </Typography>
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </div>
+      <Collapse in={open} timeout="auto">
+        <SliderFields attributes={attributes} />
+      </Collapse>
+    </>
+  );
+};
+
+const AttributesNotSmallViewport = props => {
+  const { attributes } = props;
+  return (
+    <>
+      <Typography variant="h6" gutterBottom>
+        Attributes
+      </Typography>
+      <SliderFields attributes={attributes} />
+    </>
+  );
+};
+export const Attributes = props => {
+  const attributes = useSelector(attributesSelector);
+  const isSmallViewport = useMediaQuery(theme => theme.breakpoints.down("sm"));
+
+  return isSmallViewport ? (
+    <AttributesSmallViewport attributes={attributes} />
+  ) : (
+    <AttributesNotSmallViewport attributes={attributes} />
   );
 };
