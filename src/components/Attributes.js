@@ -19,10 +19,11 @@ import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles(theme => ({
-  titleContainer: {
+  titleContainer: props => ({
     display: "flex",
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+    marginBottom: props.open ? theme.spacing(2) : "0"
+  })
 }));
 
 const SliderField = props => {
@@ -93,15 +94,13 @@ const SliderFields = props => {
 
 const AttributesSmallViewport = props => {
   const { attributes } = props;
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const classes = useStyles({ open });
 
   return (
     <>
       <div onClick={() => setOpen(!open)} className={classes.titleContainer}>
-        <Typography variant="h6" gutterBottom>
-          Attributes
-        </Typography>
+        <Typography variant="h6">Attributes</Typography>
         {open ? <ExpandLess /> : <ExpandMore />}
       </div>
       <Collapse in={open} timeout="auto">
@@ -112,10 +111,11 @@ const AttributesSmallViewport = props => {
 };
 
 const AttributesNotSmallViewport = props => {
+  const classes = useStyles({ open: true });
   const { attributes } = props;
   return (
     <>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" className={`${classes.titleContainer}`}>
         Attributes
       </Typography>
       <SliderFields attributes={attributes} />

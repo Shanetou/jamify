@@ -6,7 +6,6 @@ import { makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Table from "@material-ui/core/Table";
@@ -98,11 +97,16 @@ const TrackPreviewPlayer = ({ track }) => {
 
 export const TrackResults = props => {
   const useStyles = makeStyles(theme => ({
-    headerGrid: {
+    headerContainer: {
       display: "flex",
-      alignItems: "center"
+      justifyContent: "space-between",
+      marginBottom: theme.spacing(2)
     },
-    tableCell: {
+    headerTitle: {
+      display: "inline-block",
+      paddingRight: theme.spacing(1)
+    },
+    songTitleTableCell: {
       paddingTop: "0.5rem",
       paddingBottom: "0.5rem"
     }
@@ -141,33 +145,26 @@ export const TrackResults = props => {
   };
 
   return (
-    <div>
-      <Grid container justify="space-between">
-        <Grid item>
-          <Typography
-            variant="h6"
-            display="inline"
-            gutterBottom
-            style={{ paddingRight: "8px" }}
-          >
+    <>
+      <div className={classes.headerContainer}>
+        <div>
+          <Typography className={classes.headerTitle} variant="h6">
             Recommendations
           </Typography>
           {tracksRequestPending && <CircularProgress size={16} />}
-        </Grid>
-        <Grid item className={classes.headerGrid}>
-          <PlaylistActions
-            onClick={handleSavePlaylistClick}
-            canCreatePlaylist={
-              selectedTracks.length > 0 && !isPlaylistRequestPending
-            }
-          />
-        </Grid>
-      </Grid>
+        </div>
+        <PlaylistActions
+          onClick={handleSavePlaylistClick}
+          canCreatePlaylist={
+            selectedTracks.length > 0 && !isPlaylistRequestPending
+          }
+        />
+      </div>
       <div>
-        <Table padding="checkbox">
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell padding="checkbox">
                 <Checkbox
                   checked={areAllChecked}
                   indeterminate={areSomeButNotAllChecked}
@@ -187,21 +184,21 @@ export const TrackResults = props => {
 
               return (
                 <TableRow hover key={track.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedTracks.includes(track.uri)}
                       onChange={handleCheckboxClick(track.uri)}
                     />
                   </TableCell>
                   <TableCell
-                    className={classes.tableCell}
+                    className={classes.songTitleTableCell}
+                    // For accessibility
                     component="th"
                     scope="row"
                   >
-                    <Typography noWrap={true}>{track.name}</Typography>
+                    <Typography>{track.name}</Typography>
                     {track.artists[0].name}
                   </TableCell>
-                  {/* <TableCell>{track.artists[0].name}</TableCell> */}
                   <TableCell align="right">{duration}</TableCell>
                   <TableCell align="right">
                     <TrackPreviewPlayer track={track} />
@@ -212,161 +209,6 @@ export const TrackResults = props => {
           </TableBody>
         </Table>
       </div>
-    </div>
+    </>
   );
 };
-
-// {
-//   "tracks": [
-//     {
-//       "album": {
-//         "album_type": "ALBUM",
-//         "artists": [
-//           {
-//             "external_urls": {
-//               "spotify": "https://open.spotify.com/artist/6Dd3NScHWwnW6obMFbl1BH"
-//             },
-//             "href": "https://api.spotify.com/v1/artists/6Dd3NScHWwnW6obMFbl1BH",
-//             "id": "6Dd3NScHWwnW6obMFbl1BH",
-//             "name": "Daya",
-//             "type": "artist",
-//             "uri": "spotify:artist:6Dd3NScHWwnW6obMFbl1BH"
-//           }
-//         ],
-//         "external_urls": {
-//           "spotify": "https://open.spotify.com/album/0qrB9JjkcCjQQK7S1eFrcX"
-//         },
-//         "href": "https://api.spotify.com/v1/albums/0qrB9JjkcCjQQK7S1eFrcX",
-//         "id": "0qrB9JjkcCjQQK7S1eFrcX",
-//         "images": [
-//           {
-//             "height": 640,
-//             "url": "https://i.scdn.co/image/b6fd16c64a33a1ba7f46dc77e3d05666ce0c7b6e",
-//             "width": 640
-//           },
-//           {
-//             "height": 300,
-//             "url": "https://i.scdn.co/image/7b5fda72df4dc28f605219c0f46148f8efea45b9",
-//             "width": 300
-//           },
-//           {
-//             "height": 64,
-//             "url": "https://i.scdn.co/image/309dcb20a80b536433c3b0390babc705e8ea2cc0",
-//             "width": 64
-//           }
-//         ],
-//         "name": "Safe",
-//         "release_date": "2018-06-22",
-//         "release_date_precision": "day",
-//         "total_tracks": 0,
-//         "type": "album",
-//         "uri": "spotify:album:0qrB9JjkcCjQQK7S1eFrcX"
-//       },
-//       "artists": [
-//         {
-//           "external_urls": {
-//             "spotify": "https://open.spotify.com/artist/6Dd3NScHWwnW6obMFbl1BH"
-//           },
-//           "href": "https://api.spotify.com/v1/artists/6Dd3NScHWwnW6obMFbl1BH",
-//           "id": "6Dd3NScHWwnW6obMFbl1BH",
-//           "name": "Daya",
-//           "type": "artist",
-//           "uri": "spotify:artist:6Dd3NScHWwnW6obMFbl1BH"
-//         }
-//       ],
-//       "disc_number": 1,
-//       "duration_ms": 200661,
-//       "explicit": false,
-//       "external_ids": {
-//         "isrc": "USUG11801180"
-//       },
-//       "external_urls": {
-//         "spotify": "https://open.spotify.com/track/12wAQ0HNbJWVrVJA3woXDb"
-//       },
-//       "href": "https://api.spotify.com/v1/tracks/12wAQ0HNbJWVrVJA3woXDb",
-//       "id": "12wAQ0HNbJWVrVJA3woXDb",
-//       "is_local": false,
-//       "is_playable": true,
-//       "name": "Safe",
-//       "popularity": 65,
-//       "preview_url": null,
-//       "track_number": 1,
-//       "type": "track",
-//       "uri": "spotify:track:12wAQ0HNbJWVrVJA3woXDb"
-//     },
-//     {
-//       "album": {
-//         "album_type": "ALBUM",
-//         "artists": [
-//           {
-//             "external_urls": {
-//               "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
-//             },
-//             "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
-//             "id": "4NHQUGzhtTLFvgF5SZesLK",
-//             "name": "Tove Lo",
-//             "type": "artist",
-//             "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
-//           }
-//         ],
-//         "external_urls": {
-//           "spotify": "https://open.spotify.com/album/6jggnLM3SdDnjQ3GWmIZ4L"
-//         },
-//         "href": "https://api.spotify.com/v1/albums/6jggnLM3SdDnjQ3GWmIZ4L",
-//         "id": "6jggnLM3SdDnjQ3GWmIZ4L",
-//         "images": [
-//           {
-//             "height": 640,
-//             "url": "https://i.scdn.co/image/dc7bbcd3d046104c6e16b3edc8eb276081ac6b50",
-//             "width": 640
-//           },
-//           {
-//             "height": 300,
-//             "url": "https://i.scdn.co/image/73e8f30d32e685503f62655ebd3998e2c9818604",
-//             "width": 300
-//           },
-//           {
-//             "height": 64,
-//             "url": "https://i.scdn.co/image/733658e11a2481fa80df775209b9cd185de2a033",
-//             "width": 64
-//           }
-//         ],
-//         "name": "BLUE LIPS (lady wood phase II)",
-//         "release_date": "2017-11-17",
-//         "release_date_precision": "day",
-//         "total_tracks": 0,
-//         "type": "album",
-//         "uri": "spotify:album:6jggnLM3SdDnjQ3GWmIZ4L"
-//       },
-//       "artists": [
-//         {
-//           "external_urls": {
-//             "spotify": "https://open.spotify.com/artist/4NHQUGzhtTLFvgF5SZesLK"
-//           },
-//           "href": "https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK",
-//           "id": "4NHQUGzhtTLFvgF5SZesLK",
-//           "name": "Tove Lo",
-//           "type": "artist",
-//           "uri": "spotify:artist:4NHQUGzhtTLFvgF5SZesLK"
-//         }
-//       ],
-//       "disc_number": 1,
-//       "duration_ms": 223794,
-//       "explicit": true,
-//       "external_ids": {
-//         "isrc": "SEUM71700736"
-//       },
-//       "external_urls": {
-//         "spotify": "https://open.spotify.com/track/1TIiWomS4i0Ikaf9EKdcLn"
-//       },
-//       "href": "https://api.spotify.com/v1/tracks/1TIiWomS4i0Ikaf9EKdcLn",
-//       "id": "1TIiWomS4i0Ikaf9EKdcLn",
-//       "is_local": false,
-//       "is_playable": true,
-//       "name": "disco tits",
-//       "popularity": 64,
-//       "preview_url": null,
-//       "track_number": 2,
-//       "type": "track",
-//       "uri": "spotify:track:1TIiWomS4i0Ikaf9EKdcLn"
-//     },
