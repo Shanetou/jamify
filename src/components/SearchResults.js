@@ -1,17 +1,26 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { ArtistResults } from "./ArtistResults";
+import { artistsSelector, topArtistsSelector } from "../selectors";
+import { TopArtistResults, SearchArtistResults } from "./ArtistResults";
 import { categorySelector } from "../selectors";
 import { CATEGORIES } from "../constants";
 import { GenreResults } from "./GenreResults";
-import { TopArtistsResults } from "./TopArtistsResults";
 
 export const SearchResults = () => {
   const category = useSelector(categorySelector);
+  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
+    return {
+      searchArtistsOptions: artistsSelector(state),
+      topArtistOptions: topArtistsSelector(state)
+    };
+  });
 
   if (category.value === CATEGORIES.ARTIST.value) {
-    return <ArtistResults />;
+    let artistOptions =
+      searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
+
+    return <SearchArtistResults />;
   }
 
   if (category.value === CATEGORIES.GENRE.value) {
@@ -19,7 +28,7 @@ export const SearchResults = () => {
   }
 
   if (category.value === CATEGORIES.FAV_ARTISTS.value) {
-    return <TopArtistsResults />;
+    return <TopArtistResults />;
   }
 
   throw new Error("Unrecognized category");

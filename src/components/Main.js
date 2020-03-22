@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary
   },
   searchResultsPaper: {
-    height: "147px"
+    // Maintain height when loading / loaded
+    height: "132px"
   },
   root: {
     flexGrow: 1,

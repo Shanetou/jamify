@@ -11,7 +11,6 @@ import { topArtistsSelector } from "../selectors";
 const useStyles = makeStyles(theme => ({
   gridList: {
     flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)"
   },
   pointer: {
@@ -34,13 +33,16 @@ const getArtistImageUrl = images => {
 };
 
 export const TopArtistsResults = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
   const { topArtistsOptions } = useSelector(state => {
     return {
       topArtistsOptions: topArtistsSelector(state)
     };
   });
+
+  let artistOptions =
+    searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
+
+  return <ArtistResults artists={topArtistsOptions} />;
 
   const handleItemClick = artist => () => {
     dispatch(selectRecommendationSeed(artist));

@@ -10,11 +10,8 @@ import { artistsSelector, topArtistsSelector } from "../selectors";
 
 const useStyles = makeStyles(theme => ({
   gridList: {
-    flexGrow: 1,
     flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)",
-    height: "131px"
+    transform: "translateZ(0)"
   },
   pointer: {
     cursor: "pointer"
@@ -25,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   titleBar: {
     background:
-      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%)"
+      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
   }
 }));
 
@@ -36,18 +33,10 @@ const getArtistImageUrl = images => {
   return lastItem ? lastItem.url : "";
 };
 
-export const ArtistResults = () => {
+const ArtistResults = props => {
+  const { artists } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
-    return {
-      searchArtistsOptions: artistsSelector(state),
-      topArtistOptions: topArtistsSelector(state)
-    };
-  });
-
-  let artistsOptions =
-    searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
 
   const handleItemClick = artist => () => {
     dispatch(selectRecommendationSeed(artist));
@@ -60,7 +49,7 @@ export const ArtistResults = () => {
       cellHeight={100}
       spacing={16}
     >
-      {artistsOptions.map(artist => (
+      {artists.map(artist => (
         <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
           <img
             src={getArtistImageUrl(artist.images)}
@@ -79,4 +68,28 @@ export const ArtistResults = () => {
       ))}
     </GridList>
   );
+};
+
+export const SearchArtistResults = () => {
+  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
+    return {
+      searchArtistsOptions: artistsSelector(state),
+      topArtistOptions: topArtistsSelector(state)
+    };
+  });
+
+  let artistOptions =
+    searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
+
+  return <ArtistResults artists={artistOptions} />;
+};
+
+export const TopArtistResults = () => {
+  const { topArtistOptions } = useSelector(state => {
+    return {
+      topArtistOptions: topArtistsSelector(state)
+    };
+  });
+
+  return <ArtistResults artists={topArtistOptions} />;
 };
