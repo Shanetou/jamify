@@ -1,30 +1,25 @@
-import { default as queryStringHelper } from "query-string";
+import queryStringHelper from "query-string";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
 
 export const LOGIN = process.env.REACT_APP_AUTH_URI;
-
 export const USER = "me";
 export const BASE_SPOTIFY_URL = "https://api.spotify.com/v1/";
 export const TOP_ARTISTS_PATH = "me/top/artists?limit=25";
-// BEWARE: You changed the name of this var
 export const RECOMMENDATIONS_PATH = "recommendations";
 export const RECOMMENDATION_GENRES_PATH = `${RECOMMENDATIONS_PATH}/available-genre-seeds`;
+const ARTIST_SEARCH_RESULTS_LIMIT = 6;
 
-export const getArtistsSearchPath = queryString => {
-  // "https://api.spotify.com/v1/search?query=tania+bowra\u0026offset=0\u0026limit=20\u0026type=artist"
-  const LIMIT = 6;
-
-  return `search/?query=${queryString}\u0026type=artist\u0026limit=${LIMIT}`;
-};
+export const getArtistsSearchPath = queryString =>
+  `search/?query=${queryString}\u0026type=artist\u0026limit=${ARTIST_SEARCH_RESULTS_LIMIT}`;
 
 const targetAttributeQueryArgs = attributes => {
   const selectedAttributes = Object.values(attributes).filter(
     attribute => attribute.isSelected === true
   );
   const packagedQueryParams = selectedAttributes.reduce((prev, curr) => {
-    let attributeName = curr.name.toLowerCase();
+    const attributeName = curr.name.toLowerCase();
     const attributeParamKey = `target_${attributeName}`;
-    let value = curr.value;
+    const { value } = curr;
 
     return {
       ...prev,
@@ -43,14 +38,14 @@ const recommendationSeedQueryArgs = recommendationSeeds => {
         ...prev,
         seed_artists: [...prev.seed_artists, curr.id]
       };
-    } else if (isGenreSeed(curr)) {
+    }
+    if (isGenreSeed(curr)) {
       return {
         ...prev,
         seed_genres: [...prev.seed_genres, curr.id]
       };
-    } else {
-      throw new Error("Recommendation seed of unknown type");
     }
+    throw new Error("Recommendation seed of unknown type");
   };
 
   return recommendationSeeds.reduce(packagedQueryParams, queryArgs);
@@ -77,7 +72,7 @@ export const tracksPath = (
 
 export const createPlaylistPath = userId => `users/${userId}/playlists`;
 export const createPlaylistData = dateNow => ({
-  name: `Jayce Is Fat - ${dateNow.toDateString()}`,
+  name: `Jayce Is Phat! - ${dateNow.toDateString()}`,
   description: "New playlist description",
   public: false
 });
@@ -86,5 +81,4 @@ export const addTracksToPlaylistPath = playlistId =>
   `playlists/${playlistId}/tracks`;
 export const addTracksToPlaylistData = trackURIs => ({
   uris: trackURIs
-  // uris: 'nope',
 });

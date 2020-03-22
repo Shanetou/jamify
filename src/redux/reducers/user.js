@@ -1,4 +1,5 @@
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from "redux-starter-kit";
+import { saveAccessToken } from "redux/actions";
 
 const initialState = {
   accessToken: null,
@@ -6,18 +7,14 @@ const initialState = {
 };
 
 const userReducer = createReducer(initialState, {
-  SAVE_ACCESS_TOKEN: (state, action) => {
-    return {
-      ...state,
-      accessToken: action.payload
-    };
-  },
-  API_FETCH_USER_SUCCESS: (state, action) => {
-    return {
-      ...state,
-      user: action.response
-    };
-  }
+  [saveAccessToken]: (state, action) => ({
+    ...state,
+    accessToken: action.payload
+  }),
+  API_FETCH_USER_SUCCESS: (state, action) => ({
+    ...state,
+    user: action.response
+  })
 });
 
 export default userReducer;

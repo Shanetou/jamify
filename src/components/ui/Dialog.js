@@ -1,19 +1,17 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import Button from "@material-ui/core/Button";
-import { default as MuiDialog } from "@material-ui/core/Dialog";
+import MuiDialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-import { dialogSelector } from "../../selectors";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { LOGIN } from "../../api/paths";
 import { DIALOGS } from "../../constants";
 import { hideErrorDialog } from "../../redux/actions/ui";
-import { LOGIN } from "../../api/paths";
+import { dialogSelector } from "../../selectors";
 
-export const Dialog = props => {
+export const Dialog = _props => {
   const dispatch = useDispatch();
   const dialog = useSelector(dialogSelector);
 
@@ -40,8 +38,8 @@ export const AuthenticationErrorDialog = props => {
   }
 
   return (
-    <MuiDialog open={isOpen} disableBackdropClick={true}>
-      <DialogTitle>{"Session has expired"}</DialogTitle>
+    <MuiDialog open={isOpen} disableBackdropClick>
+      <DialogTitle>Session has expired</DialogTitle>
       <DialogContent>
         <DialogContentText>Please refresh your session now.</DialogContentText>
       </DialogContent>
@@ -63,7 +61,7 @@ export const GenericErrorDialog = props => {
 
   return (
     <MuiDialog open={isOpen}>
-      <DialogTitle>{"Oops, something bad happened"}</DialogTitle>
+      <DialogTitle>Oops, something bad happened</DialogTitle>
       <DialogContent>
         <DialogContentText>Please refresh the page now.</DialogContentText>
       </DialogContent>

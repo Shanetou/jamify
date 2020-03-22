@@ -1,8 +1,9 @@
 export const MAX_SELECTABLE_SEEDS = 5;
 
-export const TOASTS = {
-  MAX_SEEDS_SELECTED: "MAX_SEEDS_SELECTED",
-  PLAYLIST_CREATED: "PLAYLIST_CREATED"
+export const CATEGORIES = {
+  ARTIST: { id: 0, name: "Artist", value: "ARTIST" },
+  GENRE: { id: 1, name: "Genre", value: "GENRE" },
+  FAV_ARTISTS: { id: 2, name: "Favorite Artists", value: "FAV_ARTISTS" }
 };
 
 export const DIALOGS = {
@@ -10,16 +11,15 @@ export const DIALOGS = {
   AUTHENTICATION_ERROR: "AUTHENTICATION_ERROR"
 };
 
+export const TOASTS = {
+  MAX_SEEDS_SELECTED: "MAX_SEEDS_SELECTED",
+  PLAYLIST_CREATED: "PLAYLIST_CREATED"
+};
+
 export const SEED_TYPES = {
   artist: "ARTIST",
   genre: "GENRE",
   attribute: "ATTRIBUTE"
-};
-
-export const CATEGORIES = {
-  ARTIST: { id: 0, name: "Artist", value: "ARTIST" },
-  GENRE: { id: 1, name: "Genre", value: "GENRE" },
-  FAV_ARTISTS: { id: 2, name: "Favorite Artists", value: "FAV_ARTISTS" }
 };
 
 export const TRACK_ATTRIBUTES_RANGES = {
@@ -60,20 +60,18 @@ export const TRACK_ATTRIBUTES_RANGES = {
   }
 };
 
-export const normalizedAttributes = attributes => {
-  const normalizedEntries = Object.entries(attributes).map(([name, range]) => {
-    return [
+const normalizedAttributes = attributes => {
+  const normalizedEntries = Object.entries(attributes).map(([name, range]) => [
+    name,
+    {
+      seedType: SEED_TYPES.attribute,
+      id: name,
+      isSelected: false,
       name,
-      {
-        seedType: SEED_TYPES.attribute,
-        id: name,
-        isSelected: false,
-        name: name,
-        range,
-        value: range.max / 2
-      }
-    ];
-  });
+      range,
+      value: range.max / 2
+    }
+  ]);
 
   return Object.fromEntries(normalizedEntries);
 };

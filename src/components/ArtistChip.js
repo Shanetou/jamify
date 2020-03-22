@@ -1,8 +1,7 @@
-import React from "react";
-
-import MuiChip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
+import MuiChip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/styles";
+import React from "react";
 
 const getArtistImageUrl = images => {
   const lastItem = images.slice(-1).pop();
@@ -10,12 +9,12 @@ const getArtistImageUrl = images => {
   return lastItem ? lastItem.url : "";
 };
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(_theme => ({}));
 
 const ArtistChip = props => {
   const { artist, handleDelete, className } = props;
   const classes = useStyles();
-  let imageUrl = getArtistImageUrl(artist.images);
+  const imageUrl = getArtistImageUrl(artist.images);
 
   return (
     <MuiChip

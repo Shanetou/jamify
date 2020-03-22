@@ -1,10 +1,9 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { selectRecommendationSeed } from "../redux/actions";
 import { artistsSelector, topArtistsSelector } from "../selectors";
 
@@ -30,16 +29,15 @@ const artistImageUrl = images => {
   if (images.length > 0) {
     const bestSizedImage = images.reduce((accum, curr) => {
       const idealImageWidth = 275;
-      let currDelta = Math.abs(idealImageWidth - curr.width);
-      let accumDelta = Math.abs(idealImageWidth - accum.width);
+      const currDelta = Math.abs(idealImageWidth - curr.width);
+      const accumDelta = Math.abs(idealImageWidth - accum.width);
 
       return currDelta < accumDelta ? curr : accum;
     });
 
     return bestSizedImage.url;
-  } else {
-    return "";
   }
+  return "";
 };
 
 const ArtistResults = props => {
@@ -80,25 +78,21 @@ const ArtistResults = props => {
 };
 
 export const SearchArtistResults = () => {
-  const { searchArtistsOptions, topArtistOptions } = useSelector(state => {
-    return {
-      searchArtistsOptions: artistsSelector(state),
-      topArtistOptions: topArtistsSelector(state)
-    };
-  });
+  const { searchArtistsOptions, topArtistOptions } = useSelector(state => ({
+    searchArtistsOptions: artistsSelector(state),
+    topArtistOptions: topArtistsSelector(state)
+  }));
 
-  let artistOptions =
+  const artistOptions =
     searchArtistsOptions.length < 1 ? topArtistOptions : searchArtistsOptions;
 
   return <ArtistResults artists={artistOptions} />;
 };
 
 export const TopArtistResults = () => {
-  const { topArtistOptions } = useSelector(state => {
-    return {
-      topArtistOptions: topArtistsSelector(state)
-    };
-  });
+  const { topArtistOptions } = useSelector(state => ({
+    topArtistOptions: topArtistsSelector(state)
+  }));
 
   return <ArtistResults artists={topArtistOptions} />;
 };

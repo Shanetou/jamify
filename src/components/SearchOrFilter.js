@@ -1,20 +1,22 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CATEGORIES } from "../constants";
-import { categorySelector } from "../selectors";
 import { filterGenres, searchArtist } from "../redux/actions";
+import { categorySelector } from "../selectors";
 import { SearchOrFilterInput } from "./SearchOrFilterInput";
 
 export const SearchOrFilter = () => {
-  const category = useSelector(categorySelector);
   const dispatch = useDispatch();
+  const category = useSelector(categorySelector);
+  const [artistSearchText, setArtistSearchText] = useState("");
+  const [genreSearchText, setGenreSearchText] = useState("");
 
   if (category.value === CATEGORIES.ARTIST.value) {
     return (
       <SearchOrFilterInput
         label="Search Artists"
+        searchText={artistSearchText}
+        setSearchText={setArtistSearchText}
         onChange={value => {
           if (value !== "") {
             dispatch(searchArtist(value));
@@ -28,8 +30,12 @@ export const SearchOrFilter = () => {
     return (
       <SearchOrFilterInput
         label="Search Genres"
+        searchText={genreSearchText}
+        setSearchText={setGenreSearchText}
         onChange={value => {
-          dispatch(filterGenres(value));
+          if (value !== "") {
+            dispatch(filterGenres(value));
+          }
         }}
       />
     );

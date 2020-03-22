@@ -1,20 +1,23 @@
-import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { useSelector } from "react-redux";
-
+import { tracksSelector } from "selectors";
+import { Attributes } from "./Attributes";
+import { CategoryButtons } from "./CategoryButtons";
 import { SearchOrFilter } from "./SearchOrFilter";
 import { SearchResults } from "./SearchResults";
-import { TrackResults } from "./TrackResults";
 import { Selections } from "./Selections";
-import { CategoryButtons } from "./CategoryButtons";
-import { Attributes } from "./Attributes";
-import { tracksSelector } from "selectors";
+import { TrackResults } from "./TrackResults";
 
 const useStyles = makeStyles(theme => ({
   control: {
     padding: theme.spacing(2)
+  },
+  logoTitle: {
+    fontVariant: "small-caps"
   },
   paper: {
     padding: theme.spacing(2),
@@ -42,20 +45,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Main = props => {
+const Main = _props => {
   const classes = useStyles();
-  const { recommendedTracks } = useSelector(state => {
-    return {
-      recommendedTracks: Object.values(tracksSelector(state))
-    };
-  });
+  const { recommendedTracks } = useSelector(state => ({
+    recommendedTracks: Object.values(tracksSelector(state))
+  }));
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <header>
-            <h1>Spotify BPM</h1>
+            <Typography className={classes.logoTitle} variant="h3">
+              Jamify
+            </Typography>
           </header>
         </Grid>
 

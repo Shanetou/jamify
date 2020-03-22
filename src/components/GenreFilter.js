@@ -1,12 +1,10 @@
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { makeStyles } from "@material-ui/styles";
-import TextField from "@material-ui/core/TextField";
-
 import { filterGenres } from "../redux/actions";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap"
@@ -17,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const GenreFilter = props => {
+export const GenreFilter = _props => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();

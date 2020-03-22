@@ -1,5 +1,5 @@
 {
-	"name": "bpm",
+	"name": "jamify",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
@@ -25,7 +25,6 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"start:server": "node server.js",
 		"lint": "eslint --ext .js --ext .jsx .",
 		"build": "react-scripts build",
 		"test": "react-scripts test",

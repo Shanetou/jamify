@@ -1,19 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-
 import { amber, green } from "@material-ui/core/colors";
-import { makeStyles } from "@material-ui/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
 import WarningIcon from "@material-ui/icons/Warning";
-
+import { makeStyles } from "@material-ui/styles";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TOASTS } from "../../constants";
-import { toastSelector } from "../../selectors";
 import { hideToast } from "../../redux/actions";
+import { toastSelector } from "../../selectors";
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -48,20 +45,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MaxSeedsSelected = props => {
-  return (
-    <ToastContent
-      variant="warning"
-      message="Select at total of 5 artists or genres."
-    />
-  );
-};
+const MaxSeedsSelected = _props => (
+  <ToastContent
+    variant="warning"
+    message="Select at total of 5 artists or genres."
+  />
+);
 
-const PlaylistCreated = props => {
-  return (
-    <ToastContent variant="success" message="Playlist saved to Spotify!" />
-  );
-};
+const PlaylistCreated = _props => (
+  <ToastContent variant="success" message="Playlist saved to Spotify!" />
+);
 
 export const ToastContent = props => {
   const { message, variant } = props;
@@ -81,12 +74,7 @@ export const ToastContent = props => {
   );
 };
 
-ToastContent.propTypes = {
-  message: PropTypes.string,
-  variant: PropTypes.oneOf(["error", "info", "success", "warning"]).isRequired
-};
-
-export const Toast = props => {
+export const Toast = _props => {
   const toast = useSelector(toastSelector);
   const dispatch = useDispatch();
 

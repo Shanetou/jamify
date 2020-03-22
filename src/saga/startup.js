@@ -1,31 +1,12 @@
 import { all, call, fork, put, take } from "redux-saga/effects";
 import {
-  fetchUser,
+  fetchRecommendationGenres,
   fetchTopArtists,
-  saveAccessToken,
-  fetchRecommendationGenres
-} from "redux/actions";
+  fetchUser,
+  saveAccessToken
+} from "../redux/actions";
+import { RECOMMENDATION_GENRES_PATH, TOP_ARTISTS_PATH } from "../api/paths";
 import apiCall from "./apiCall";
-import { RECOMMENDATION_GENRES_PATH, TOP_ARTISTS_PATH } from "api/paths";
-
-export function* getStartupData(accessToken) {
-  yield fork(fetchUserTask, accessToken);
-  yield fork(fetchTopArtistsTask, accessToken);
-  yield fork(fetchRecommendationGenresTask, accessToken);
-}
-
-export function* getAccessToken() {
-  const accessToken = new URLSearchParams(window.location.search).get(
-    "access_token"
-  );
-
-  if (accessToken) {
-    yield put(saveAccessToken(accessToken));
-    yield call(getStartupData, accessToken);
-  }
-
-  // TODO: should we throw if we can't get an accessToken?
-}
 
 export function* watchFetchUser() {
   while (true) {
@@ -61,6 +42,23 @@ export function* watchFetchRecommendationGenres() {
 
 export function* fetchRecommendationGenresTask() {
   yield put(fetchRecommendationGenres());
+}
+
+function* getStartupData(accessToken) {
+  yield fork(fetchUserTask, accessToken);
+  yield fork(fetchTopArtistsTask, accessToken);
+  yield fork(fetchRecommendationGenresTask, accessToken);
+}
+
+export function* getAccessToken() {
+  const accessToken = new URLSearchParams(window.location.search).get(
+    "access_token"
+  );
+
+  if (accessToken) {
+    yield put(saveAccessToken(accessToken));
+    yield call(getStartupData, accessToken);
+  }
 }
 
 export default function* startup() {

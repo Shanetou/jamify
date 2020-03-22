@@ -1,19 +1,18 @@
-import { all, call, takeLatest, select, put } from "redux-saga/effects";
-import { createPlaylist } from "redux/actions";
+import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import {
   addTracksToPlaylistData,
   addTracksToPlaylistPath,
   createPlaylistData,
   createPlaylistPath
-} from "api/paths";
+} from "../api/paths";
 import apiCall from "./apiCall";
-import { userSelector, selectedTracksSelector } from "../selectors";
+import { selectedTracksSelector, userSelector } from "../selectors";
 import {
-  showToast,
   addSongsToPlaylist,
-  setAddToSpotifyStarted,
+  createAndPopulatePlaylist,
   setAddToSpotifyFinished,
-  createAndPopulatePlaylist
+  setAddToSpotifyStarted,
+  showToast
 } from "../redux/actions";
 import { TOASTS } from "../constants";
 

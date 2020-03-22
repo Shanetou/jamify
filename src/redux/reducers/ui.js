@@ -6,7 +6,6 @@ import {
   showErrorDialog,
   showToast
 } from "redux/actions";
-
 import { CATEGORIES } from "../../constants";
 
 const initialState = {
@@ -16,36 +15,26 @@ const initialState = {
 };
 
 const uiReducer = createReducer(initialState, {
-  [selectCategory]: (state, action) => {
-    return {
-      ...state,
-      category: action.payload
-    };
-  },
-  [showErrorDialog]: (state, action) => {
-    return {
-      ...state,
-      dialog: action.payload
-    };
-  },
-  [hideErrorDialog]: (state, _action) => {
-    return {
-      ...state,
-      dialog: null
-    };
-  },
-  [showToast]: (state, action) => {
-    return {
-      ...state,
-      toast: action.payload
-    };
-  },
-  [hideToast]: (state, _action) => {
-    return {
-      ...state,
-      toast: null
-    };
-  }
+  [hideErrorDialog]: (state, _action) => ({
+    ...state,
+    dialog: null
+  }),
+  [hideToast]: (state, _action) => ({
+    ...state,
+    toast: null
+  }),
+  [selectCategory]: (state, action) => ({
+    ...state,
+    category: action.payload
+  }),
+  [showErrorDialog]: (state, action) => ({
+    ...state,
+    dialog: action.payload
+  }),
+  [showToast]: (state, action) => ({
+    ...state,
+    toast: action.payload
+  })
 });
 
 export default uiReducer;

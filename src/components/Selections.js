@@ -1,11 +1,10 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
-
-import ArtistChip from "./ArtistChip";
-import { GenreChip } from "./GenreChip";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { selectRecommendationSeed } from "../redux/actions";
 import { isArtistSeed, isGenreSeed } from "../redux/reducers/helpers";
+import ArtistChip from "./ArtistChip";
+import { GenreChip } from "./GenreChip";
 import { PlaceholderText } from "./PlaceholderText";
 
 const useStylesSelection = makeStyles(theme => ({
@@ -16,8 +15,8 @@ const useStylesSelection = makeStyles(theme => ({
 
 const Selection = ({ onDeleteClick, seed }) => {
   const classes = useStylesSelection();
-  let isArtist = isArtistSeed(seed);
-  let isGenre = isGenreSeed(seed);
+  const isArtist = isArtistSeed(seed);
+  const isGenre = isGenreSeed(seed);
 
   if (isArtist) {
     return (
@@ -28,7 +27,8 @@ const Selection = ({ onDeleteClick, seed }) => {
         className={classes.chip}
       />
     );
-  } else if (isGenre) {
+  }
+  if (isGenre) {
     return (
       <GenreChip
         avatar={null}
@@ -37,9 +37,8 @@ const Selection = ({ onDeleteClick, seed }) => {
         className={classes.chip}
       />
     );
-  } else {
-    throw new Error("Selected seed item of unknown type");
   }
+  throw new Error("Selected seed item of unknown type");
 };
 
 const useStylesSelections = makeStyles(theme => ({
@@ -48,14 +47,12 @@ const useStylesSelections = makeStyles(theme => ({
   }
 }));
 
-export const Selections = props => {
+export const Selections = _props => {
   const classes = useStylesSelections();
   const dispatch = useDispatch();
-  const { selectedSeeds } = useSelector(state => {
-    return {
-      selectedSeeds: state.recommendations.recommendationSeeds
-    };
-  });
+  const { selectedSeeds } = useSelector(state => ({
+    selectedSeeds: state.recommendations.recommendationSeeds
+  }));
 
   const removeChip = item => () => {
     dispatch(selectRecommendationSeed(item));
@@ -64,11 +61,9 @@ export const Selections = props => {
   return (
     <div className={classes.container}>
       {selectedSeeds.length > 0 ? (
-        selectedSeeds.map(seed => {
-          return (
-            <Selection key={seed.name} seed={seed} onDeleteClick={removeChip} />
-          );
-        })
+        selectedSeeds.map(seed => (
+          <Selection key={seed.name} seed={seed} onDeleteClick={removeChip} />
+        ))
       ) : (
         <PlaceholderText>
           Select an artist or genre to see recommended tracks

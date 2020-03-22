@@ -1,39 +1,35 @@
-import React from "react";
 import Button from "@material-ui/core/Button";
-
-import { makeStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
-
-import spotifyLogo from "../assets/Spotify_Icon_RGB_Green.png";
+import { makeStyles } from "@material-ui/styles";
+import React from "react";
 import { LOGIN } from "../api/paths";
+import spotifyLogo from "../assets/Spotify_Icon_RGB_Green.png";
 
-const useStyles = makeStyles(theme => {
-  return {
-    content: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center"
-    },
-    buttonImage: {
-      height: theme.spacing(4),
-      marginRight: theme.spacing(2)
-    },
-    lead: {
-      fontSize: "80px",
-      marginBottom: theme.spacing(1)
-    },
-    root: {
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    typographySpacing: {
-      marginBottom: theme.spacing(6)
-    }
-  };
-});
+const useStyles = makeStyles(theme => ({
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center"
+  },
+  buttonImage: {
+    height: theme.spacing(4),
+    marginRight: theme.spacing(2)
+  },
+  lead: {
+    fontSize: "80px",
+    marginBottom: theme.spacing(1)
+  },
+  root: {
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  typographySpacing: {
+    marginBottom: theme.spacing(6)
+  }
+}));
 
 export const Login = () => {
   const classes = useStyles();
@@ -49,7 +45,9 @@ export const Login = () => {
         <Button
           size="large"
           variant="outlined"
-          onClick={() => (window.location = LOGIN)}
+          onClick={() => {
+            window.location = LOGIN;
+          }}
         >
           <img
             alt="spotify logo"

@@ -1,9 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
-import { TopArtistResults, SearchArtistResults } from "./ArtistResults";
-import { categorySelector } from "../selectors";
 import { CATEGORIES } from "../constants";
+import { categorySelector } from "../selectors";
+import { SearchArtistResults, TopArtistResults } from "./ArtistResults";
 import { GenreResults } from "./GenreResults";
 
 export const SearchResults = () => {
@@ -21,5 +20,5 @@ export const SearchResults = () => {
     return <TopArtistResults />;
   }
 
-  throw new Error("Unrecognized category");
+  throw new Error("Unknown SearchResults category");
 };

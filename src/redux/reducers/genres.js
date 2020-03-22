@@ -1,13 +1,13 @@
 import { createReducer } from "redux-starter-kit";
-
 import { SEED_TYPES } from "../../constants";
+import { filterGenres } from "../actions";
 
 const initialState = {
   recommendationGenres: [],
   filteredGenres: []
 };
 
-let normalizeGenres = genres =>
+const normalizeGenres = genres =>
   genres.map(genre => ({
     seedType: SEED_TYPES.genre,
     id: genre,
@@ -26,7 +26,7 @@ const filterGenresByText = (allGenres, filterText) => {
 
 const genresReducer = createReducer(initialState, {
   API_FETCH_RECOMMENDATION_GENRES_SUCCESS: (state, action) => {
-    let normalizedGenres = normalizeGenres(action.response.genres);
+    const normalizedGenres = normalizeGenres(action.response.genres);
 
     return {
       ...state,
@@ -34,7 +34,7 @@ const genresReducer = createReducer(initialState, {
       recommendationGenres: normalizedGenres
     };
   },
-  FILTER_GENRES: (state, action) => {
+  [filterGenres]: (state, action) => {
     const filterText = action.payload;
     const allGenres = state.recommendationGenres;
 

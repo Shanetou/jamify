@@ -1,20 +1,17 @@
 import { createReducer } from "redux-starter-kit";
+import { setAddToSpotifyFinished, setAddToSpotifyStarted } from "redux/actions";
 
 const initialState = {
   isAddToSpotifyPending: false
 };
 
 const playlistsReducer = createReducer(initialState, {
-  SET_ADD_TO_SPOTIFY_STARTED: (state, action) => {
-    return {
-      isAddToSpotifyPending: true
-    };
-  },
-  SET_ADD_TO_SPOTIFY_FINISHED: (state, action) => {
-    return {
-      isAddToSpotifyPending: false
-    };
-  }
+  [setAddToSpotifyFinished]: (_state, _action) => ({
+    isAddToSpotifyPending: false
+  }),
+  [setAddToSpotifyStarted]: (_state, _action) => ({
+    isAddToSpotifyPending: true
+  })
 });
 
 export default playlistsReducer;

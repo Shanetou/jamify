@@ -1,22 +1,20 @@
+import Checkbox from "@material-ui/core/Checkbox";
+import Collapse from "@material-ui/core/Collapse";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { attributesSelector } from "selectors";
 import {
   deselectAttribute,
   selectAttribute,
   setAttributeValue
 } from "../redux/actions";
-
-import { attributesSelector } from "selectors";
-
-import { makeStyles } from "@material-ui/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Slider from "@material-ui/core/Slider";
-import Typography from "@material-ui/core/Typography";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles(theme => ({
   titleContainer: props => ({
@@ -43,14 +41,14 @@ const SliderField = props => {
     }
   };
 
-  const handleSliderChange = value => {
+  const handleSliderChange = scaledVal => {
     // update the value locally, as it changes
-    setValue(value);
+    setValue(scaledVal);
   };
 
-  const handleSliderChangeCommitted = value => {
+  const handleSliderChangeCommitted = scaledVal => {
     // save updated value in redux, when change is finished
-    dispatch(setAttributeValue({ attribute, value }));
+    dispatch(setAttributeValue({ attribute, scaledVal }));
   };
 
   return (
@@ -72,9 +70,9 @@ const SliderField = props => {
         max={max * scale}
         value={value * scale}
         aria-labelledby="label"
-        onChange={(_event, value) => handleSliderChange(value / scale)}
-        onChangeCommitted={(_event, value) =>
-          handleSliderChangeCommitted(value / scale)
+        onChange={(_event, newVal) => handleSliderChange(newVal / scale)}
+        onChangeCommitted={(_event, newVal) =>
+          handleSliderChangeCommitted(newVal / scale)
         }
       />
     </div>
@@ -85,9 +83,9 @@ const SliderFields = props => {
   const { attributes } = props;
   return (
     <>
-      {Object.values(attributes).map(attribute => {
-        return <SliderField key={attribute.name} attribute={attribute} />;
-      })}
+      {Object.values(attributes).map(attribute => (
+        <SliderField key={attribute.name} attribute={attribute} />
+      ))}
     </>
   );
 };
@@ -113,6 +111,7 @@ const AttributesSmallViewport = props => {
 const AttributesNotSmallViewport = props => {
   const classes = useStyles({ open: true });
   const { attributes } = props;
+
   return (
     <>
       <Typography variant="h6" className={`${classes.titleContainer}`}>
@@ -122,7 +121,8 @@ const AttributesNotSmallViewport = props => {
     </>
   );
 };
-export const Attributes = props => {
+
+export const Attributes = _props => {
   const attributes = useSelector(attributesSelector);
   const isSmallViewport = useMediaQuery(theme => theme.breakpoints.down("sm"));
 

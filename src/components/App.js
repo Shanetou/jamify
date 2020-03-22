@@ -1,15 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { accessTokenSelector } from "../selectors";
 import { Login } from "./Login";
+import Main from "./Main";
 import { Dialog } from "./ui/Dialog";
 import { Toast } from "./ui/Toast";
-import Main from "./Main";
 
-import { accessTokenSelector } from "selectors";
-
-const App = props => {
-  const { accessToken } = props;
+const App = _props => {
+  const accessToken = useSelector(accessTokenSelector);
 
   return (
     <>
@@ -21,10 +19,4 @@ const App = props => {
   );
 };
 
-const mapStateToProps = (state, _props) => {
-  return {
-    accessToken: accessTokenSelector(state)
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default App;

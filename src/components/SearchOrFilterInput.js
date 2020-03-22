@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-
-import { makeStyles } from "@material-ui/styles";
-import ClearIcon from "@material-ui/icons/Clear";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
+import ClearIcon from "@material-ui/icons/Clear";
+import { makeStyles } from "@material-ui/styles";
+import React from "react";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap"
@@ -18,9 +17,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const SearchOrFilterInput = props => {
-  const { label, onChange } = props;
+  const { label, onChange, searchText, setSearchText } = props;
   const classes = useStyles();
-  const [searchText, setSearchText] = useState("");
 
   const updateSearchValue = value => {
     setSearchText(value);
@@ -52,7 +50,6 @@ export const SearchOrFilterInput = props => {
               aria-label="clear text"
               disabled={searchText === ""}
               onClick={() => updateSearchValue("")}
-              // onMouseDown={handleMouseDownPassword}
             >
               <ClearIcon />
             </IconButton>

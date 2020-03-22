@@ -1,32 +1,30 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import { makeStyles, Typography } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-
-import {
-  playlistsSelector,
-  selectedTracksSelector,
-  tracksSelector,
-  isTracksRequestPending
-} from "../selectors";
-import { millisecondsToMinutesAndSeconds } from "../utils";
+import AddIcon from "@material-ui/icons/Add";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createAndPopulatePlaylist,
   deselectAllTracks,
   selectAllTracks,
   toggleTrack
 } from "../redux/actions";
+import {
+  isTracksRequestPending,
+  playlistsSelector,
+  selectedTracksSelector,
+  tracksSelector
+} from "../selectors";
+import { millisecondsToMinutesAndSeconds } from "../utils";
 
 const PlaylistActions = props => {
   const { onClick, canCreatePlaylist } = props;
@@ -54,7 +52,7 @@ const useAudio = sourceUrl => {
       // We handle the promise returned by play
       // to account for a race condition and existing issue in Chrome
       // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
-      var playPromise = audio.play();
+      const playPromise = audio.play();
 
       if (playPromise !== undefined) {
         playPromise.catch(_error => {
@@ -63,7 +61,11 @@ const useAudio = sourceUrl => {
       }
     };
 
-    isPlaying ? play() : audio.pause();
+    if (isPlaying) {
+      play();
+    } else {
+      audio.pause();
+    }
 
     return function cleanup() {
       audio.pause();
@@ -85,17 +87,16 @@ const TrackPlayer = ({ track }) => {
   );
 };
 
-const TrackPreviewPlayer = ({ track }) => {
-  return track.preview_url !== null ? (
+const TrackPreviewPlayer = ({ track }) =>
+  track.preview_url !== null ? (
     <TrackPlayer track={track} />
   ) : (
-    <IconButton disabled={true}>
+    <IconButton disabled>
       <PlayCircleOutlineIcon />
     </IconButton>
   );
-};
 
-export const TrackResults = props => {
+export const TrackResults = _props => {
   const useStyles = makeStyles(theme => ({
     headerContainer: {
       display: "flex",
@@ -119,21 +120,23 @@ export const TrackResults = props => {
     isPlaylistRequestPending,
     selectedTracks,
     tracks
-  } = useSelector(state => {
-    return {
-      selectedTracks: selectedTracksSelector(state),
-      tracks: Object.values(tracksSelector(state)),
-      tracksRequestPending: isTracksRequestPending(state),
-      isPlaylistRequestPending: playlistsSelector(state).isAddToSpotifyPending
-    };
-  });
+  } = useSelector(state => ({
+    selectedTracks: selectedTracksSelector(state),
+    tracks: Object.values(tracksSelector(state)),
+    tracksRequestPending: isTracksRequestPending(state),
+    isPlaylistRequestPending: playlistsSelector(state).isAddToSpotifyPending
+  }));
 
-  const areAllChecked =
+  const allChecked =
     selectedTracks.length > 0 && selectedTracks.length === tracks.length;
-  let areSomeButNotAllChecked = selectedTracks.length > 0 && !areAllChecked;
+  const someButNotAllChecked = selectedTracks.length > 0 && !allChecked;
 
   const handleCheckboxAllClick = _event => {
-    areAllChecked ? dispatch(deselectAllTracks()) : dispatch(selectAllTracks());
+    if (someButNotAllChecked || allChecked) {
+      dispatch(deselectAllTracks());
+    } else {
+      dispatch(selectAllTracks());
+    }
   };
 
   const handleCheckboxClick = trackUri => () => {
@@ -166,8 +169,8 @@ export const TrackResults = props => {
             <TableRow>
               <TableCell padding="checkbox">
                 <Checkbox
-                  checked={areAllChecked}
-                  indeterminate={areSomeButNotAllChecked}
+                  checked={allChecked}
+                  indeterminate={someButNotAllChecked}
                   onChange={handleCheckboxAllClick}
                 />
               </TableCell>

@@ -2,26 +2,20 @@ import { BASE_SPOTIFY_URL } from "./paths";
 
 const defaultCallback = () => {};
 
-const buildUrl = urlPart => {
-  return `${BASE_SPOTIFY_URL}${urlPart}`;
-};
+const buildUrl = urlPart => `${BASE_SPOTIFY_URL}${urlPart}`;
 
-const buildFetchHeader = accessToken => {
-  return {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  };
-};
+const buildFetchHeader = accessToken => ({
+  headers: { Authorization: `Bearer ${accessToken}` }
+});
 
-const buildPostHeader = (accessToken, data) => {
-  return {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  };
-};
+const buildPostHeader = (accessToken, data) => ({
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
 
 const call = async (url, header, callback) => {
   const result = await fetch(url, header);

@@ -1,6 +1,6 @@
-import { put, call, select } from "redux-saga/effects";
-import API from "api/fetchFromSpotify";
-import { accessTokenSelector } from "selectors";
+import { call, put, select } from "redux-saga/effects";
+import API from "../api/fetchFromSpotify";
+import { accessTokenSelector } from "../selectors";
 
 export const apiPhases = {
   STARTED: "STARTED",
@@ -30,14 +30,8 @@ const errorAction = (action, response) => ({
 
 const completedAction = action => apiAction(action, apiPhases.COMPLETED);
 
-export const apiCall = function*(action, urlPart, requestType = "GET", data) {
+function* apiCall(action, urlPart, requestType = "GET", data) {
   const accessToken = yield select(accessTokenSelector);
-
-  // if (!accessToken) {
-  //   console.log("NO TOKEN IN API CALL:", action.type);
-  //   return; // Handle 401 here
-  //   // actually, this is handled pretty nicely in errorHandling
-  // }
 
   try {
     yield put(startedAction(action));
@@ -49,19 +43,16 @@ export const apiCall = function*(action, urlPart, requestType = "GET", data) {
       result = yield call(API.post, accessToken, urlPart, data);
     }
 
-    console.log("success");
     yield put(successAction(action, result));
 
     return result;
   } catch (error) {
     // Propogate error to error handling by calling api error action
-    console.log("error");
     yield put(errorAction(action, error));
     return error;
   } finally {
-    console.log("success");
     yield put(completedAction(action));
   }
-};
+}
 
 export default apiCall;

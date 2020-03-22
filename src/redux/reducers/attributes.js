@@ -1,25 +1,24 @@
 import { createReducer } from "redux-starter-kit";
-import { TRACK_ATTRIBUTES } from "../../constants";
-
 import {
   deselectAttribute,
   selectAttribute,
   setAttributeValue
 } from "redux/actions";
+import { TRACK_ATTRIBUTES } from "../../constants";
 
 const initialState = {
   attributes: TRACK_ATTRIBUTES
 };
 
 const attributesReducer = createReducer(initialState, {
-  [selectAttribute]: (state, action) => {
+  [deselectAttribute]: (state, action) => {
     const {
-      payload: { attribute, value }
+      payload: { attribute }
     } = action;
     const updatedAttribute = {
       ...attribute,
-      isSelected: true,
-      value
+      isSelected: false,
+      value: null
     };
 
     return {
@@ -30,14 +29,14 @@ const attributesReducer = createReducer(initialState, {
       }
     };
   },
-  [deselectAttribute]: (state, action) => {
+  [selectAttribute]: (state, action) => {
     const {
-      payload: { attribute }
+      payload: { attribute, value }
     } = action;
     const updatedAttribute = {
       ...attribute,
-      isSelected: false,
-      value: null
+      isSelected: true,
+      value
     };
 
     return {

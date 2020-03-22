@@ -1,11 +1,7 @@
-import { all, fork, takeLatest, put } from "redux-saga/effects";
-import { showErrorDialog } from "redux/actions";
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { showErrorDialog } from "../redux/actions";
 
 import { DIALOGS } from "../constants";
-
-export default function* errorHandlingSaga() {
-  yield all([fork(watchErrorHandling)]);
-}
 
 function* errorHandlingTask(action) {
   const { error } = action;
@@ -16,7 +12,7 @@ function* errorHandlingTask(action) {
   }
 }
 
-export function* watchErrorHandling() {
+function* watchErrorHandling() {
   const isErrorPattern = action => {
     const actionName = action.type;
     const apiErrorRegEx = /^API_(.*)_ERROR$/g;
@@ -25,4 +21,8 @@ export function* watchErrorHandling() {
   };
 
   yield takeLatest(isErrorPattern, errorHandlingTask);
+}
+
+export default function* errorHandlingSaga() {
+  yield all([fork(watchErrorHandling)]);
 }
