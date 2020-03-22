@@ -26,11 +26,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const getArtistImageUrl = images => {
-  console.log("images", images);
-  const lastItem = images.slice(-1).pop();
+const artistImageUrl = images => {
+  if (images.length > 0) {
+    const bestSizedImage = images.reduce((accum, curr) => {
+      const idealImageWidth = 275;
+      let currDelta = Math.abs(idealImageWidth - curr.width);
+      let accumDelta = Math.abs(idealImageWidth - accum.width);
 
-  return lastItem ? lastItem.url : "";
+      return currDelta < accumDelta ? curr : accum;
+    });
+
+    return bestSizedImage.url;
+  } else {
+    return "";
+  }
 };
 
 const ArtistResults = props => {
@@ -52,7 +61,7 @@ const ArtistResults = props => {
       {artists.map(artist => (
         <GridListTile key={artist.id} onClick={handleItemClick(artist)}>
           <img
-            src={getArtistImageUrl(artist.images)}
+            src={artistImageUrl(artist.images)}
             alt={artist.name}
             className={classes.pointer}
           />
