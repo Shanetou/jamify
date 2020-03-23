@@ -2,7 +2,13 @@
 
 *Use Spotify recommendations to create your perfect playlist.*
 
+An app built with react, redux, redux-saga, and material-ui, leveraging the Spotify API. 
 
+### Features
+- Log in to your Spotify account to create your own playlists with Spotify recommendations
+- Get recommended tracks by selecting among from your favorite artists, searching for any artist or genre, and modifying song attributes (energy, popularity, danceability, etc)
+- Mouseover recommended tracks to hear 30-second previews
+- Add your new playlist to your Spotify with the click of a button
 
 ### Try it now at:
 https://jamifynow.herokuapp.com/
