@@ -21,7 +21,7 @@ https://jamifynow.herokuapp.com/
 
 ---
 
-Improvements:
+### Improvements:
 
 - [ ] Rename generated playlist names
 - [ ] Remove avatar from genre chips
